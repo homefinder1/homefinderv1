@@ -1,0 +1,731 @@
+[
+  {
+    "titel": "Murbruksgatan 11",
+    "område": "Limhamns hamnområde",
+    "antal_rum": "3 rum och kök",
+    "hyra": "13972 kr/mån",
+    "ledig": "2026-06-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/murbruksgatan-11-687-163-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Exercisgatan 1 C",
+    "område": "Rörsjöstaden",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8584 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/exercisgatan-1-c-289-004-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Hallingsgatan 6 A",
+    "område": "Lorensborg",
+    "antal_rum": "3 rum och kök",
+    "hyra": "10730 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hallingsgatan-6-a-422-342-012/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Hallingsgatan 6 A",
+    "område": "Lorensborg",
+    "antal_rum": "3 rum och kök",
+    "hyra": "10730 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hallingsgatan-6-a-422-342-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Cyklopgatan 8A",
+    "område": "Hyllievång",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8901 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/cyklopgatan-8a-247-017-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Cyklopgatan 8A",
+    "område": "Hyllievång",
+    "antal_rum": "1 rum och kök",
+    "hyra": "9717 kr/mån",
+    "ledig": "2026-10-16",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/cyklopgatan-8a-247-001-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Cyklopgatan 8A",
+    "område": "Hyllievång",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8901 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/cyklopgatan-8a-247-017-012/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Cyklopgatan 8A",
+    "område": "Hyllievång",
+    "antal_rum": "1 rum och kök",
+    "hyra": "9717 kr/mån",
+    "ledig": "2026-10-16",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/cyklopgatan-8a-247-001-012/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Hyacintgatan 30",
+    "område": "Holma",
+    "antal_rum": "3 rum och kök",
+    "hyra": "10493 kr/mån",
+    "ledig": "2026-06-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hyacintgatan-30-229-027-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Köpenhamnsvägen 6 C",
+    "område": "Kronborg",
+    "antal_rum": "3 rum och kök",
+    "hyra": "10950 kr/mån",
+    "ledig": "2026-07-16",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/kopenhamnsvagen-6-c-490-150-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Styrbordsgatan 4",
+    "område": "Limhamns hamnområde",
+    "antal_rum": "4 rum och kök",
+    "hyra": "17209 kr/mån",
+    "ledig": "2026-07-16",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/styrbordsgatan-4-687-025-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Hyacintgatan 42",
+    "område": "Holma",
+    "antal_rum": "1 rum och kokvrå",
+    "hyra": "5136 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hyacintgatan-42-232-028-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Rörtornsgatan 5",
+    "område": "Limhamns hamnområde",
+    "antal_rum": "2 rum och kök",
+    "hyra": "10016 kr/mån",
+    "ledig": "2026-06-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/rortornsgatan-5-678-094-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Skrivaregatan 8J",
+    "område": "Hyllievång",
+    "antal_rum": "2 rum och kök",
+    "hyra": "10079 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/skrivaregatan-8j-245-030-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-036-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8965 kr/mån",
+    "ledig": "2026-09-16",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-036-01-392-036-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-042-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8985 kr/mån",
+    "ledig": "2026-09-16",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-042-01-392-042-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-060-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8985 kr/mån",
+    "ledig": "2026-09-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-060-01-392-060-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-048-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8985 kr/mån",
+    "ledig": "2026-09-16",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b--392-048-01-392-048-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-021-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8775 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-021-01-392-021-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-009-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8664 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-009-01-392-009-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 49 (392-085-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8779 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-49-392-085-01-392-085-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-011-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "9643 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-011-01-392-011-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-022-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8930 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-022-01-392-022-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-008-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8515 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-008-01-392-008-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-015-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8893 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-015-01-392-015-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 51 B (392-122-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "7960 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-51-b-392-122-01-392-122-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-028-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8775 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-028-01-392-028-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 51 B (392-116-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "7751 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-51-b-392-116-01-392-116-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 51 B (392-121-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8562 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-51-b-392-121-01-392-121-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 51 B (392-135-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8822 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-51-b-392-135-01-392-135-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-014-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8740 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-014-01-392-014-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 51 B (392-129-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8170 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-51-b-392-129-01-392-129-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-029-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8930 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-029-01-392-029-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 51 B (392-136-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8202 kr/mån",
+    "ledig": "Hyra per månad 8202 kr/mån",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-51-b-392-136-01-392-136-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-016-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "2 rum och kök",
+    "hyra": "11445 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-016-01-392-016-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 49 (392-104-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "3 rum och kök",
+    "hyra": "15450 kr/mån",
+    "ledig": "2026-09-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-49-392-104-01-392-104-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 49 (392-109-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "3 rum och kök",
+    "hyra": "15547 kr/mån",
+    "ledig": "2026-09-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-49-392-109-01-392-109-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 51 B (392-172-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "3 rum och kök",
+    "hyra": "16207 kr/mån",
+    "ledig": "2026-09-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-51-b-392-172-01-392-172-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Carlsgatan 47 B (392-078-01)",
+    "område": "Inre Hamnen",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8985 kr/mån",
+    "ledig": "2026-09-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-078-01-392-078-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Emblas gränd 3",
+    "område": "Hyllievång",
+    "antal_rum": "2 rum och kök",
+    "hyra": "10736 kr/mån",
+    "ledig": "2026-06-16",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/emblas-grand-3-667-072-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Nydalavägen 9 A",
+    "område": "Nydala",
+    "antal_rum": "2 rum och kök",
+    "hyra": "7626 kr/mån",
+    "ledig": "2026-06-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/nydalavagen-9-a-256-001-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Augustenborgsgatan 6 C",
+    "område": "Augustenborg",
+    "antal_rum": "2 rum och kök",
+    "hyra": "8605 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/augustenborgsgatan-6-c-702-028-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Övedsgatan 1 A",
+    "område": "Mellanheden",
+    "antal_rum": "2 rum och kök",
+    "hyra": "9795 kr/mån",
+    "ledig": "2026-05-16",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/ovedsgatan-1-a-451-117-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Limhamnsvägen 107 D",
+    "område": "Limhamns hamnområde",
+    "antal_rum": "2 rum och kök",
+    "hyra": "10152 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/limhamnsvagen-107-d-692-069-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Sörbäcksgatan 16",
+    "område": "Kroksbäck",
+    "antal_rum": "4 rum och kök",
+    "hyra": "11427 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/sorbacksgatan-16-215-091-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Kronetorpsgatan 86 B",
+    "område": "Segevång",
+    "antal_rum": "2 rum och kokvrå",
+    "hyra": "7316 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/kronetorpsgatan-86-b-184-784-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Betonggatan 9 A",
+    "område": "Limhamns hamnområde",
+    "antal_rum": "3 rum och kök",
+    "hyra": "13763 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/betonggatan-9-a-689-125-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Eriksfältsgatan 65 B",
+    "område": "Nydala",
+    "antal_rum": "3 rum och kök",
+    "hyra": "10095 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/eriksfaltsgatan-65-b-251-267-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Gymnasistgatan 25 B",
+    "område": "Gullviksborg",
+    "antal_rum": "4 rum och kök",
+    "hyra": "11685 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/gymnasistgatan-25-b-263-746-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Hyllie vattenparksgata 50 B",
+    "område": "Hyllievång",
+    "antal_rum": "3 rum och kök",
+    "hyra": "13405 kr/mån",
+    "ledig": "2026-06-16",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hyllie-vattenparksgata-50-b-243-001-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Augustenborgsgatan 24 B",
+    "område": "Augustenborg",
+    "antal_rum": "2 rum och kök",
+    "hyra": "7751 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/augustenborgsgatan-24-b-703-119-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Kronetorpsgatan 86 A",
+    "område": "Segevång",
+    "antal_rum": "1 rum och kök",
+    "hyra": "7016 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/kronetorpsgatan-86-a-184-700-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Vendelsfridsgatan 1 C",
+    "område": "Lorensborg",
+    "antal_rum": "3 rum och kök",
+    "hyra": "10378 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/vendelsfridsgatan-1-c-423-533-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Sorgenfrivägen 35",
+    "område": "Östra Sorgenfri",
+    "antal_rum": "3 rum och kök",
+    "hyra": "8483 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/sorgenfrivagen-35-371-281-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Föreningsgatan 8 B",
+    "område": "Rådmansvången",
+    "antal_rum": "1 rum och kök",
+    "hyra": "6871 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/foreningsgatan-8-b-206-011-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Delsjögatan 22",
+    "område": "Bellevuegården",
+    "antal_rum": "3 rum och kök",
+    "hyra": "10350 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/delsjogatan-22-698-388-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Hallingsgatan 6 B",
+    "område": "Lorensborg",
+    "antal_rum": "3 rum och kök",
+    "hyra": "10589 kr/mån",
+    "ledig": "2026-10-16",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hallingsgatan-6-b-422-273-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Sorgenfrivägen 33 B",
+    "område": "Östra Sorgenfri",
+    "antal_rum": "2 rum och kök",
+    "hyra": "7553 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/sorgenfrivagen-33-b-371-235-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Gabriel Jönssonsgatan 8",
+    "område": "Rörsjöstaden",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8862 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/gabriel-jonssonsgatan-8-289-141-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Stensjögatan 44",
+    "område": "Bellevuegården",
+    "antal_rum": "1 rum och kök",
+    "hyra": "7390 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/stensjogatan-44-697-208-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Gabriel Jönssonsgatan 4",
+    "område": "Rörsjöstaden",
+    "antal_rum": "2 rum och kök",
+    "hyra": "12933 kr/mån",
+    "ledig": "2026-10-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/gabriel-jonssonsgatan-4-289-121-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Portvaktsgatan 5",
+    "område": "Limhamns hamnområde",
+    "antal_rum": "3 rum och kök",
+    "hyra": "14608 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/portvaktsgatan-5-688-115-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Kronetorpsgatan 86B",
+    "område": "Segevång",
+    "antal_rum": "1 rum och kök",
+    "hyra": "7297 kr/mån",
+    "ledig": "2026-09-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/kronetorpsgatan-86b-184-750-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Hyllie allé 9C",
+    "område": "Hyllievång",
+    "antal_rum": "1 rum och kök",
+    "hyra": "8801 kr/mån",
+    "ledig": "2026-06-16",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hyllie-alle-9c-246-032-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Stapelbäddsgatan 10",
+    "område": "Västra Hamnen",
+    "antal_rum": "1 rum och kokvrå",
+    "hyra": "5339 kr/mån",
+    "ledig": "2026-09-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/stapelbaddsgatan-10-464-129-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Älggatan 17A",
+    "område": "Gamla Limhamn",
+    "antal_rum": "3 rum och kök",
+    "hyra": "11567 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/alggatan-17a-600-079-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Von Rosens väg 19",
+    "område": "Örtagården",
+    "antal_rum": "4 rum och kök",
+    "hyra": "12048 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/von-rosens-vag-19-337-081-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Hårds väg 31",
+    "område": "Örtagården",
+    "antal_rum": "2 rum och kök",
+    "hyra": "8628 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hards-vag-31-341-103-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Börringegatan 1 A",
+    "område": "Mellanheden",
+    "antal_rum": "1 rum och kokvrå",
+    "hyra": "5300 kr/mån",
+    "ledig": "2026-09-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/borringegatan-1-a-452-111-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Sörbäcksgatan 38",
+    "område": "Kroksbäck",
+    "antal_rum": "2 rum och kök",
+    "hyra": "9267 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/sorbacksgatan-38-214-246-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Vendelsfridsgatan 10 A",
+    "område": "Lorensborg",
+    "antal_rum": "2 rum och kök",
+    "hyra": "8400 kr/mån",
+    "ledig": "2026-10-16",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/vendelsfridsgatan-10-a-428-637-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Limhamnsvägen 107C",
+    "område": "Limhamns hamnområde",
+    "antal_rum": "2 rum och kök",
+    "hyra": "10152 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/limhamnsvagen-107c-692-050-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Von Rosens väg 12",
+    "område": "Örtagården",
+    "antal_rum": "3 rum och kök",
+    "hyra": "10918 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/von-rosens-vag-12-339-055-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Snödroppsgatan 42",
+    "område": "Holma",
+    "antal_rum": "3 rum och kök",
+    "hyra": "8735 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/snodroppsgatan-42-221-010-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Stensjögatan 54",
+    "område": "Bellevuegården",
+    "antal_rum": "1 rum och kök",
+    "hyra": "6290 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/stensjogatan-54-697-118-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Vitemöllegatan 18E",
+    "område": "Annelund",
+    "antal_rum": "2 rum och kök",
+    "hyra": "7972 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/vitemollegatan-18e-380-150-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Per Albin Hanssons väg 2 E",
+    "område": "Flensburg",
+    "antal_rum": "2 rum och kök",
+    "hyra": "9555 kr/mån",
+    "ledig": "2026-06-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/per-albin-hanssons-vag-2-e-312-239-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Axel Danielssons väg 2D",
+    "område": "Lindängen",
+    "antal_rum": "3 rum och kök",
+    "hyra": "10181 kr/mån",
+    "ledig": "2026-07-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/axel-danielssons-vag-2d-250-083-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Nobelvägen 68 E",
+    "område": "Värnhem",
+    "antal_rum": "3 rum och kök",
+    "hyra": "11861 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/nobelvagen-68-e-103-063-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Delsjögatan 40",
+    "område": "Bellevuegården",
+    "antal_rum": "2 rum och kokvrå",
+    "hyra": "6190 kr/mån",
+    "ledig": "2026-08-01",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/delsjogatan-40-698-280-01/",
+    "källa": "MKB"
+  },
+  {
+    "titel": "Vendelsfridsgatan 13B",
+    "område": "Lorensborg",
+    "antal_rum": "1 rum och kokvrå",
+    "hyra": "4836 kr/mån",
+    "ledig": "2026-06-16",
+    "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/vendelsfridsgatan-13b-426-163-01/",
+    "källa": "MKB"
+  }
+]
