@@ -31,10 +31,12 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
             <h3 className="line-clamp-2 text-lg font-semibold leading-tight text-foreground">
               {annons.titel}
             </h3>
-            <div className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
-              <MapPin className="h-3.5 w-3.5" />
-              <span className="truncate">{annons.område}</span>
-            </div>
+            {annons.område && annons.område.trim().toLowerCase() !== annons.titel.trim().toLowerCase() && (
+              <div className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
+                <MapPin className="h-3.5 w-3.5" />
+                <span className="truncate">{annons.område}</span>
+              </div>
+            )}
           </div>
           <Badge
             className={`shrink-0 border-0 ${sourceColors[annons.källa] ?? "bg-secondary text-secondary-foreground"}`}
