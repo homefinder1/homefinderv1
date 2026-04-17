@@ -29,14 +29,16 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "homefinderv1" },
+      { name: "description", content: "HomeFinder Hub is a Swedish rental listing aggregator website." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "homefinderv1" },
+      { property: "og:description", content: "HomeFinder Hub is a Swedish rental listing aggregator website." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "homefinderv1" },
+      { name: "twitter:description", content: "HomeFinder Hub is a Swedish rental listing aggregator website." },
     ],
     links: [
       {
