@@ -30,7 +30,7 @@ export function normaliseraAnnonser(raw: RawAnnons[]): Annons[] {
   return raw.map((a, i) => ({
     id: `${a.källa}-${i}-${a.titel}`,
     titel: a.titel,
-    område: a område ?? "",
+    område: a.område ?? "",
     antal_rum: a.antal_rum,
     hyra: a.hyra,
     ledig: a.ledig,
