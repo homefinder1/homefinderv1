@@ -2,8 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Building2, Search, Sparkles } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { SearchBar } from "@/components/SearchBar";
-import { ListingCard } from "@/components/ListingCard";
-import { LISTINGS } from "@/data/listings";
+import { AnnonsCard } from "@/components/AnnonsCard";
+import { useAnnonser } from "@/hooks/useAnnonser";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -12,7 +12,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Sök hyreslägenheter från Blocket, Qasa, HomeQ och fler — allt på ett ställe.",
+          "Sök hyreslägenheter från MKB, Blocket, Qasa, HomeQ och fler — allt på ett ställe.",
       },
       { property: "og:title", content: "HomeFinder — Hitta din nästa hyresbostad" },
       {
@@ -25,7 +25,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const featured = LISTINGS.slice(0, 6);
+  const { annonser, loading, error } = useAnnonser();
+  const featured = annonser.slice(0, 6);
 
   return (
     <div className="min-h-screen bg-background">
@@ -46,7 +47,7 @@ function Home() {
           <div className="mb-6 flex justify-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground shadow-sm">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
-              Tusentals annonser uppdaterade dagligen
+              Lediga annonser uppdaterade dagligen
             </div>
           </div>
           <h1 className="text-center text-4xl font-bold tracking-tight text-foreground md:text-6xl">
@@ -56,7 +57,7 @@ function Home() {
             </span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-center text-base text-muted-foreground md:text-lg">
-            Vi samlar annonser från Blocket, Qasa, HomeQ och Bostadsdirekt — så
+            Vi samlar lediga hyreslägenheter från MKB och fler hyresvärdar — så
             du slipper leta på flera sajter.
           </p>
 
@@ -67,10 +68,10 @@ function Home() {
           <div className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Building2 className="h-4 w-4 text-primary" />
-              12 480 aktiva annonser
+              {loading ? "Laddar…" : `${annonser.length} aktiva annonser`}
             </div>
             <div className="flex items-center gap-2">
-              <Search className="h-4 w-4 text-primary" />4 källor på ett ställe
+              <Search className="h-4 w-4 text-primary" /> Flera källor på ett ställe
             </div>
           </div>
         </div>
@@ -84,15 +85,30 @@ function Home() {
               Senaste annonserna
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              Ett urval av nya bostäder runt om i Sverige
+              Ett urval av nya bostäder
             </p>
           </div>
         </div>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {featured.map((l) => (
-            <ListingCard key={l.id} listing={l} />
-          ))}
-        </div>
+
+        {loading && (
+          <div className="rounded-2xl border border-dashed border-border p-12 text-center text-muted-foreground">
+            Laddar annonser…
+          </div>
+        )}
+
+        {error && !loading && (
+          <div className="rounded-2xl border border-destructive/30 bg-destructive/5 p-6 text-center text-sm text-destructive">
+            Kunde inte hämta annonser: {error}
+          </div>
+        )}
+
+        {!loading && !error && featured.length > 0 && (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {featured.map((a) => (
+              <AnnonsCard key={a.id} annons={a} />
+            ))}
+          </div>
+        )}
       </section>
 
       <footer className="border-t border-border py-8 text-center text-sm text-muted-foreground">
