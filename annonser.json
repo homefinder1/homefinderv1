@@ -1,731 +1,2144 @@
 [
   {
     "titel": "Murbruksgatan 11",
-    "område": "Limhamns hamnområde",
+    "omrÃ¥de": "Limhamns hamnområde",
     "antal_rum": "3 rum och kök",
-    "hyra": "13972 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-06-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/murbruksgatan-11-687-163-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Exercisgatan 1 C",
-    "område": "Rörsjöstaden",
+    "omrÃ¥de": "Rörsjöstaden",
     "antal_rum": "1 rum och kök",
-    "hyra": "8584 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/exercisgatan-1-c-289-004-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Hallingsgatan 6 A",
-    "område": "Lorensborg",
+    "omrÃ¥de": "Lorensborg",
     "antal_rum": "3 rum och kök",
-    "hyra": "10730 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hallingsgatan-6-a-422-342-012/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Hallingsgatan 6 A",
-    "område": "Lorensborg",
+    "omrÃ¥de": "Lorensborg",
     "antal_rum": "3 rum och kök",
-    "hyra": "10730 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hallingsgatan-6-a-422-342-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Cyklopgatan 8A",
-    "område": "Hyllievång",
+    "omrÃ¥de": "Hyllievång",
     "antal_rum": "1 rum och kök",
-    "hyra": "8901 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/cyklopgatan-8a-247-017-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Cyklopgatan 8A",
-    "område": "Hyllievång",
+    "omrÃ¥de": "Hyllievång",
     "antal_rum": "1 rum och kök",
-    "hyra": "9717 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-16",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/cyklopgatan-8a-247-001-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Cyklopgatan 8A",
-    "område": "Hyllievång",
+    "omrÃ¥de": "Hyllievång",
     "antal_rum": "1 rum och kök",
-    "hyra": "8901 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/cyklopgatan-8a-247-017-012/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Cyklopgatan 8A",
-    "område": "Hyllievång",
+    "omrÃ¥de": "Hyllievång",
     "antal_rum": "1 rum och kök",
-    "hyra": "9717 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-16",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/cyklopgatan-8a-247-001-012/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Hyacintgatan 30",
-    "område": "Holma",
+    "omrÃ¥de": "Holma",
     "antal_rum": "3 rum och kök",
-    "hyra": "10493 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-06-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hyacintgatan-30-229-027-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Köpenhamnsvägen 6 C",
-    "område": "Kronborg",
+    "omrÃ¥de": "Kronborg",
     "antal_rum": "3 rum och kök",
-    "hyra": "10950 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-16",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/kopenhamnsvagen-6-c-490-150-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Styrbordsgatan 4",
-    "område": "Limhamns hamnområde",
+    "omrÃ¥de": "Limhamns hamnområde",
     "antal_rum": "4 rum och kök",
-    "hyra": "17209 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-16",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/styrbordsgatan-4-687-025-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Hyacintgatan 42",
-    "område": "Holma",
+    "omrÃ¥de": "Holma",
     "antal_rum": "1 rum och kokvrå",
-    "hyra": "5136 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hyacintgatan-42-232-028-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Rörtornsgatan 5",
-    "område": "Limhamns hamnområde",
+    "omrÃ¥de": "Limhamns hamnområde",
     "antal_rum": "2 rum och kök",
-    "hyra": "10016 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-06-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/rortornsgatan-5-678-094-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Skrivaregatan 8J",
-    "område": "Hyllievång",
+    "omrÃ¥de": "Hyllievång",
     "antal_rum": "2 rum och kök",
-    "hyra": "10079 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/skrivaregatan-8j-245-030-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8965 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-09-16",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-036-01-392-036-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8985 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-09-16",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-042-01-392-042-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8985 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-09-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-060-01-392-060-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8985 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-09-16",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b--392-048-01-392-048-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8775 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-021-01-392-021-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8664 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-009-01-392-009-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 49",
-    "område": "Carlsgatan 49",
+    "omrÃ¥de": "Carlsgatan 49",
     "antal_rum": "1 rum och kök",
-    "hyra": "8779 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-49-392-085-01-392-085-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "9643 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-011-01-392-011-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8930 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-022-01-392-022-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8515 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-008-01-392-008-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8893 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-015-01-392-015-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 51 B",
-    "område": "Carlsgatan 51 B",
+    "omrÃ¥de": "Carlsgatan 51 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "7960 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-51-b-392-122-01-392-122-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8775 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-028-01-392-028-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 51 B",
-    "område": "Carlsgatan 51 B",
+    "omrÃ¥de": "Carlsgatan 51 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "7751 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-51-b-392-116-01-392-116-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 51 B",
-    "område": "Carlsgatan 51 B",
+    "omrÃ¥de": "Carlsgatan 51 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8562 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-51-b-392-121-01-392-121-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 51 B",
-    "område": "Carlsgatan 51 B",
+    "omrÃ¥de": "Carlsgatan 51 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8822 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-51-b-392-135-01-392-135-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8740 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-014-01-392-014-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 51 B",
-    "område": "Carlsgatan 51 B",
+    "omrÃ¥de": "Carlsgatan 51 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8170 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-51-b-392-129-01-392-129-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8930 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-029-01-392-029-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 51 B",
-    "område": "Carlsgatan 51 B",
+    "omrÃ¥de": "Carlsgatan 51 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8202 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "Hyra per månad 8202 kr/mån",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-51-b-392-136-01-392-136-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "2 rum och kök",
-    "hyra": "11445 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-016-01-392-016-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 49",
-    "område": "Carlsgatan 49",
+    "omrÃ¥de": "Carlsgatan 49",
     "antal_rum": "3 rum och kök",
-    "hyra": "15450 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-09-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-49-392-104-01-392-104-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 49",
-    "område": "Carlsgatan 49",
+    "omrÃ¥de": "Carlsgatan 49",
     "antal_rum": "3 rum och kök",
-    "hyra": "15547 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-09-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-49-392-109-01-392-109-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 51 B",
-    "område": "Carlsgatan 51 B",
+    "omrÃ¥de": "Carlsgatan 51 B",
     "antal_rum": "3 rum och kök",
-    "hyra": "16207 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-09-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-51-b-392-172-01-392-172-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Carlsgatan 47 B",
-    "område": "Carlsgatan 47 B",
+    "omrÃ¥de": "Carlsgatan 47 B",
     "antal_rum": "1 rum och kök",
-    "hyra": "8985 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-09-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/carlsgatan-47-b-392-078-01-392-078-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Emblas gränd 3",
-    "område": "Hyllievång",
+    "omrÃ¥de": "Hyllievång",
     "antal_rum": "2 rum och kök",
-    "hyra": "10736 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-06-16",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/emblas-grand-3-667-072-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Nydalavägen 9 A",
-    "område": "Nydala",
+    "omrÃ¥de": "Nydala",
     "antal_rum": "2 rum och kök",
-    "hyra": "7626 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-06-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/nydalavagen-9-a-256-001-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Augustenborgsgatan 6 C",
-    "område": "Augustenborg",
+    "omrÃ¥de": "Augustenborg",
     "antal_rum": "2 rum och kök",
-    "hyra": "8605 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/augustenborgsgatan-6-c-702-028-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Övedsgatan 1 A",
-    "område": "Mellanheden",
+    "omrÃ¥de": "Mellanheden",
     "antal_rum": "2 rum och kök",
-    "hyra": "9795 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-05-16",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/ovedsgatan-1-a-451-117-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Limhamnsvägen 107 D",
-    "område": "Limhamns hamnområde",
+    "omrÃ¥de": "Limhamns hamnområde",
     "antal_rum": "2 rum och kök",
-    "hyra": "10152 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/limhamnsvagen-107-d-692-069-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Sörbäcksgatan 16",
-    "område": "Kroksbäck",
+    "omrÃ¥de": "Kroksbäck",
     "antal_rum": "4 rum och kök",
-    "hyra": "11427 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/sorbacksgatan-16-215-091-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Kronetorpsgatan 86 B",
-    "område": "Segevång",
+    "omrÃ¥de": "Segevång",
     "antal_rum": "2 rum och kokvrå",
-    "hyra": "7316 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/kronetorpsgatan-86-b-184-784-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Betonggatan 9 A",
-    "område": "Limhamns hamnområde",
+    "omrÃ¥de": "Limhamns hamnområde",
     "antal_rum": "3 rum och kök",
-    "hyra": "13763 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/betonggatan-9-a-689-125-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Eriksfältsgatan 65 B",
-    "område": "Nydala",
+    "omrÃ¥de": "Nydala",
     "antal_rum": "3 rum och kök",
-    "hyra": "10095 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/eriksfaltsgatan-65-b-251-267-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Gymnasistgatan 25 B",
-    "område": "Gullviksborg",
+    "omrÃ¥de": "Gullviksborg",
     "antal_rum": "4 rum och kök",
-    "hyra": "11685 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/gymnasistgatan-25-b-263-746-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Hyllie vattenparksgata 50 B",
-    "område": "Hyllievång",
+    "omrÃ¥de": "Hyllievång",
     "antal_rum": "3 rum och kök",
-    "hyra": "13405 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-06-16",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hyllie-vattenparksgata-50-b-243-001-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Augustenborgsgatan 24 B",
-    "område": "Augustenborg",
+    "omrÃ¥de": "Augustenborg",
     "antal_rum": "2 rum och kök",
-    "hyra": "7751 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/augustenborgsgatan-24-b-703-119-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Kronetorpsgatan 86 A",
-    "område": "Segevång",
+    "omrÃ¥de": "Segevång",
     "antal_rum": "1 rum och kök",
-    "hyra": "7016 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/kronetorpsgatan-86-a-184-700-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Vendelsfridsgatan 1 C",
-    "område": "Lorensborg",
+    "omrÃ¥de": "Lorensborg",
     "antal_rum": "3 rum och kök",
-    "hyra": "10378 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/vendelsfridsgatan-1-c-423-533-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Sorgenfrivägen 35",
-    "område": "Östra Sorgenfri",
+    "omrÃ¥de": "Östra Sorgenfri",
     "antal_rum": "3 rum och kök",
-    "hyra": "8483 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/sorgenfrivagen-35-371-281-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Föreningsgatan 8 B",
-    "område": "Rådmansvången",
+    "omrÃ¥de": "Rådmansvången",
     "antal_rum": "1 rum och kök",
-    "hyra": "6871 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/foreningsgatan-8-b-206-011-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Delsjögatan 22",
-    "område": "Bellevuegården",
+    "omrÃ¥de": "Bellevuegården",
     "antal_rum": "3 rum och kök",
-    "hyra": "10350 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/delsjogatan-22-698-388-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Hallingsgatan 6 B",
-    "område": "Lorensborg",
+    "omrÃ¥de": "Lorensborg",
     "antal_rum": "3 rum och kök",
-    "hyra": "10589 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-16",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hallingsgatan-6-b-422-273-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Sorgenfrivägen 33 B",
-    "område": "Östra Sorgenfri",
+    "omrÃ¥de": "Östra Sorgenfri",
     "antal_rum": "2 rum och kök",
-    "hyra": "7553 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/sorgenfrivagen-33-b-371-235-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Gabriel Jönssonsgatan 8",
-    "område": "Rörsjöstaden",
+    "omrÃ¥de": "Rörsjöstaden",
     "antal_rum": "1 rum och kök",
-    "hyra": "8862 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/gabriel-jonssonsgatan-8-289-141-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Stensjögatan 44",
-    "område": "Bellevuegården",
+    "omrÃ¥de": "Bellevuegården",
     "antal_rum": "1 rum och kök",
-    "hyra": "7390 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/stensjogatan-44-697-208-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Gabriel Jönssonsgatan 4",
-    "område": "Rörsjöstaden",
+    "omrÃ¥de": "Rörsjöstaden",
     "antal_rum": "2 rum och kök",
-    "hyra": "12933 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/gabriel-jonssonsgatan-4-289-121-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Portvaktsgatan 5",
-    "område": "Limhamns hamnområde",
+    "omrÃ¥de": "Limhamns hamnområde",
     "antal_rum": "3 rum och kök",
-    "hyra": "14608 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/portvaktsgatan-5-688-115-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Kronetorpsgatan 86B",
-    "område": "Segevång",
+    "omrÃ¥de": "Segevång",
     "antal_rum": "1 rum och kök",
-    "hyra": "7297 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-09-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/kronetorpsgatan-86b-184-750-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Hyllie allé 9C",
-    "område": "Hyllievång",
+    "omrÃ¥de": "Hyllievång",
     "antal_rum": "1 rum och kök",
-    "hyra": "8801 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-06-16",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hyllie-alle-9c-246-032-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Stapelbäddsgatan 10",
-    "område": "Västra Hamnen",
+    "omrÃ¥de": "Västra Hamnen",
     "antal_rum": "1 rum och kokvrå",
-    "hyra": "5339 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-09-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/stapelbaddsgatan-10-464-129-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Älggatan 17A",
-    "område": "Gamla Limhamn",
+    "omrÃ¥de": "Gamla Limhamn",
     "antal_rum": "3 rum och kök",
-    "hyra": "11567 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/alggatan-17a-600-079-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Von Rosens väg 19",
-    "område": "Örtagården",
+    "omrÃ¥de": "Örtagården",
     "antal_rum": "4 rum och kök",
-    "hyra": "12048 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/von-rosens-vag-19-337-081-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Hårds väg 31",
-    "område": "Örtagården",
+    "omrÃ¥de": "Örtagården",
     "antal_rum": "2 rum och kök",
-    "hyra": "8628 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/hards-vag-31-341-103-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Börringegatan 1 A",
-    "område": "Mellanheden",
+    "omrÃ¥de": "Mellanheden",
     "antal_rum": "1 rum och kokvrå",
-    "hyra": "5300 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-09-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/borringegatan-1-a-452-111-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Sörbäcksgatan 38",
-    "område": "Kroksbäck",
+    "omrÃ¥de": "Kroksbäck",
     "antal_rum": "2 rum och kök",
-    "hyra": "9267 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/sorbacksgatan-38-214-246-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Vendelsfridsgatan 10 A",
-    "område": "Lorensborg",
+    "omrÃ¥de": "Lorensborg",
     "antal_rum": "2 rum och kök",
-    "hyra": "8400 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-10-16",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/vendelsfridsgatan-10-a-428-637-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Limhamnsvägen 107C",
-    "område": "Limhamns hamnområde",
+    "omrÃ¥de": "Limhamns hamnområde",
     "antal_rum": "2 rum och kök",
-    "hyra": "10152 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/limhamnsvagen-107c-692-050-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Von Rosens väg 12",
-    "område": "Örtagården",
+    "omrÃ¥de": "Örtagården",
     "antal_rum": "3 rum och kök",
-    "hyra": "10918 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/von-rosens-vag-12-339-055-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Snödroppsgatan 42",
-    "område": "Holma",
+    "omrÃ¥de": "Holma",
     "antal_rum": "3 rum och kök",
-    "hyra": "8735 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/snodroppsgatan-42-221-010-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Stensjögatan 54",
-    "område": "Bellevuegården",
+    "omrÃ¥de": "Bellevuegården",
     "antal_rum": "1 rum och kök",
-    "hyra": "6290 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/stensjogatan-54-697-118-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Vitemöllegatan 18E",
-    "område": "Annelund",
+    "omrÃ¥de": "Annelund",
     "antal_rum": "2 rum och kök",
-    "hyra": "7972 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/vitemollegatan-18e-380-150-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Per Albin Hanssons väg 2 E",
-    "område": "Flensburg",
+    "omrÃ¥de": "Flensburg",
     "antal_rum": "2 rum och kök",
-    "hyra": "9555 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-06-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/per-albin-hanssons-vag-2-e-312-239-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Axel Danielssons väg 2D",
-    "område": "Lindängen",
+    "omrÃ¥de": "Lindängen",
     "antal_rum": "3 rum och kök",
-    "hyra": "10181 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-07-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/axel-danielssons-vag-2d-250-083-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Nobelvägen 68 E",
-    "område": "Värnhem",
+    "omrÃ¥de": "Värnhem",
     "antal_rum": "3 rum och kök",
-    "hyra": "11861 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/nobelvagen-68-e-103-063-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Delsjögatan 40",
-    "område": "Bellevuegården",
+    "omrÃ¥de": "Bellevuegården",
     "antal_rum": "2 rum och kokvrå",
-    "hyra": "6190 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-08-01",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/delsjogatan-40-698-280-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
   },
   {
     "titel": "Vendelsfridsgatan 13B",
-    "område": "Lorensborg",
+    "omrÃ¥de": "Lorensborg",
     "antal_rum": "1 rum och kokvrå",
-    "hyra": "4836 kr/mån",
+    "hyra": "OkÃ¤nd",
     "ledig": "2026-06-16",
     "url": "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/vendelsfridsgatan-13b-426-163-01/",
-    "källa": "MKB"
+    "kÃ¤lla": "MKB"
+  },
+  {
+    "titel": "Idas Gård 2",
+    "område": "Högsbohöjd",
+    "antal_rum": "1 rum",
+    "hyra": "4 883 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E25B6507FA8C4E00C7B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Näverlursgatan 4",
+    "område": "Frölunda Torg",
+    "antal_rum": "1 rum",
+    "hyra": "5 733 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E25B6406484CC1C88EC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Betselvägen 10",
+    "område": "Angereds Centrum",
+    "antal_rum": "2 rum",
+    "hyra": "11 023 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E25B62FC44857A025BC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Hedåsgatan 11",
+    "område": "Heden",
+    "antal_rum": "3 rum",
+    "hyra": "11 723 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E25B5EFAC688B0DB5DC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Sjusovaregatan 11",
+    "område": "Norra Kortedala",
+    "antal_rum": "2 rum",
+    "hyra": "7 927 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E25B5BFEC48CCA718BB08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Tellusgatan 14",
+    "område": "Östra Bergsjön",
+    "antal_rum": "3 rum",
+    "hyra": "10 221 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E2070100CE81BB9094C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Spannlandsgatan 12",
+    "område": "Högsbotorp",
+    "antal_rum": "1 rum",
+    "hyra": "7 236 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E206FFFA4247570608C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Doktor Forselius Backe 46",
+    "område": "Guldheden",
+    "antal_rum": "1 rum",
+    "hyra": "3 546 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E206FE04AC87302CDDB095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Berguven 15",
+    "område": "Hovås",
+    "antal_rum": "1 rum",
+    "hyra": "8 671 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E206FDFC4E861B8DB4B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Gånglåten 8",
+    "område": "Frölunda Torg",
+    "antal_rum": "2 rum",
+    "hyra": "5 412 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E206FCFA357A22E873C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Sjusovaregatan 11",
+    "område": "Norra Kortedala",
+    "antal_rum": "1 rum",
+    "hyra": "4 961 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E206FAF90E85A3BCCCC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Bräcke Östergårds väg 1D",
+    "område": "Kyrkbyn Bräcke",
+    "antal_rum": "1 rum",
+    "hyra": "6 457 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E20507FBE281602AADC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Bräcke Östergårds Väg 5",
+    "område": "Kyrkbyn",
+    "antal_rum": "1 rum",
+    "hyra": "7 817 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E20325FCF284A65A2FC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Betselvägen 10",
+    "område": "Angereds Centrum",
+    "antal_rum": "2 rum",
+    "hyra": "11 299 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E20708053F83F6585FC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Skiljemyntsgatan 14",
+    "område": "Högsbotorp",
+    "antal_rum": "2 rum",
+    "hyra": "7 317 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E20706FF4D83C9F6E6C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Slottsskogsgatan 54B",
+    "område": "Majorna",
+    "antal_rum": "1 rum",
+    "hyra": "4 544 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E20704FBDC8790C07DB08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Doktor Forselius Backe 52",
+    "område": "Guldheden",
+    "antal_rum": "1 rum",
+    "hyra": "3 546 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E20703FEFC885EEE37B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Doktor Forselius Backe 58",
+    "område": "Guldheden",
+    "antal_rum": "1 rum",
+    "hyra": "3 583 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E20702FA0C80BBCD94C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Doktor Forselius Backe 56",
+    "område": "Guldheden",
+    "antal_rum": "1 rum",
+    "hyra": "3 546 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E20700F85183CC8FE1C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Doktor Forselius Backe 40",
+    "område": "Guldheden",
+    "antal_rum": "1 rum",
+    "hyra": "3 567 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E206FF06C2853D4542B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Saffransgatan 74 .",
+    "område": "Gårdstensberget",
+    "antal_rum": "3 rum",
+    "hyra": "7 092 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E206F9FB8280B0E35DC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Kulvertkonstens väg 11 1405",
+    "område": "Skogome",
+    "antal_rum": "1 rum",
+    "hyra": "5 950 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E1E99BF8BD812C3081C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Kulvertkonstens väg 9 1103",
+    "område": "Skogome",
+    "antal_rum": "2 rum",
+    "hyra": "7 452 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0BB0407C572824313C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mjörnbo Allé",
+    "område": "Gråbo",
+    "antal_rum": "3 rum",
+    "hyra": "9 887 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DF9C9506036299DED6B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Kulvertkonstens väg 9 1905",
+    "område": "Skogome",
+    "antal_rum": "1 rum",
+    "hyra": "5 950 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0CDADFE2E73ECA9C1C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Kulvertkonstens väg 10 1001",
+    "område": "Skogome",
+    "antal_rum": "2 rum",
+    "hyra": "8 115 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0CFFC05A972E2E5B3C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Dimvädersgatan 19",
+    "område": "Norra Biskopsgården",
+    "antal_rum": "3 rum",
+    "hyra": "7 430 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E109E6FCE7733A9A9BC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Dimvädersgatan 46",
+    "område": "Norra Biskopsgården",
+    "antal_rum": "2 rum",
+    "hyra": "5 658 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E109E5FE08774F34F0C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Skonaren Ingos gata 5",
+    "område": "Eriksberg",
+    "antal_rum": "3 rum",
+    "hyra": "11 850 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E109E1FC1F779D7762B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Årstidsgatan 12",
+    "område": "Norra Kortedala",
+    "antal_rum": "1 rum",
+    "hyra": "4 159 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E109E1FA6C7AFB0C54B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Decembergatan 43",
+    "område": "Norra Kortedala",
+    "antal_rum": "3 rum",
+    "hyra": "9 379 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E109DEFAD2795C3551B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Bankogatan 7",
+    "område": "Högsbotorp",
+    "antal_rum": "2 rum",
+    "hyra": "6 607 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E109DEF9DC761FCC60C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Paprikagatan 18",
+    "område": "Lövgärdet",
+    "antal_rum": "2 rum",
+    "hyra": "7 806 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E109DCFC4775EE8227B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Grevegårdsvägen 100",
+    "område": "Grevegården",
+    "antal_rum": "2 rum",
+    "hyra": "7 257 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E109DB008278A02B6DB095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mandolingatan 35",
+    "område": "Frölunda Torg",
+    "antal_rum": "4 rum",
+    "hyra": "9 244 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B59001F072286165B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Näverlursgatan 8",
+    "område": "Frölunda Torg",
+    "antal_rum": "5 rum",
+    "hyra": "15 072 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B58AFC9F67A7FBF8C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Stavhopparegatan 6A",
+    "område": "Lunden",
+    "antal_rum": "2 rum",
+    "hyra": "7 223 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B58803B871D65F7FC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Svangatan 11B",
+    "område": "Olskroken",
+    "antal_rum": "2 rum",
+    "hyra": "7 273 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B58707AF70D55B4AC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Näverlursgatan 26",
+    "område": "Frölunda Torg",
+    "antal_rum": "3 rum",
+    "hyra": "8 095 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B585023E6DF0BE1DC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Näverlursgatan 26",
+    "område": "Frölunda Torg",
+    "antal_rum": "3 rum",
+    "hyra": "8 184 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B58400E66E80018DC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Näverlursgatan 26",
+    "område": "Frölunda Torg",
+    "antal_rum": "3 rum",
+    "hyra": "7 919 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B582FE5673E87FA5B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Betzensgatan 1",
+    "område": "Majorna",
+    "antal_rum": "4 rum",
+    "hyra": "12 657 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B57F04D26FFEA997C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Marconigatan 13",
+    "område": "Frölunda Torg",
+    "antal_rum": "4 rum",
+    "hyra": "8 868 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B57F04186E56CEFFB08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Södra Dragspelsgatan 41",
+    "område": "Tofta",
+    "antal_rum": "5 rum",
+    "hyra": "11 995 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B57EFE5B71FE1797C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Marconigatan 9",
+    "område": "Frölunda Torg",
+    "antal_rum": "2 rum",
+    "hyra": "6 832 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B57CFFE06F9E9CF7B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Norra Dragspelsgatan 25",
+    "område": "Tofta",
+    "antal_rum": "3 rum",
+    "hyra": "6 942 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E00CC0000765C2D9D3C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Karl Johansgatan 49B",
+    "område": "Majorna",
+    "antal_rum": "2 rum",
+    "hyra": "10 291 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E00CBF01326610F1FDC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Vetekornsgatan 4",
+    "område": "Bifrost",
+    "antal_rum": "1 rum",
+    "hyra": "5 597 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0DB87FE24786A06EBB08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Herr Arnes Gata 1",
+    "område": "Backa",
+    "antal_rum": "1 rum",
+    "hyra": "7 138 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0A018F90B6FF1EC9EB095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Kvillepiren 12",
+    "område": "Lindholmen",
+    "antal_rum": "1 rum",
+    "hyra": "8 550 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69D76922FC53045B3874B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Kullgårdsvägen 13 E",
+    "område": "Lerum",
+    "antal_rum": "3 rum",
+    "hyra": "9 123 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B161FEC471BE29D7B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Varbergsvägen 76A",
+    "område": "Viskafors",
+    "antal_rum": "2 rum",
+    "hyra": "6 539 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0C34DFCE872F6D15FC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Betselvägen 6",
+    "område": "Angereds Centrum",
+    "antal_rum": "2 rum",
+    "hyra": "11 232 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B58DFCAC6E0641CFC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Betselvägen 12",
+    "område": "Angereds Centrum",
+    "antal_rum": "1 rum",
+    "hyra": "9 863 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B58B06E06E97E7C8C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Grevegårdsvägen 230",
+    "område": "Kannebäck",
+    "antal_rum": "1 rum",
+    "hyra": "5 600 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0B57A07526F8A4CCBB095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Saffransgatan 100 .",
+    "område": "Gårdstensberget",
+    "antal_rum": "3 rum",
+    "hyra": "10 985 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DF6409FB445ED3AC5CB08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Lillhagsvinkeln 11 1201",
+    "område": "Backa",
+    "antal_rum": "2 rum",
+    "hyra": "10 562 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E0960E055A6BAE7E67C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Lillhagsvinkeln 11 1105",
+    "område": "Backa",
+    "antal_rum": "2 rum",
+    "hyra": "10 133 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E09004FF716DD3395CC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Lillhagsvinkeln 25 1108",
+    "område": "Backa",
+    "antal_rum": "2 rum",
+    "hyra": "11 100 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFD564FF8163A2EAF3C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Lillhagsvinkeln 11",
+    "område": "Backa",
+    "antal_rum": "3 rum",
+    "hyra": "15 077 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E08EDA00D16E67B438B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Prästgårdsvägen 2B",
+    "område": "Alingsås",
+    "antal_rum": "1 rum",
+    "hyra": "6 363 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DF95CF04095DFCCAB1C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Stenbrottet 11",
+    "område": "Mölnlycke",
+    "antal_rum": "1 rum",
+    "hyra": "6 386 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DF97D9FCE95E4E9EC7C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Stenbrottet 9",
+    "område": "Mölnlycke",
+    "antal_rum": "2 rum",
+    "hyra": "9 568 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DF99A6FBAB6540F2CDB08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Beväringsgatan 21",
+    "område": "Gamlestaden",
+    "antal_rum": "2 rum",
+    "hyra": "6 097 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E00CCBFFE866EF2DD0B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Beväringsgatan 21",
+    "område": "Gamlestaden",
+    "antal_rum": "2 rum",
+    "hyra": "5 890 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E00CC9FF9466AC6301B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Litteraturgatan 118",
+    "område": "Backa",
+    "antal_rum": "2 rum",
+    "hyra": "8 946 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E00CC7071265FB0D54C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Litteraturgatan 118",
+    "område": "Backa",
+    "antal_rum": "2 rum",
+    "hyra": "9 404 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E00CC4F9BC69A99186B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Litteraturgatan 118",
+    "område": "Backa",
+    "antal_rum": "2 rum",
+    "hyra": "9 404 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E00CC0FE9866EBAE24C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Litteraturgatan 118",
+    "område": "Backa",
+    "antal_rum": "2 rum",
+    "hyra": "9 404 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69E00CBCFB7B63689025B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Daggdroppegatan 5",
+    "område": "Länsmansgården",
+    "antal_rum": "1 rum",
+    "hyra": "9 944 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB87AFBB764847B29B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Doktor Liborius Gata 52",
+    "område": "Guldheden",
+    "antal_rum": "2 rum",
+    "hyra": "6 835 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB87607336253E6DCC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Doktor Sydows Gata 1A",
+    "område": "Guldheden",
+    "antal_rum": "2 rum",
+    "hyra": "6 460 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB871F9A266E0952DB08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Sandspåret 75",
+    "område": "Hjällbo",
+    "antal_rum": "2 rum",
+    "hyra": "6 735 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB86D03562605285AC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Hinderbanan 26",
+    "område": "Gamlestaden",
+    "antal_rum": "3 rum",
+    "hyra": "13 041 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB86B013064426F53B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Styrfarten 19",
+    "område": "Eriksberg",
+    "antal_rum": "4 rum",
+    "hyra": "15 203 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB86A02BF63CBBCC4B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Blidvädersgatan 41B",
+    "område": "Södra Biskopsgården",
+    "antal_rum": "3 rum",
+    "hyra": "7 767 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB86900DF63D3DB5CC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Inlandsgatan 36B",
+    "område": "Rambergsstaden",
+    "antal_rum": "1 rum",
+    "hyra": "4 589 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB868FF0F6236B01FC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Gropegårdsgatan 1",
+    "område": "Rambergsstaden",
+    "antal_rum": "1 rum",
+    "hyra": "3 437 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB867F8BD633C2971B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mellangatan 23",
+    "område": "Annedal",
+    "antal_rum": "3 rum",
+    "hyra": "10 116 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB8650750630A454BB095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Majstångsgatan 20",
+    "område": "Kungsladugård",
+    "antal_rum": "1 rum",
+    "hyra": "6 230 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB86403976331145EB08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Sjusovaregatan 5",
+    "område": "Norra Kortedala",
+    "antal_rum": "1 rum",
+    "hyra": "7 276 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB862FF4A622ED3E7C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Miraallén 51",
+    "område": "Lindholmen",
+    "antal_rum": "2 rum",
+    "hyra": "10 385 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB860FE1E61669F6FB08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Siriusgatan 82",
+    "område": "Västra Bergsjön",
+    "antal_rum": "2 rum",
+    "hyra": "4 893 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB85E01DE63757C2AC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Kallebäcksvägen 5A",
+    "område": "Kallebäck",
+    "antal_rum": "2 rum",
+    "hyra": "5 811 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB85BFC4063293206B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Gåsagången 14",
+    "område": "Skälltorp",
+    "antal_rum": "4 rum",
+    "hyra": "8 633 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB85B037862EFE1D0B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Kastanjgården 3 .",
+    "område": "Gårdstensberget",
+    "antal_rum": "2 rum",
+    "hyra": "6 431 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DFB85902F5600DF632C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Bredfjällsgatan 34",
+    "område": "Hammarkullen",
+    "antal_rum": "3 rum",
+    "hyra": "7 001 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DF640EF89459EB0724C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Litteraturgatan 118",
+    "område": "Backa",
+    "antal_rum": "3 rum",
+    "hyra": "14 214 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DF6407FAD75E61646EB095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Såggatan 34C",
+    "område": "Stigberget",
+    "antal_rum": "2 rum",
+    "hyra": "5 541 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DF640402135EC38C2CB08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Litteraturgatan 118",
+    "område": "Backa",
+    "antal_rum": "2 rum",
+    "hyra": "9 404 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DF640401BD20642949C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Kalendervägen 50",
+    "område": "Södra Kortedala",
+    "antal_rum": "3 rum",
+    "hyra": "7 320 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DF6402FD765AD70888B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Kalendervägen 113D",
+    "område": "Södra Kortedala",
+    "antal_rum": "2 rum",
+    "hyra": "5 817 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DF63FFF81059E0422DC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Kalendervägen 48",
+    "område": "Södra Kortedala",
+    "antal_rum": "3 rum",
+    "hyra": "7 217 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DF63FB006C5ACFF770B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Bredfjällsgatan 8",
+    "område": "Hammarkullen",
+    "antal_rum": "2 rum",
+    "hyra": "5 981 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DEBB3D068F54122403C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Briljantgatan 50",
+    "område": "Ängås",
+    "antal_rum": "5 rum",
+    "hyra": "11 024 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DEBB3C06E956971FC8B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Balladgatan 4",
+    "område": "Brunnsbo",
+    "antal_rum": "1 rum",
+    "hyra": "4 263 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DEBB3A044654269EAFB095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Varmblodsgatan 6",
+    "område": "Åby",
+    "antal_rum": "4 rum",
+    "hyra": "10 833 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE2FE6035E4B1DCDE2B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Enekullsvägen 64",
+    "område": "Ytterby",
+    "antal_rum": "2 rum",
+    "hyra": "7 832 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DDF51404D047F8DD95C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Enekullsvägen 64",
+    "område": "Ytterby",
+    "antal_rum": "1 rum",
+    "hyra": "6 536 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DDF536076E48A1C92EC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Enekullsvägen 64",
+    "område": "Ytterby",
+    "antal_rum": "1 rum",
+    "hyra": "6 710 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DDF539011A4710B0FDC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Enekullsvägen 62",
+    "område": "Ytterby",
+    "antal_rum": "2 rum",
+    "hyra": "8 012 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DDF549FC394ACC38E1B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Kaprisgatan 103",
+    "område": "Lövgärdet",
+    "antal_rum": "2 rum",
+    "hyra": "8 796 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DF6402FB0E6077C768B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Västra Skansgatan 10B",
+    "område": "Annedal",
+    "antal_rum": "1 rum",
+    "hyra": "5 245 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DF63FEFF955E173E48B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Atmosfärgatan 43",
+    "område": "Östra Bergsjön",
+    "antal_rum": "4 rum",
+    "hyra": "12 707 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69D5102C07A16BB1B9DEC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Smörblomsvägen 4",
+    "område": "Bohus-Björkö",
+    "antal_rum": "2 rum",
+    "hyra": "6 651 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/6948F58CFCB6E16F2550C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Letsegårdsvägen 24A",
+    "område": "",
+    "antal_rum": "4 rum",
+    "hyra": "11 860 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DDE09C07B74412B403B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Doktor Bondesons gata 1",
+    "område": "Guldheden",
+    "antal_rum": "1 rum",
+    "hyra": "2 732 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE66F1F7DF51B6B49FB095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Beväringsgatan 13",
+    "område": "Gamlestaden",
+    "antal_rum": "3 rum",
+    "hyra": "7 468 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE66F0071B4E552FCAC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Beväringsgatan 19",
+    "område": "Gamlestaden",
+    "antal_rum": "4 rum",
+    "hyra": "8 418 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE66EFFA3B4F540559B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Beväringsgatan 13",
+    "område": "Gamlestaden",
+    "antal_rum": "4 rum",
+    "hyra": "8 890 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE66ED001150BB3D94B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Artillerigatan 30 .",
+    "område": "Gamlestaden",
+    "antal_rum": "2 rum",
+    "hyra": "10 549 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE66EBFA9151578408C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Nils Holgerssons Plats 8",
+    "område": "Skälltorp",
+    "antal_rum": "2 rum",
+    "hyra": "10 914 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE66E704605147CED8C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Nils Holgerssons Plats 8",
+    "område": "Skälltorp",
+    "antal_rum": "1 rum",
+    "hyra": "7 987 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE66E601BC51AD4812B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Siriusgatan 20",
+    "område": "Västra Bergsjön",
+    "antal_rum": "2 rum",
+    "hyra": "5 427 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE66E0FAF85162DB33C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Siriusgatan 96",
+    "område": "Västra Bergsjön",
+    "antal_rum": "2 rum",
+    "hyra": "5 044 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE66DBFA7847BFB340C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mandolingatan 90",
+    "område": "Frölunda Torg",
+    "antal_rum": "1 rum",
+    "hyra": "8 610 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE12BF049049E0522DB08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mandolingatan 37",
+    "område": "Frölunda Torg",
+    "antal_rum": "3 rum",
+    "hyra": "8 092 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE12BA05474BAAC5ABB095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mandolingatan 31",
+    "område": "Frölunda Torg",
+    "antal_rum": "2 rum",
+    "hyra": "6 773 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE12B707254241CD0EC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mandolingatan 58",
+    "område": "Frölunda Torg",
+    "antal_rum": "2 rum",
+    "hyra": "10 546 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE12B3074F422DFD92C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mandolingatan 80",
+    "område": "Frölunda Torg",
+    "antal_rum": "1 rum",
+    "hyra": "9 154 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE12A804884B827213B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mandolingatan 58",
+    "område": "Frölunda Torg",
+    "antal_rum": "2 rum",
+    "hyra": "10 546 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE12A202C94C4CCF61C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mandolingatan 60",
+    "område": "Frölunda Torg",
+    "antal_rum": "1 rum",
+    "hyra": "8 483 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE129BFC904219A156C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mandolingatan 42",
+    "område": "Frölunda Torg",
+    "antal_rum": "2 rum",
+    "hyra": "13 802 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE1294020A4CA331CCC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Östra Midvintersgatan 38",
+    "område": "Södra Kortedala",
+    "antal_rum": "1 rum",
+    "hyra": "4 531 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE128BFB064B70909DB095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mandolingatan 60",
+    "område": "Frölunda Torg",
+    "antal_rum": "2 rum",
+    "hyra": "11 631 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE128A05674B885005C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Vårmånadsgatan 20",
+    "område": "Södra Kortedala",
+    "antal_rum": "2 rum",
+    "hyra": "7 154 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE1284FB4A4B68A825B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mandolingatan 80",
+    "område": "Frölunda Torg",
+    "antal_rum": "1 rum",
+    "hyra": "8 066 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE128305750DFACDDBC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Gånglåten 26",
+    "område": "Frölunda Torg",
+    "antal_rum": "3 rum",
+    "hyra": "9 082 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE127FFD574B8C6421B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Famngatan 14",
+    "område": "Flatås",
+    "antal_rum": "3 rum",
+    "hyra": "9 763 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DDFA6FFEC148DDB522C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Famngatan 12",
+    "område": "Flatås",
+    "antal_rum": "1 rum",
+    "hyra": "5 492 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DDF2E5FD244591CC7EB095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Famngatan 6",
+    "område": "Flatås",
+    "antal_rum": "1 rum",
+    "hyra": "5 492 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DDF257FE594878FD15C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Famngatan 4",
+    "område": "Flatås",
+    "antal_rum": "1 rum",
+    "hyra": "5 492 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DDF1D7F86B485E2E37B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Famngatan 12",
+    "område": "Flatås",
+    "antal_rum": "1 rum",
+    "hyra": "5 492 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DDF0BCF9834668AD25C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Lillhagsparken 19A",
+    "område": "Backa",
+    "antal_rum": "3 rum",
+    "hyra": "13 828 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69D8DEAD07801833BC7CC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Nymilsgatan 35",
+    "område": "Flatås",
+    "antal_rum": "3 rum",
+    "hyra": "12 572 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE344FF8994B9CB711C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Adventsvägen 4 .",
+    "område": "Norra Kortedala",
+    "antal_rum": "1 rum",
+    "hyra": "7 989 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE12AC05ED49CDD172B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Grevegårdsvägen 194 B",
+    "område": "Grevegården",
+    "antal_rum": "2 rum",
+    "hyra": "11 611 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE128CF9004C31275EC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Grevegårdsvägen 126",
+    "område": "Grevegården",
+    "antal_rum": "1 rum",
+    "hyra": "6 201 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE128702154B13F91CC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Adventsvägen 7",
+    "område": "Norra Kortedala",
+    "antal_rum": "2 rum",
+    "hyra": "6 718 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE127E00BB4DD0C23DB08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Decembergatan 20",
+    "område": "Norra Kortedala",
+    "antal_rum": "2 rum",
+    "hyra": "6 791 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE127CFD6948464D8FB095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Villagatan 4 C",
+    "område": "Rydboholm",
+    "antal_rum": "3 rum",
+    "hyra": "7 938 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DE0392069B4AF1859EB095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Lillhagsvinkeln 39",
+    "område": "Backa",
+    "antal_rum": "3 rum",
+    "hyra": "13 572 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DDFAEBFE780BFD6F82C382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Lillhagsvinkeln 39",
+    "område": "Backa",
+    "antal_rum": "3 rum",
+    "hyra": "13 572 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DDFA2A05170BE5DCFAC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Källebergsgatan 37A",
+    "område": "Viskafors",
+    "antal_rum": "3 rum",
+    "hyra": "6 029 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DDF334072045A6712FC379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Amandas Gård 11",
+    "område": "Högsbohöjd",
+    "antal_rum": "1 rum",
+    "hyra": "5 918 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DD1562048541D1873EB08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Hjällbo Lillgata 14",
+    "område": "Hjällbo",
+    "antal_rum": "2 rum",
+    "hyra": "6 075 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DD155BFF3441AD9812B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mandolingatan 94",
+    "område": "Frölunda Torg",
+    "antal_rum": "1 rum",
+    "hyra": "8 610 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DCC104069E38916D7EC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Mandolingatan 22",
+    "område": "Frölunda Torg",
+    "antal_rum": "2 rum",
+    "hyra": "10 974 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DCC0FFFAF03BAC5E01B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Sveagatan 4",
+    "område": "Olivedal",
+    "antal_rum": "2 rum",
+    "hyra": "10 300 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DC96DBFC19344787D8C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Karl Johansgatan 7B",
+    "område": "Majorna",
+    "antal_rum": "2 rum",
+    "hyra": "10 023 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DC8E04FCD236FF1500B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Såggatan 21B",
+    "område": "Majorna",
+    "antal_rum": "2 rum",
+    "hyra": "7 695 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69DAC6BCFA021FF32BBCC382",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Miraallén 53",
+    "område": "Lindholmen",
+    "antal_rum": "4 rum",
+    "hyra": "14 078 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69D920DA05CA1AF8CA95C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Munkebäcks Allé 30",
+    "område": "Munkebäck",
+    "antal_rum": "3 rum",
+    "hyra": "15 243 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69D8DEBDF91D18048FA9C379",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Havrevägen 1 D",
+    "område": "Floda",
+    "antal_rum": "2 rum",
+    "hyra": "8 537 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69D79250FB5608E7FBB8B08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Knapebacken 27",
+    "område": "Askim",
+    "antal_rum": "2 rum",
+    "hyra": "10 024 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69D7A77807AA0890DF7DB08B",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Högsbogatan 45",
+    "område": "Högsbo",
+    "antal_rum": "2 rum",
+    "hyra": "8 790 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69D791ACFC2706CBA5C4B095",
+    "källa": "Boplats"
+  },
+  {
+    "titel": "Jacobs Gata 67",
+    "område": "Backa",
+    "antal_rum": "2 rum",
+    "hyra": "8 410 kr",
+    "ledig": "Förstahand",
+    "url": "https://boplats.se/objekt/1hand/69C5142402CED43DAA42B08B",
+    "källa": "Boplats"
   }
 ]
