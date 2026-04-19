@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Home } from "lucide-react";
+import { Home, MapPin } from "lucide-react";
 
 interface MiniMapProps {
   query: string;
@@ -11,7 +11,6 @@ interface Coords {
   lon: number;
 }
 
-// Simple in-memory cache + localStorage cache to avoid hammering Nominatim
 const memoryCache = new Map<string, Coords | null>();
 const STORAGE_PREFIX = "geocode:";
 
@@ -43,9 +42,7 @@ async function geocode(query: string): Promise<Coords | null> {
 
   try {
     const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=se&q=${encodeURIComponent(query)}`;
-    const res = await fetch(url, {
-      headers: { Accept: "application/json" },
-    });
+    const res = await fetch(url, { headers: { Accept: "application/json" } });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = (await res.json()) as Array<{ lat: string; lon: string }>;
     if (!data.length) {
@@ -60,6 +57,16 @@ async function geocode(query: string): Promise<Coords | null> {
   }
 }
 
+// Lon/lat -> tile coordinates (Web Mercator / slippy map)
+function lonLatToTile(lon: number, lat: number, zoom: number) {
+  const n = 2 ** zoom;
+  const xTile = ((lon + 180) / 360) * n;
+  const latRad = (lat * Math.PI) / 180;
+  const yTile =
+    ((1 - Math.log(Math.tan(latRad) + 1 / Math.cos(latRad)) / Math.PI) / 2) * n;
+  return { xTile, yTile };
+}
+
 export function MiniMap({ query, className }: MiniMapProps) {
   const [coords, setCoords] = useState<Coords | null | undefined>(() =>
     readCache(query),
@@ -70,14 +77,13 @@ export function MiniMap({ query, className }: MiniMapProps) {
     if (coords !== undefined || requested.current) return;
     requested.current = true;
     let cancelled = false;
-    // Small jitter to avoid spamming Nominatim with simultaneous requests
     const timer = setTimeout(
       () => {
         geocode(query).then((res) => {
           if (!cancelled) setCoords(res);
         });
       },
-      Math.random() * 600,
+      Math.random() * 800,
     );
     return () => {
       cancelled = true;
@@ -113,30 +119,81 @@ export function MiniMap({ query, className }: MiniMapProps) {
     );
   }
 
-  // staticmap.openstreetmap.de — free, no API key, supports markers
+  // Build a 2x2 tile grid centered on the coordinates.
   const zoom = 14;
-  const size = "400x200";
-  const marker = `${coords.lat},${coords.lon},lightblue1`;
-  const src = `https://staticmap.openstreetmap.de/staticmap.php?center=${coords.lat},${coords.lon}&zoom=${zoom}&size=${size}&markers=${marker}`;
+  const tileSize = 256;
+  const { xTile, yTile } = lonLatToTile(coords.lon, coords.lat, zoom);
+  const xInt = Math.floor(xTile);
+  const yInt = Math.floor(yTile);
+  const xFrac = xTile - xInt;
+  const yFrac = yTile - yInt;
+
+  // We render a 2x2 grid (512x512) and offset it so the marker sits at center
+  const gridW = tileSize * 2;
+  const gridH = tileSize * 2;
+  // Marker pixel position within the grid
+  const markerX = (1 + (xFrac - 0.5)) * tileSize;
+  const markerY = (1 + (yFrac - 0.5)) * tileSize;
+  // Offset so the marker is at the visual center of the container
+  // (container is 100% × h-32; we'll center via translate)
+  const offsetX = -(markerX - gridW / 2);
+  const offsetY = -(markerY - gridH / 2);
+
+  const tiles: { x: number; y: number; left: number; top: number }[] = [];
+  for (let dx = 0; dx <= 1; dx++) {
+    for (let dy = 0; dy <= 1; dy++) {
+      tiles.push({
+        x: xInt + dx,
+        y: yInt + dy,
+        left: dx * tileSize,
+        top: dy * tileSize,
+      });
+    }
+  }
 
   return (
     <a
       href={`https://www.openstreetmap.org/?mlat=${coords.lat}&mlon=${coords.lon}#map=${zoom}/${coords.lat}/${coords.lon}`}
       target="_blank"
       rel="noopener noreferrer"
-      className={"block overflow-hidden " + (className ?? "")}
+      className={"relative block overflow-hidden bg-primary/5 " + (className ?? "")}
       aria-label={`Visa ${query} på OpenStreetMap`}
     >
-      <img
-        src={src}
-        alt={`Karta över ${query}`}
-        loading="lazy"
-        className="h-full w-full object-cover"
-        onError={(e) => {
-          // Hide broken image; parent shows bg
-          (e.currentTarget as HTMLImageElement).style.display = "none";
+      <div
+        className="absolute"
+        style={{
+          left: "50%",
+          top: "50%",
+          width: gridW,
+          height: gridH,
+          transform: `translate(${offsetX - gridW / 2}px, ${offsetY - gridH / 2}px)`,
         }}
-      />
+      >
+        {tiles.map((t) => (
+          <img
+            key={`${t.x}-${t.y}`}
+            src={`https://tile.openstreetmap.org/${zoom}/${t.x}/${t.y}.png`}
+            alt=""
+            width={tileSize}
+            height={tileSize}
+            loading="lazy"
+            className="absolute select-none"
+            style={{ left: t.left, top: t.top }}
+            draggable={false}
+          />
+        ))}
+      </div>
+      {/* Center pin */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-full">
+        <MapPin
+          className="h-7 w-7 fill-primary text-primary-foreground drop-shadow"
+          strokeWidth={2}
+        />
+      </div>
+      {/* Subtle attribution */}
+      <span className="pointer-events-none absolute bottom-0 right-0 bg-background/70 px-1 text-[9px] text-muted-foreground">
+        © OpenStreetMap
+      </span>
     </a>
   );
 }
