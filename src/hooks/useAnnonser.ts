@@ -32,6 +32,7 @@ export function useAnnonser(): State {
           supabase
             .from("annonser")
             .select("*")
+            .eq("status", "godkand")
             .order("skapad_datum", { ascending: false }),
         ]);
 
