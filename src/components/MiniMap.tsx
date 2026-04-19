@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import { Home, MapPin } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
 
 interface MiniMapProps {
   query: string;
@@ -47,30 +46,15 @@ async function geocode(query: string): Promise<Coords | null> {
 
   const promise = (async () => {
     try {
-      const { data, error } = await supabase.functions.invoke("geocode", {
-        body: null,
-        method: "GET",
-        // @ts-expect-error - query param via headers fallback; see below
-      });
-      // The supabase-js invoke helper doesn't expose query strings cleanly,
-      // so we call the function URL directly instead.
-      if (error) throw error;
-      const result = (data ?? null) as Coords | null;
-      writeCache(query, result);
-      return result;
+      const base = import.meta.env.VITE_SUPABASE_URL as string;
+      const url = `${base}/functions/v1/geocode?q=${encodeURIComponent(query)}`;
+      const res = await fetch(url, { headers: { Accept: "application/json" } });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = (await res.json()) as Coords | null;
+      writeCache(query, json);
+      return json;
     } catch {
-      // Fallback: direct fetch to the edge function endpoint with query param
-      try {
-        const base = import.meta.env.VITE_SUPABASE_URL as string;
-        const url = `${base}/functions/v1/geocode?q=${encodeURIComponent(query)}`;
-        const res = await fetch(url, { headers: { Accept: "application/json" } });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const json = (await res.json()) as Coords | null;
-        writeCache(query, json);
-        return json;
-      } catch {
-        return null;
-      }
+      return null;
     } finally {
       inflight.delete(query);
     }
