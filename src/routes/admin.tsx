@@ -208,33 +208,61 @@ VALUES ('${user.id}', 'admin');`}
           </Button>
         </div>
 
-        <div className="mt-6 inline-flex rounded-lg border border-border bg-card p-1">
-          {(["vantande", "godkand", "avvisad"] as Status[]).map((s) => (
-            <button
-              key={s}
-              onClick={() => setTab(s)}
-              className={`rounded-md px-4 py-1.5 text-sm font-medium transition-colors ${
-                tab === s
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {s === "vantande" ? "Väntande" : s === "godkand" ? "Godkända" : "Avvisade"}
-            </button>
-          ))}
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <div
+            className={`inline-flex rounded-lg border border-border bg-card p-1 ${
+              isSearching ? "opacity-50" : ""
+            }`}
+          >
+            {(["vantande", "godkand", "avvisad"] as Status[]).map((s) => (
+              <button
+                key={s}
+                onClick={() => setTab(s)}
+                disabled={isSearching}
+                className={`rounded-md px-4 py-1.5 text-sm font-medium transition-colors ${
+                  tab === s
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                } disabled:cursor-not-allowed`}
+              >
+                {s === "vantande" ? "Väntande" : s === "godkand" ? "Godkända" : "Avvisade"}
+              </button>
+            ))}
+          </div>
+
+          <div className="relative ml-auto w-full max-w-sm">
+            <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Sök titel, område eller email…"
+              className="pl-9"
+            />
+            {searching && (
+              <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-muted-foreground" />
+            )}
+          </div>
         </div>
 
+        {isSearching && (
+          <p className="mt-3 text-xs text-muted-foreground">
+            Söker bland alla annonser oavsett status
+            {searchResults && !searching ? ` — ${searchResults.length} träff(ar)` : ""}
+          </p>
+        )}
+
         <div className="mt-6 space-y-3">
-          {loading ? (
+          {(!isSearching && loading) || (isSearching && searching && !searchResults) ? (
             <div className="flex items-center justify-center py-12">
               <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
             </div>
-          ) : annonser.length === 0 ? (
+          ) : visibleAnnonser.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-border bg-card/50 p-10 text-center text-sm text-muted-foreground">
-              Inga annonser i denna kategori.
+              {isSearching ? "Inga träffar." : "Inga annonser i denna kategori."}
             </div>
           ) : (
-            annonser.map((a) => (
+            visibleAnnonser.map((a) => (
               <article
                 key={a.id}
                 className="rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)]"
@@ -271,7 +299,15 @@ VALUES ('${user.id}', 'admin');`}
                       })}
                     </p>
                   </div>
-                  <Badge variant="secondary">
+                  <Badge
+                    variant={
+                      a.status === "godkand"
+                        ? "default"
+                        : a.status === "avvisad"
+                          ? "destructive"
+                          : "secondary"
+                    }
+                  >
                     {a.status === "vantande"
                       ? "Väntande"
                       : a.status === "godkand"
@@ -280,31 +316,40 @@ VALUES ('${user.id}', 'admin');`}
                   </Badge>
                 </div>
 
-                {tab !== "godkand" || a.status !== "godkand" ? (
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {a.status !== "godkand" && (
-                      <Button
-                        size="sm"
-                        onClick={() => setStatus(a.id, "godkand")}
-                        disabled={actingId === a.id}
-                      >
-                        <Check className="h-4 w-4" />
-                        Godkänn
-                      </Button>
-                    )}
-                    {a.status !== "avvisad" && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => setStatus(a.id, "avvisad")}
-                        disabled={actingId === a.id}
-                      >
-                        <X className="h-4 w-4" />
-                        Avvisa
-                      </Button>
-                    )}
-                  </div>
-                ) : null}
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {a.status !== "godkand" && (
+                    <Button
+                      size="sm"
+                      onClick={() => setStatus(a.id, "godkand")}
+                      disabled={actingId === a.id}
+                    >
+                      <Check className="h-4 w-4" />
+                      Godkänn
+                    </Button>
+                  )}
+                  {a.status !== "avvisad" && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => setStatus(a.id, "avvisad")}
+                      disabled={actingId === a.id}
+                    >
+                      <X className="h-4 w-4" />
+                      Avvisa
+                    </Button>
+                  )}
+                  {a.status === "godkand" && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => setStatus(a.id, "vantande")}
+                      disabled={actingId === a.id}
+                    >
+                      <Undo2 className="h-4 w-4" />
+                      Ta ner (sätt som väntande)
+                    </Button>
+                  )}
+                </div>
               </article>
             ))
           )}
