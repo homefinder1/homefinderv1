@@ -1,10 +1,24 @@
-import { Link } from "@tanstack/react-router";
-import { Home, Plus, Shield } from "lucide-react";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { Home, Plus, Shield, LogIn, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export function Navbar() {
-  const { isAdmin } = useAuth();
+  const { user, isAdmin, loading } = useAuth();
+  const navigate = useNavigate();
+
+  async function handleLogout() {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast.error("Kunde inte logga ut: " + error.message);
+      return;
+    }
+    toast.success("Du är utloggad");
+    navigate({ to: "/" });
+  }
+
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
@@ -43,13 +57,34 @@ export function Navbar() {
             </Link>
           )}
         </nav>
-        <Button asChild size="sm" className="gap-1.5">
-          <Link to="/lagg-upp">
-            <Plus className="h-4 w-4" />
-            <span className="hidden sm:inline">Lägg upp annons</span>
-            <span className="sm:hidden">Annonsera</span>
-          </Link>
-        </Button>
+        <div className="flex items-center gap-2">
+          {!loading && !user && (
+            <Button asChild variant="ghost" size="sm" className="gap-1.5">
+              <Link to="/auth">
+                <LogIn className="h-4 w-4" />
+                <span className="hidden sm:inline">Logga in</span>
+              </Link>
+            </Button>
+          )}
+          {!loading && user && isAdmin && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="gap-1.5"
+              onClick={handleLogout}
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="hidden sm:inline">Logga ut</span>
+            </Button>
+          )}
+          <Button asChild size="sm" className="gap-1.5">
+            <Link to="/lagg-upp">
+              <Plus className="h-4 w-4" />
+              <span className="hidden sm:inline">Lägg upp annons</span>
+              <span className="sm:hidden">Annonsera</span>
+            </Link>
+          </Button>
+        </div>
       </div>
     </header>
   );
