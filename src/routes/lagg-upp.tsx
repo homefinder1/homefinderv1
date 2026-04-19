@@ -86,9 +86,10 @@ function PostListing() {
               <Check className="h-5 w-5" />
             </div>
             <div>
-              <h2 className="font-semibold text-foreground">Annons publicerad!</h2>
+              <h2 className="font-semibold text-foreground">Tack — annonsen är inskickad!</h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                Din annons är nu synlig på HomeFinder.
+                Din annons granskas av en moderator innan den publiceras på
+                HomeFinder. Det brukar gå snabbt.
               </p>
             </div>
           </div>
