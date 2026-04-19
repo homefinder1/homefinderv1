@@ -5,6 +5,7 @@ import {
   type Annons,
   type RawAnnons,
 } from "@/data/listings";
+import { supabase } from "@/integrations/supabase/client";
 
 interface State {
   annonser: Annons[];
@@ -23,12 +24,36 @@ export function useAnnonser(): State {
     let cancelled = false;
     (async () => {
       try {
-        const res = await fetch(ANNONSER_URL, { cache: "no-store" });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const data = (await res.json()) as RawAnnons[];
+        const [scrapedRes, dbRes] = await Promise.all([
+          fetch(ANNONSER_URL, { cache: "no-store" }).then(async (r) => {
+            if (!r.ok) throw new Error(`HTTP ${r.status}`);
+            return (await r.json()) as RawAnnons[];
+          }),
+          supabase
+            .from("annonser")
+            .select("*")
+            .order("skapad_datum", { ascending: false }),
+        ]);
+
         if (cancelled) return;
+
+        const scraped = normaliseraAnnonser(scrapedRes);
+
+        const userListings: Annons[] = (dbRes.data ?? []).map((row) => ({
+          id: `privat-${row.id}`,
+          titel: row.titel,
+          område: row.omrade ?? "",
+          antal_rum:
+            row.antal_rum != null ? `${row.antal_rum} rum` : "—",
+          hyra: row.hyra ?? "—",
+          ledig: row.skapad_datum,
+          url: `mailto:${row.kontakt_email}?subject=${encodeURIComponent("Intresseanmälan: " + row.titel)}`,
+          källa: "Privat" as Annons["källa"],
+        }));
+
+        // Show user listings first (newest), then scraped
         setState({
-          annonser: normaliseraAnnonser(data),
+          annonser: [...userListings, ...scraped],
           loading: false,
           error: null,
         });

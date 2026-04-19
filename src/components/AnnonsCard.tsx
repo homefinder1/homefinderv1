@@ -9,6 +9,7 @@ const sourceColors: Record<string, string> = {
   Qasa: "bg-emerald-100 text-emerald-900",
   HomeQ: "bg-violet-100 text-violet-900",
   Bostadsdirekt: "bg-orange-100 text-orange-900",
+  Privat: "bg-pink-100 text-pink-900",
 };
 
 function formateraDatum(d: string) {

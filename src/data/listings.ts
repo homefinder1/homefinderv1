@@ -1,4 +1,4 @@
-export type Source = "MKB" | "Blocket" | "Qasa" | "HomeQ" | "Bostadsdirekt";
+export type Source = "MKB" | "Blocket" | "Qasa" | "HomeQ" | "Bostadsdirekt" | "Privat";
 
 /** Annons från GitHub-JSON (raw fält som de kommer från filen) */
 export interface RawAnnons {
