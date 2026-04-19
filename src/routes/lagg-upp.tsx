@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Check } from "lucide-react";
+import { Check, Loader2 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/lagg-upp")({
   head: () => ({
@@ -27,6 +29,44 @@ export const Route = createFileRoute("/lagg-upp")({
 
 function PostListing() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const fd = new FormData(form);
+
+    const titel = String(fd.get("title") ?? "").trim();
+    const omrade = String(fd.get("city") ?? "").trim();
+    const hyraNum = String(fd.get("price") ?? "").trim();
+    const antal_rum = Number(fd.get("rooms")) || null;
+    const beskrivning = String(fd.get("desc") ?? "").trim() || null;
+    const kontakt_email = String(fd.get("email") ?? "").trim();
+
+    if (!titel || !kontakt_email) {
+      toast.error("Fyll i adress och e-post");
+      return;
+    }
+
+    setSubmitting(true);
+    const { error } = await supabase.from("annonser").insert({
+      titel,
+      omrade: omrade || null,
+      antal_rum,
+      hyra: hyraNum ? `${hyraNum} kr/mån` : null,
+      beskrivning,
+      kontakt_email,
+      kalla: "Privat",
+    });
+    setSubmitting(false);
+
+    if (error) {
+      toast.error("Kunde inte publicera annonsen: " + error.message);
+      return;
+    }
+
+    setSubmitted(true);
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -46,56 +86,57 @@ function PostListing() {
               <Check className="h-5 w-5" />
             </div>
             <div>
-              <h2 className="font-semibold text-foreground">Annons mottagen!</h2>
+              <h2 className="font-semibold text-foreground">Annons publicerad!</h2>
               <p className="mt-1 text-sm text-muted-foreground">
-                Vi granskar din annons och publicerar den inom 24 timmar.
+                Din annons är nu synlig på HomeFinder.
               </p>
             </div>
           </div>
         ) : (
           <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSubmitted(true);
-            }}
+            onSubmit={handleSubmit}
             className="mt-8 space-y-5 rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]"
           >
             <div className="space-y-2">
-              <Label htmlFor="title">Rubrik</Label>
-              <Input id="title" placeholder="T.ex. Ljus tvåa i centrum" required />
+              <Label htmlFor="title">Adress / rubrik</Label>
+              <Input id="title" name="title" placeholder="T.ex. Storgatan 5, Stockholm" required />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="city">Stad</Label>
-                <Input id="city" placeholder="Stockholm" required />
+                <Label htmlFor="city">Område</Label>
+                <Input id="city" name="city" placeholder="Södermalm" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="price">Pris (kr/mån)</Label>
-                <Input id="price" type="number" placeholder="9500" required />
+                <Label htmlFor="price">Hyra (kr/mån)</Label>
+                <Input id="price" name="price" type="number" placeholder="9500" />
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 sm:col-span-2">
                 <Label htmlFor="rooms">Antal rum</Label>
-                <Input id="rooms" type="number" placeholder="2" required />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="size">Storlek (m²)</Label>
-                <Input id="size" type="number" placeholder="48" required />
+                <Input id="rooms" name="rooms" type="number" step="0.5" placeholder="2" />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="desc">Beskrivning</Label>
               <Textarea
                 id="desc"
+                name="desc"
                 rows={5}
                 placeholder="Beskriv bostaden, läget och vad som ingår..."
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Din e-post</Label>
-              <Input id="email" type="email" placeholder="namn@exempel.se" required />
+              <Label htmlFor="email">Din e-post (visas för intresserade)</Label>
+              <Input id="email" name="email" type="email" placeholder="namn@exempel.se" required />
             </div>
-            <Button type="submit" size="lg" className="w-full">
-              Publicera annons
+            <Button type="submit" size="lg" className="w-full" disabled={submitting}>
+              {submitting ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  Publicerar…
+                </>
+              ) : (
+                "Publicera annons"
+              )}
             </Button>
           </form>
         )}
