@@ -2,6 +2,7 @@ import { MapPin, BedDouble, Calendar, ExternalLink } from "lucide-react";
 import type { Annons } from "@/data/listings";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { FloorPlan, parseRooms } from "@/components/FloorPlan";
 
 const sourceColors: Record<string, string> = {
   MKB: "bg-sky-100 text-sky-900",
@@ -24,8 +25,15 @@ function formateraDatum(d: string) {
 }
 
 export function AnnonsCard({ annons }: { annons: Annons }) {
+  const rooms = parseRooms(annons.antal_rum);
   return (
     <article className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]">
+      <div
+        className="flex h-32 items-center justify-center border-b border-border bg-primary/5 p-4 text-primary"
+        aria-label={rooms ? `Generisk planlösning för ${rooms} rum och kök` : "Planlösning saknas"}
+      >
+        <FloorPlan rooms={rooms} className="h-full w-auto max-w-full" />
+      </div>
       <div className="flex-1 space-y-4 p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
