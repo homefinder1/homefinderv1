@@ -14,7 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      annonser: {
+        Row: {
+          antal_rum: number | null
+          beskrivning: string | null
+          hyra: string | null
+          id: string
+          kalla: string
+          kontakt_email: string
+          omrade: string | null
+          skapad_datum: string
+          titel: string
+        }
+        Insert: {
+          antal_rum?: number | null
+          beskrivning?: string | null
+          hyra?: string | null
+          id?: string
+          kalla?: string
+          kontakt_email: string
+          omrade?: string | null
+          skapad_datum?: string
+          titel: string
+        }
+        Update: {
+          antal_rum?: number | null
+          beskrivning?: string | null
+          hyra?: string | null
+          id?: string
+          kalla?: string
+          kontakt_email?: string
+          omrade?: string | null
+          skapad_datum?: string
+          titel?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
