@@ -29,6 +29,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "google-site-verification", content: "6TOWcXBoQdFCGVo8QqqHEIRbL6nAttSZ1W1fEB2HD0c" },
       { title: "homefinderv1" },
       { name: "description", content: "HomeFinder Hub is a Swedish rental listing aggregator website." },
       { name: "author", content: "Lovable" },
