@@ -1,9 +1,20 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
-import { Check, Loader2, LogOut, X, Mail, MapPin, Home } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  Check,
+  Loader2,
+  LogOut,
+  X,
+  Mail,
+  MapPin,
+  Home,
+  Search,
+  Undo2,
+} from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -39,6 +50,9 @@ function AdminPage() {
   const [annonser, setAnnonser] = useState<AdminAnnons[]>([]);
   const [loading, setLoading] = useState(true);
   const [actingId, setActingId] = useState<string | null>(null);
+  const [query, setQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<AdminAnnons[] | null>(null);
+  const [searching, setSearching] = useState(false);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -51,6 +65,36 @@ function AdminPage() {
     loadAnnonser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, isAdmin, tab]);
+
+  // Debounced global search across all statuses
+  useEffect(() => {
+    if (!user || !isAdmin) return;
+    const q = query.trim();
+    if (!q) {
+      setSearchResults(null);
+      setSearching(false);
+      return;
+    }
+    setSearching(true);
+    const handle = setTimeout(async () => {
+      const escaped = q.replace(/[%,]/g, "");
+      const { data, error } = await supabase
+        .from("annonser")
+        .select("*")
+        .or(
+          `titel.ilike.%${escaped}%,omrade.ilike.%${escaped}%,kontakt_email.ilike.%${escaped}%`
+        )
+        .order("skapad_datum", { ascending: false })
+        .limit(100);
+      setSearching(false);
+      if (error) {
+        toast.error("Sökning misslyckades: " + error.message);
+        return;
+      }
+      setSearchResults((data ?? []) as AdminAnnons[]);
+    }, 250);
+    return () => clearTimeout(handle);
+  }, [query, user, isAdmin]);
 
   async function loadAnnonser() {
     setLoading(true);
@@ -75,9 +119,27 @@ function AdminPage() {
       toast.error("Kunde inte uppdatera: " + error.message);
       return;
     }
-    toast.success(status === "godkand" ? "Annons godkänd" : "Annons avvisad");
-    setAnnonser((prev) => prev.filter((a) => a.id !== id));
+    const label =
+      status === "godkand"
+        ? "Annons godkänd"
+        : status === "avvisad"
+          ? "Annons avvisad"
+          : "Annons satt till väntande";
+    toast.success(label);
+    // Update both lists
+    setAnnonser((prev) =>
+      prev.map((a) => (a.id === id ? { ...a, status } : a)).filter((a) => a.status === tab)
+    );
+    setSearchResults((prev) =>
+      prev ? prev.map((a) => (a.id === id ? { ...a, status } : a)) : prev
+    );
   }
+
+  const isSearching = query.trim().length > 0;
+  const visibleAnnonser = useMemo(
+    () => (isSearching ? (searchResults ?? []) : annonser),
+    [isSearching, searchResults, annonser]
+  );
 
   async function handleLogout() {
     await supabase.auth.signOut();

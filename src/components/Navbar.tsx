@@ -1,8 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { Home, Plus } from "lucide-react";
+import { Home, Plus, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
 
 export function Navbar() {
+  const { isAdmin } = useAuth();
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
@@ -30,6 +32,16 @@ export function Navbar() {
           >
             Bostäder
           </Link>
+          {isAdmin && (
+            <Link
+              to="/admin"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              activeProps={{ className: "text-foreground" }}
+            >
+              <Shield className="h-4 w-4" />
+              Admin
+            </Link>
+          )}
         </nav>
         <Button asChild size="sm" className="gap-1.5">
           <Link to="/lagg-upp">
