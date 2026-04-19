@@ -12,6 +12,7 @@ interface Coords {
 }
 
 const memoryCache = new Map<string, Coords | null>();
+const inflight = new Map<string, Promise<Coords | null>>();
 const STORAGE_PREFIX = "geocode:";
 
 function readCache(key: string): Coords | null | undefined {
@@ -40,21 +41,27 @@ async function geocode(query: string): Promise<Coords | null> {
   const cached = readCache(query);
   if (cached !== undefined) return cached;
 
-  try {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=se&q=${encodeURIComponent(query)}`;
-    const res = await fetch(url, { headers: { Accept: "application/json" } });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = (await res.json()) as Array<{ lat: string; lon: string }>;
-    if (!data.length) {
-      writeCache(query, null);
+  const existing = inflight.get(query);
+  if (existing) return existing;
+
+  const promise = (async () => {
+    try {
+      const base = import.meta.env.VITE_SUPABASE_URL as string;
+      const url = `${base}/functions/v1/geocode?q=${encodeURIComponent(query)}`;
+      const res = await fetch(url, { headers: { Accept: "application/json" } });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = (await res.json()) as Coords | null;
+      writeCache(query, json);
+      return json;
+    } catch {
       return null;
+    } finally {
+      inflight.delete(query);
     }
-    const coords = { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
-    writeCache(query, coords);
-    return coords;
-  } catch {
-    return null;
-  }
+  })();
+
+  inflight.set(query, promise);
+  return promise;
 }
 
 // Lon/lat -> tile coordinates (Web Mercator / slippy map)
