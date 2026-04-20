@@ -1,9 +1,16 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { AnnonsCard } from "@/components/AnnonsCard";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   FilterBar,
   TOMMA_FILTER,
@@ -12,10 +19,29 @@ import {
 } from "@/components/FilterBar";
 import { useAnnonser } from "@/hooks/useAnnonser";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import type { Annons } from "@/data/listings";
+
+type SortVal =
+  | "relevans"
+  | "hyra-asc"
+  | "hyra-desc"
+  | "yta-asc"
+  | "yta-desc"
+  | "ledig-asc";
+
+const SORT_ALTERNATIV: { value: SortVal; label: string }[] = [
+  { value: "relevans", label: "Relevans" },
+  { value: "hyra-asc", label: "Lägst hyra" },
+  { value: "hyra-desc", label: "Högst hyra" },
+  { value: "yta-asc", label: "Minst yta" },
+  { value: "yta-desc", label: "Störst yta" },
+  { value: "ledig-asc", label: "Nyast ledig" },
+];
 
 interface SearchParams extends Partial<Filters> {
   q?: string;
   sida?: number;
+  sort?: SortVal;
 }
 
 // Antal kolumner per breakpoint — används för att fylla rutnätet jämnt
@@ -28,6 +54,43 @@ const num = (v: unknown) => {
   const n = typeof v === "number" ? v : typeof v === "string" ? parseInt(v, 10) : NaN;
   return Number.isFinite(n) && n > 0 ? n : undefined;
 };
+const sortVal = (v: unknown): SortVal | undefined => {
+  if (typeof v !== "string") return undefined;
+  return SORT_ALTERNATIV.some((s) => s.value === v) ? (v as SortVal) : undefined;
+};
+
+function parsaTalSäkert(s: string | undefined): number {
+  if (!s) return Number.POSITIVE_INFINITY;
+  const n = parseInt(s.replace(/\D/g, ""), 10);
+  return Number.isFinite(n) ? n : Number.POSITIVE_INFINITY;
+}
+
+function sorteraAnnonser(list: Annons[], sort: SortVal): Annons[] {
+  if (sort === "relevans") return list;
+  const out = [...list];
+  switch (sort) {
+    case "hyra-asc":
+      out.sort((a, b) => parsaTalSäkert(a.hyra) - parsaTalSäkert(b.hyra));
+      break;
+    case "hyra-desc":
+      out.sort((a, b) => parsaTalSäkert(b.hyra) - parsaTalSäkert(a.hyra));
+      break;
+    case "yta-asc":
+      out.sort((a, b) => parsaTalSäkert(a.storlek) - parsaTalSäkert(b.storlek));
+      break;
+    case "yta-desc":
+      out.sort((a, b) => parsaTalSäkert(b.storlek) - parsaTalSäkert(a.storlek));
+      break;
+    case "ledig-asc":
+      out.sort((a, b) => {
+        const da = new Date(a.ledig).getTime();
+        const db = new Date(b.ledig).getTime();
+        return (Number.isFinite(da) ? da : Infinity) - (Number.isFinite(db) ? db : Infinity);
+      });
+      break;
+  }
+  return out;
+}
 
 export const Route = createFileRoute("/sok")({
   validateSearch: (search: Record<string, unknown>): SearchParams => ({
@@ -41,6 +104,7 @@ export const Route = createFileRoute("/sok")({
     källa: str(search.källa),
     ledig: str(search.ledig),
     sida: num(search.sida),
+    sort: sortVal(search.sort),
   }),
   head: () => ({
     meta: [
@@ -81,6 +145,8 @@ function SearchPage() {
     [search],
   );
 
+  const sort: SortVal = search.sort ?? "relevans";
+
   const handleChange = (next: Filters) => {
     const cleaned: Record<string, string | number | undefined> = {
       q: undefined,
@@ -92,14 +158,32 @@ function SearchPage() {
       rum: next.rum !== "alla" ? next.rum : undefined,
       källa: next.källa !== "alla" ? next.källa : undefined,
       ledig: next.ledig !== "alla" ? next.ledig : undefined,
+      sort: sort !== "relevans" ? sort : undefined,
       sida: undefined,
     };
     navigate({ search: cleaned, replace: true });
   };
 
-  const results = useMemo(
+  const handleSort = (v: string) => {
+    const next = v as SortVal;
+    navigate({
+      search: (prev: SearchParams) => ({
+        ...prev,
+        sort: next !== "relevans" ? next : undefined,
+        sida: undefined,
+      }),
+      replace: true,
+    });
+  };
+
+  const filtered = useMemo(
     () => tillämpaFilter(annonser, filters),
     [annonser, filters],
+  );
+
+  const results = useMemo(
+    () => sorteraAnnonser(filtered, sort),
+    [filtered, sort],
   );
 
   const sida = search.sida ?? 1;
@@ -148,15 +232,36 @@ function SearchPage() {
       </div>
 
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="mb-6">
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-            {loading ? "Laddar…" : `${results.length} bostäder`}
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            {results.length === annonser.length
-              ? "Alla lediga annonser"
-              : "Filtrerat resultat"}
-          </p>
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+              {loading ? "Laddar…" : `${results.length} bostäder`}
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              {results.length === annonser.length
+                ? "Alla lediga annonser"
+                : "Filtrerat resultat"}
+            </p>
+          </div>
+
+          {!loading && !error && results.length > 0 && (
+            <div className="flex items-center gap-2 text-sm">
+              <ArrowUpDown className="h-4 w-4 text-primary" aria-hidden />
+              <span className="text-muted-foreground">Sortera:</span>
+              <Select value={sort} onValueChange={handleSort}>
+                <SelectTrigger className="h-9 w-[170px] border-0 bg-transparent px-2 font-medium text-foreground shadow-none hover:text-primary focus:ring-0 focus:ring-offset-0">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent align="end">
+                  {SORT_ALTERNATIV.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
         </div>
 
         {error && !loading && (

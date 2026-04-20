@@ -1,22 +1,22 @@
-import { MapPin, BedDouble, Calendar, ExternalLink, Ruler } from "lucide-react";
+import { MapPin, BedDouble, Calendar, ExternalLink, Ruler, Sparkles } from "lucide-react";
 import type { Annons } from "@/data/listings";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MiniMap } from "@/components/MiniMap";
 
+// Färgkodade källbadges enligt stilguiden
 const sourceColors: Record<string, string> = {
-  MKB: "bg-sky-100 text-sky-900",
-  "Boplats Väst": "bg-teal-100 text-teal-900",
-  "Boplats Syd": "bg-cyan-100 text-cyan-900",
-  Blocket: "bg-yellow-100 text-yellow-900",
-  Qasa: "bg-emerald-100 text-emerald-900",
-  HomeQ: "bg-violet-100 text-violet-900",
-  Bostadsdirekt: "bg-orange-100 text-orange-900",
+  MKB: "bg-blue-100 text-blue-900",
+  HomeQ: "bg-emerald-100 text-emerald-900",
+  "Boplats Väst": "bg-orange-100 text-orange-900",
+  "Boplats Syd": "bg-purple-100 text-purple-900",
   Privat: "bg-pink-100 text-pink-900",
+  Blocket: "bg-yellow-100 text-yellow-900",
+  Qasa: "bg-teal-100 text-teal-900",
+  Bostadsdirekt: "bg-amber-100 text-amber-900",
 };
 
 function formateraDatum(d: string) {
-  // Förväntar "YYYY-MM-DD" — visa snyggt på svenska, fallback till råtext
   const date = new Date(d);
   if (isNaN(date.getTime())) return d;
   return date.toLocaleDateString("sv-SE", {
@@ -26,10 +26,29 @@ function formateraDatum(d: string) {
   });
 }
 
+function ärNy(annons: Annons): boolean {
+  const referens = annons.skapad ?? annons.ledig;
+  if (!referens) return false;
+  const d = new Date(referens);
+  if (isNaN(d.getTime())) return false;
+  const timmar = (Date.now() - d.getTime()) / (1000 * 60 * 60);
+  return timmar >= 0 && timmar <= 24;
+}
+
 export function AnnonsCard({ annons }: { annons: Annons }) {
   const mapQuery = [annons.område, annons.titel].filter(Boolean).join(", ") || annons.titel;
+  const ny = ärNy(annons);
+
   return (
-    <article className="flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition-all hover:-translate-y-0.5 hover:shadow-[var(--shadow-soft)]">
+    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-primary/30 hover:shadow-[var(--shadow-elegant)]">
+      {ny && (
+        <div className="absolute left-3 top-3 z-10">
+          <Badge className="gap-1 border-0 bg-emerald-500 text-white shadow-md">
+            <Sparkles className="h-3 w-3" />
+            NY
+          </Badge>
+        </div>
+      )}
       <MiniMap query={mapQuery} className="h-32 w-full border-b border-border" />
       <div className="flex-1 space-y-4 p-5">
         <div className="flex items-start justify-between gap-3">
