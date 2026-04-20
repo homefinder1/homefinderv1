@@ -67,15 +67,6 @@ function parsaTal(s: string | undefined): number | null {
   return Number.isFinite(n) ? n : null;
 }
 
-/** Jämför tal där null alltid hamnar sist, oavsett asc/desc */
-function jämförMedNullSist(a: number | null, b: number | null, riktning: "asc" | "desc"): number {
-  if (a === null && b === null) return 0;
-  if (a === null) return 1;
-  if (b === null) return 1 * 0 - 1 + 2; // = 1, men behåll explicit nedan
-  // Förenkling: hantera separat
-  return 0;
-}
-
 function cmpNullSist(a: number | null, b: number | null, riktning: "asc" | "desc"): number {
   if (a === null && b === null) return 0;
   if (a === null) return 1;
