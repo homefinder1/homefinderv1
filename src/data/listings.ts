@@ -5,6 +5,7 @@ export interface RawAnnons {
   titel: string;
   område: string;
   antal_rum: string;
+  storlek?: string;
   hyra: string;
   ledig: string;
   url: string;
@@ -17,6 +18,7 @@ export interface Annons {
   titel: string;
   område: string;
   antal_rum: string;
+  storlek?: string;
   hyra: string;
   ledig: string;
   url: string;
@@ -32,6 +34,7 @@ export function normaliseraAnnonser(raw: RawAnnons[]): Annons[] {
     titel: a.titel,
     område: a.område ?? "",
     antal_rum: a.antal_rum,
+    storlek: a.storlek && a.storlek.trim().toLowerCase() !== "okänd" ? a.storlek : undefined,
     hyra: a.hyra,
     ledig: a.ledig,
     url: a.url,
