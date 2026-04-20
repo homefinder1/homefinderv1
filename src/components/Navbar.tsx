@@ -22,14 +22,14 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-md">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
-        <Link to="/" className="flex items-center gap-2" aria-label="HomeFinder hem">
+      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-4">
+        <Link to="/" className="flex items-center gap-3" aria-label="HomeFinder hem">
           <img
             src={logo}
             alt="HomeFinder logotyp"
-            className="h-10 w-10 rounded-xl"
+            className="h-14 w-14"
           />
-          <span className="text-lg font-semibold tracking-tight text-foreground">
+          <span className="text-2xl font-bold tracking-tight" style={{ color: "#2c6bd6" }}>
             HomeFinder
           </span>
         </Link>
