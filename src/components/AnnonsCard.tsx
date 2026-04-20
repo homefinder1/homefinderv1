@@ -1,4 +1,4 @@
-import { MapPin, BedDouble, Calendar, ExternalLink } from "lucide-react";
+import { MapPin, BedDouble, Calendar, ExternalLink, Ruler } from "lucide-react";
 import type { Annons } from "@/data/listings";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -54,6 +54,12 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
             <BedDouble className="h-4 w-4 text-primary" />
             <span className="text-foreground">{annons.antal_rum}</span>
           </div>
+          {annons.storlek && (
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Ruler className="h-4 w-4 text-primary" />
+              <span className="text-foreground">{annons.storlek}</span>
+            </div>
+          )}
           <div className="flex items-center justify-between">
             <span className="text-muted-foreground">Hyra</span>
             <span className="font-semibold text-foreground">{annons.hyra}</span>
