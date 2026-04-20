@@ -1,9 +1,16 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowUpDown, ChevronLeft, ChevronRight } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { AnnonsCard } from "@/components/AnnonsCard";
 import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   FilterBar,
   TOMMA_FILTER,
@@ -12,10 +19,29 @@ import {
 } from "@/components/FilterBar";
 import { useAnnonser } from "@/hooks/useAnnonser";
 import { useBreakpoint } from "@/hooks/useBreakpoint";
+import type { Annons } from "@/data/listings";
+
+type SortVal =
+  | "relevans"
+  | "hyra-asc"
+  | "hyra-desc"
+  | "yta-asc"
+  | "yta-desc"
+  | "ledig-asc";
+
+const SORT_ALTERNATIV: { value: SortVal; label: string }[] = [
+  { value: "relevans", label: "Relevans" },
+  { value: "hyra-asc", label: "Lägst hyra" },
+  { value: "hyra-desc", label: "Högst hyra" },
+  { value: "yta-asc", label: "Minst yta" },
+  { value: "yta-desc", label: "Störst yta" },
+  { value: "ledig-asc", label: "Nyast ledig" },
+];
 
 interface SearchParams extends Partial<Filters> {
   q?: string;
   sida?: number;
+  sort?: SortVal;
 }
 
 // Antal kolumner per breakpoint — används för att fylla rutnätet jämnt
@@ -28,6 +54,43 @@ const num = (v: unknown) => {
   const n = typeof v === "number" ? v : typeof v === "string" ? parseInt(v, 10) : NaN;
   return Number.isFinite(n) && n > 0 ? n : undefined;
 };
+const sortVal = (v: unknown): SortVal | undefined => {
+  if (typeof v !== "string") return undefined;
+  return SORT_ALTERNATIV.some((s) => s.value === v) ? (v as SortVal) : undefined;
+};
+
+function parsaTalSäkert(s: string | undefined): number {
+  if (!s) return Number.POSITIVE_INFINITY;
+  const n = parseInt(s.replace(/\D/g, ""), 10);
+  return Number.isFinite(n) ? n : Number.POSITIVE_INFINITY;
+}
+
+function sorteraAnnonser(list: Annons[], sort: SortVal): Annons[] {
+  if (sort === "relevans") return list;
+  const out = [...list];
+  switch (sort) {
+    case "hyra-asc":
+      out.sort((a, b) => parsaTalSäkert(a.hyra) - parsaTalSäkert(b.hyra));
+      break;
+    case "hyra-desc":
+      out.sort((a, b) => parsaTalSäkert(b.hyra) - parsaTalSäkert(a.hyra));
+      break;
+    case "yta-asc":
+      out.sort((a, b) => parsaTalSäkert(a.storlek) - parsaTalSäkert(b.storlek));
+      break;
+    case "yta-desc":
+      out.sort((a, b) => parsaTalSäkert(b.storlek) - parsaTalSäkert(a.storlek));
+      break;
+    case "ledig-asc":
+      out.sort((a, b) => {
+        const da = new Date(a.ledig).getTime();
+        const db = new Date(b.ledig).getTime();
+        return (Number.isFinite(da) ? da : Infinity) - (Number.isFinite(db) ? db : Infinity);
+      });
+      break;
+  }
+  return out;
+}
 
 export const Route = createFileRoute("/sok")({
   validateSearch: (search: Record<string, unknown>): SearchParams => ({
@@ -41,6 +104,7 @@ export const Route = createFileRoute("/sok")({
     källa: str(search.källa),
     ledig: str(search.ledig),
     sida: num(search.sida),
+    sort: sortVal(search.sort),
   }),
   head: () => ({
     meta: [
