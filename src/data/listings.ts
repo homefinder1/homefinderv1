@@ -38,6 +38,8 @@ export interface Annons {
   ledig: string;
   url: string;
   källa: Source;
+  /** ISO-tidsstämpel för när annonsen lades till — används för "NY"-badge */
+  skapad?: string;
 }
 
 export const ANNONSER_URL =
