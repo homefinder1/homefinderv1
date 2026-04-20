@@ -103,7 +103,7 @@ function SearchPage() {
 
   const gåTillSida = (n: number) => {
     navigate({
-      search: (prev) => ({ ...prev, sida: n > 1 ? n : undefined }),
+      search: (prev: SearchParams) => ({ ...prev, sida: n > 1 ? n : undefined }),
       replace: false,
     });
     if (typeof window !== "undefined") {
