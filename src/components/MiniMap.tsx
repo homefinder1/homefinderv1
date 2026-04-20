@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Home, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
+import logo from "@/assets/logo.svg";
 
 interface MiniMapProps {
   query: string;
