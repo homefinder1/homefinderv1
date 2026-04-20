@@ -11,13 +11,17 @@ import {
   type Filters,
 } from "@/components/FilterBar";
 import { useAnnonser } from "@/hooks/useAnnonser";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 interface SearchParams extends Partial<Filters> {
   q?: string;
   sida?: number;
 }
 
-const PER_SIDA = 20;
+// Antal kolumner per breakpoint — används för att fylla rutnätet jämnt
+const KOLUMNER = { mobile: 1, tablet: 2, desktop: 3 } as const;
+// Antal rader per sida — ger jämna rutnät: mobil 6, tablet 8, desktop 9
+const RADER = { mobile: 6, tablet: 4, desktop: 3 } as const;
 
 const str = (v: unknown) => (typeof v === "string" ? v : undefined);
 const num = (v: unknown) => {
