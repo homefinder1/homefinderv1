@@ -53,6 +53,6 @@ export function normaliseraAnnonser(raw: RawAnnons[]): Annons[] {
     hyra: a.hyra,
     ledig: a.ledig,
     url: a.url,
-    källa: (a.källa as Source) ?? "MKB",
+    källa: normaliseraKälla(a.källa),
   }));
 }
