@@ -219,6 +219,7 @@ export function FilterBar({ filters, onChange }: Props) {
               <SelectItem value="nu">Nu (redan ledig)</SelectItem>
               <SelectItem value="1m">Inom 1 månad</SelectItem>
               <SelectItem value="3m">Inom 3 månader</SelectItem>
+              <SelectItem value="3m+">Efter 3 månader</SelectItem>
             </SelectContent>
           </Select>
         </div>
