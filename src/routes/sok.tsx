@@ -12,9 +12,16 @@ import { useAnnonser } from "@/hooks/useAnnonser";
 
 interface SearchParams extends Partial<Filters> {
   q?: string;
+  sida?: number;
 }
 
+const PER_SIDA = 20;
+
 const str = (v: unknown) => (typeof v === "string" ? v : undefined);
+const num = (v: unknown) => {
+  const n = typeof v === "number" ? v : typeof v === "string" ? parseInt(v, 10) : NaN;
+  return Number.isFinite(n) && n > 0 ? n : undefined;
+};
 
 export const Route = createFileRoute("/sok")({
   validateSearch: (search: Record<string, unknown>): SearchParams => ({
@@ -27,6 +34,7 @@ export const Route = createFileRoute("/sok")({
     rum: str(search.rum),
     källa: str(search.källa),
     ledig: str(search.ledig),
+    sida: num(search.sida),
   }),
   head: () => ({
     meta: [
