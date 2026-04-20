@@ -307,6 +307,10 @@ export function tillämpaFilter<
         const grans = new Date(nu);
         grans.setMonth(grans.getMonth() + 3);
         if (d > grans) return false;
+      } else if (f.ledig === "3m+") {
+        const grans = new Date(nu);
+        grans.setMonth(grans.getMonth() + 3);
+        if (d <= grans) return false;
       }
     }
 
