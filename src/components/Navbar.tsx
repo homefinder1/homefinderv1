@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Home, Plus, Shield, LogIn, LogOut } from "lucide-react";
+import { Plus, Shield, LogIn, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import logo from "@/assets/logo.svg";
 
 export function Navbar() {
   const { user, isAdmin, loading } = useAuth();
