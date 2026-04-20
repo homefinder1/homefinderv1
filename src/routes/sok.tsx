@@ -73,7 +73,7 @@ function SearchPage() {
   );
 
   const handleChange = (next: Filters) => {
-    const cleaned: Record<string, string | undefined> = {
+    const cleaned: Record<string, string | number | undefined> = {
       q: undefined,
       ort: next.ort || undefined,
       ytaMin: next.ytaMin || undefined,
@@ -83,6 +83,7 @@ function SearchPage() {
       rum: next.rum !== "alla" ? next.rum : undefined,
       källa: next.källa !== "alla" ? next.källa : undefined,
       ledig: next.ledig !== "alla" ? next.ledig : undefined,
+      sida: undefined,
     };
     navigate({ search: cleaned, replace: true });
   };
@@ -91,6 +92,22 @@ function SearchPage() {
     () => tillämpaFilter(annonser, filters),
     [annonser, filters],
   );
+
+  const sida = search.sida ?? 1;
+  const totalSidor = Math.max(1, Math.ceil(results.length / PER_SIDA));
+  const aktuellSida = Math.min(sida, totalSidor);
+  const start = (aktuellSida - 1) * PER_SIDA;
+  const sidResultat = results.slice(start, start + PER_SIDA);
+
+  const gåTillSida = (n: number) => {
+    navigate({
+      search: (prev) => ({ ...prev, sida: n > 1 ? n : undefined }),
+      replace: false,
+    });
+    if (typeof window !== "undefined") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -136,11 +153,41 @@ function SearchPage() {
         )}
 
         {!loading && !error && results.length > 0 && (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {results.map((a) => (
-              <AnnonsCard key={a.id} annons={a} />
-            ))}
-          </div>
+          <>
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {sidResultat.map((a) => (
+                <AnnonsCard key={a.id} annons={a} />
+              ))}
+            </div>
+
+            {totalSidor > 1 && (
+              <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
+                <p className="text-sm text-muted-foreground">
+                  Sida {aktuellSida} av {totalSidor}
+                </p>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => gåTillSida(aktuellSida - 1)}
+                    disabled={aktuellSida <= 1}
+                  >
+                    <ChevronLeft className="mr-1 h-4 w-4" />
+                    Föregående
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => gåTillSida(aktuellSida + 1)}
+                    disabled={aktuellSida >= totalSidor}
+                  >
+                    Nästa
+                    <ChevronRight className="ml-1 h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>
