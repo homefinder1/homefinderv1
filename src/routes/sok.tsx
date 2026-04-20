@@ -103,10 +103,29 @@ function SearchPage() {
   );
 
   const sida = search.sida ?? 1;
-  const totalSidor = Math.max(1, Math.ceil(results.length / PER_SIDA));
-  const aktuellSida = Math.min(sida, totalSidor);
-  const start = (aktuellSida - 1) * PER_SIDA;
-  const sidResultat = results.slice(start, start + PER_SIDA);
+
+  // Bygg sidor som alltid fyller hela rader (aldrig en ensam annons på sista raden,
+  // utom när det totala antalet är mindre än kolumner)
+  const sidStartIndex = useMemo(() => {
+    const starter: number[] = [];
+    let i = 0;
+    while (i < results.length) {
+      starter.push(i);
+      let nästa = i + perSida;
+      // Om resten efter denna sida är mindre än en hel rad → ta med dem på denna sida
+      const kvar = results.length - nästa;
+      if (kvar > 0 && kvar < kolumner) nästa = results.length;
+      i = nästa;
+    }
+    if (starter.length === 0) starter.push(0);
+    return starter;
+  }, [results.length, perSida, kolumner]);
+
+  const totalSidor = sidStartIndex.length;
+  const aktuellSida = Math.min(Math.max(1, sida), totalSidor);
+  const start = sidStartIndex[aktuellSida - 1];
+  const slut = sidStartIndex[aktuellSida] ?? results.length;
+  const sidResultat = results.slice(start, slut);
 
   const gåTillSida = (n: number) => {
     navigate({
