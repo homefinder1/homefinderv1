@@ -232,15 +232,36 @@ function SearchPage() {
       </div>
 
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="mb-6">
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-            {loading ? "Laddar…" : `${results.length} bostäder`}
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            {results.length === annonser.length
-              ? "Alla lediga annonser"
-              : "Filtrerat resultat"}
-          </p>
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+              {loading ? "Laddar…" : `${results.length} bostäder`}
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              {results.length === annonser.length
+                ? "Alla lediga annonser"
+                : "Filtrerat resultat"}
+            </p>
+          </div>
+
+          {!loading && !error && results.length > 0 && (
+            <div className="flex items-center gap-2 text-sm">
+              <ArrowUpDown className="h-4 w-4 text-primary" aria-hidden />
+              <span className="text-muted-foreground">Sortera:</span>
+              <Select value={sort} onValueChange={handleSort}>
+                <SelectTrigger className="h-9 w-[170px] border-0 bg-transparent px-2 font-medium text-foreground shadow-none hover:text-primary focus:ring-0 focus:ring-offset-0">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent align="end">
+                  {SORT_ALTERNATIV.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
         </div>
 
         {error && !loading && (
