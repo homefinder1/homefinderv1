@@ -63,6 +63,9 @@ function SearchPage() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: "/sok" });
   const { annonser, loading, error } = useAnnonser();
+  const bp = useBreakpoint();
+  const kolumner = KOLUMNER[bp];
+  const perSida = kolumner * RADER[bp];
 
   const filters: Filters = useMemo(
     () => ({
