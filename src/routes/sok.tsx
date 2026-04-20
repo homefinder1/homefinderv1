@@ -11,13 +11,17 @@ import {
   type Filters,
 } from "@/components/FilterBar";
 import { useAnnonser } from "@/hooks/useAnnonser";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 interface SearchParams extends Partial<Filters> {
   q?: string;
   sida?: number;
 }
 
-const PER_SIDA = 20;
+// Antal kolumner per breakpoint — används för att fylla rutnätet jämnt
+const KOLUMNER = { mobile: 1, tablet: 2, desktop: 3 } as const;
+// Antal rader per sida — ger jämna rutnät: mobil 6, tablet 8, desktop 9
+const RADER = { mobile: 6, tablet: 4, desktop: 3 } as const;
 
 const str = (v: unknown) => (typeof v === "string" ? v : undefined);
 const num = (v: unknown) => {
@@ -59,6 +63,9 @@ function SearchPage() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: "/sok" });
   const { annonser, loading, error } = useAnnonser();
+  const bp = useBreakpoint();
+  const kolumner = KOLUMNER[bp];
+  const perSida = kolumner * RADER[bp];
 
   const filters: Filters = useMemo(
     () => ({
@@ -96,10 +103,29 @@ function SearchPage() {
   );
 
   const sida = search.sida ?? 1;
-  const totalSidor = Math.max(1, Math.ceil(results.length / PER_SIDA));
-  const aktuellSida = Math.min(sida, totalSidor);
-  const start = (aktuellSida - 1) * PER_SIDA;
-  const sidResultat = results.slice(start, start + PER_SIDA);
+
+  // Bygg sidor som alltid fyller hela rader (aldrig en ensam annons på sista raden,
+  // utom när det totala antalet är mindre än kolumner)
+  const sidStartIndex = useMemo(() => {
+    const starter: number[] = [];
+    let i = 0;
+    while (i < results.length) {
+      starter.push(i);
+      let nästa = i + perSida;
+      // Om resten efter denna sida är mindre än en hel rad → ta med dem på denna sida
+      const kvar = results.length - nästa;
+      if (kvar > 0 && kvar < kolumner) nästa = results.length;
+      i = nästa;
+    }
+    if (starter.length === 0) starter.push(0);
+    return starter;
+  }, [results.length, perSida, kolumner]);
+
+  const totalSidor = sidStartIndex.length;
+  const aktuellSida = Math.min(Math.max(1, sida), totalSidor);
+  const start = sidStartIndex[aktuellSida - 1];
+  const slut = sidStartIndex[aktuellSida] ?? results.length;
+  const sidResultat = results.slice(start, slut);
 
   const gåTillSida = (n: number) => {
     navigate({
@@ -156,35 +182,40 @@ function SearchPage() {
 
         {!loading && !error && results.length > 0 && (
           <>
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {sidResultat.map((a) => (
                 <AnnonsCard key={a.id} annons={a} />
               ))}
             </div>
 
             {totalSidor > 1 && (
-              <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row sm:justify-between">
-                <p className="text-sm text-muted-foreground">
-                  Sida {aktuellSida} av {totalSidor}
+              <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
+                <p className="text-sm font-medium text-muted-foreground">
+                  Sida <span className="text-foreground">{aktuellSida}</span> av{" "}
+                  <span className="text-foreground">{totalSidor}</span>
                 </p>
-                <div className="flex items-center gap-2">
+                <div className="flex w-full items-center gap-3 sm:w-auto">
                   <Button
                     variant="outline"
-                    size="sm"
+                    size="lg"
+                    className="h-12 flex-1 gap-2 text-base sm:flex-none sm:px-6"
                     onClick={() => gåTillSida(aktuellSida - 1)}
                     disabled={aktuellSida <= 1}
+                    aria-label="Föregående sida"
                   >
-                    <ChevronLeft className="mr-1 h-4 w-4" />
+                    <ChevronLeft className="h-5 w-5" />
                     Föregående
                   </Button>
                   <Button
-                    variant="outline"
-                    size="sm"
+                    variant="default"
+                    size="lg"
+                    className="h-12 flex-1 gap-2 text-base sm:flex-none sm:px-6"
                     onClick={() => gåTillSida(aktuellSida + 1)}
                     disabled={aktuellSida >= totalSidor}
+                    aria-label="Nästa sida"
                   >
                     Nästa
-                    <ChevronRight className="ml-1 h-4 w-4" />
+                    <ChevronRight className="h-5 w-5" />
                   </Button>
                 </div>
               </div>
