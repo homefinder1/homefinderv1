@@ -20,8 +20,8 @@ interface SearchParams extends Partial<Filters> {
 
 // Antal kolumner per breakpoint — används för att fylla rutnätet jämnt
 const KOLUMNER = { mobile: 1, tablet: 2, desktop: 3 } as const;
-// Antal rader per sida — ger jämna rutnät: mobil 6, tablet 8, desktop 9
-const RADER = { mobile: 6, tablet: 4, desktop: 3 } as const;
+// Antal rader per sida — desktop 5×3=15, tablet 5×2=10, mobil 6×1=6
+const RADER = { mobile: 6, tablet: 5, desktop: 5 } as const;
 
 const str = (v: unknown) => (typeof v === "string" ? v : undefined);
 const num = (v: unknown) => {
