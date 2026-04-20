@@ -50,6 +50,7 @@ export function useAnnonser(): State {
           ledig: row.skapad_datum,
           url: `mailto:${row.kontakt_email}?subject=${encodeURIComponent("Intresseanmälan: " + row.titel)}`,
           källa: "Privat" as Annons["källa"],
+          skapad: row.skapad_datum,
         }));
 
         // Show user listings first (newest), then scraped
