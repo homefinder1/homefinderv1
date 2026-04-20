@@ -1,12 +1,19 @@
 export type Source =
   | "MKB"
-  | "Boplats"
+  | "Boplats Väst"
   | "Boplats Syd"
   | "Blocket"
   | "Qasa"
   | "HomeQ"
   | "Bostadsdirekt"
   | "Privat";
+
+/** Normalisera källnamn — gamla data kan innehålla "Boplats" som nu heter "Boplats Väst" */
+function normaliseraKälla(k: string | undefined): Source {
+  if (!k) return "MKB";
+  if (k === "Boplats") return "Boplats Väst";
+  return k as Source;
+}
 
 /** Annons från GitHub-JSON (raw fält som de kommer från filen) */
 export interface RawAnnons {
