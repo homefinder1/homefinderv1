@@ -47,7 +47,7 @@ const STÄDER = [
   "Umeå",
 ];
 
-const KÄLLOR = ["MKB", "Boplats", "Boplats Syd", "HomeQ", "Privat"];
+const KÄLLOR = ["MKB", "Boplats Väst", "Boplats Syd", "HomeQ", "Privat"];
 
 interface Props {
   filters: Filters;
