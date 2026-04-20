@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Home, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
+import logo from "@/assets/logo.svg";
 
 interface MiniMapProps {
   query: string;
@@ -116,12 +117,13 @@ export function MiniMap({ query, className }: MiniMapProps) {
     return (
       <div
         className={
-          "flex items-center justify-center bg-primary/5 text-primary " +
-          (className ?? "")
+          "flex items-center justify-center bg-primary/5 " + (className ?? "")
         }
         aria-label="Karta saknas"
       >
-        <Home className="h-10 w-10" strokeWidth={1.5} />
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[image:var(--gradient-hero)] shadow-[var(--shadow-soft)]">
+          <img src={logo} alt="HomeFinder logotyp" className="h-11 w-11" />
+        </div>
       </div>
     );
   }
