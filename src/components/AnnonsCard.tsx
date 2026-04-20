@@ -6,6 +6,8 @@ import { MiniMap } from "@/components/MiniMap";
 
 const sourceColors: Record<string, string> = {
   MKB: "bg-sky-100 text-sky-900",
+  "Boplats Väst": "bg-teal-100 text-teal-900",
+  "Boplats Syd": "bg-cyan-100 text-cyan-900",
   Blocket: "bg-yellow-100 text-yellow-900",
   Qasa: "bg-emerald-100 text-emerald-900",
   HomeQ: "bg-violet-100 text-violet-900",
