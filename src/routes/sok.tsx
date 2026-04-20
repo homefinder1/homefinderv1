@@ -145,6 +145,8 @@ function SearchPage() {
     [search],
   );
 
+  const sort: SortVal = search.sort ?? "relevans";
+
   const handleChange = (next: Filters) => {
     const cleaned: Record<string, string | number | undefined> = {
       q: undefined,
@@ -156,14 +158,32 @@ function SearchPage() {
       rum: next.rum !== "alla" ? next.rum : undefined,
       källa: next.källa !== "alla" ? next.källa : undefined,
       ledig: next.ledig !== "alla" ? next.ledig : undefined,
+      sort: sort !== "relevans" ? sort : undefined,
       sida: undefined,
     };
     navigate({ search: cleaned, replace: true });
   };
 
-  const results = useMemo(
+  const handleSort = (v: string) => {
+    const next = v as SortVal;
+    navigate({
+      search: (prev: SearchParams) => ({
+        ...prev,
+        sort: next !== "relevans" ? next : undefined,
+        sida: undefined,
+      }),
+      replace: true,
+    });
+  };
+
+  const filtered = useMemo(
     () => tillämpaFilter(annonser, filters),
     [annonser, filters],
+  );
+
+  const results = useMemo(
+    () => sorteraAnnonser(filtered, sort),
+    [filtered, sort],
   );
 
   const sida = search.sida ?? 1;
