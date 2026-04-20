@@ -47,7 +47,7 @@ const STÄDER = [
   "Umeå",
 ];
 
-const KÄLLOR = ["MKB", "Boplats", "Boplats Syd", "HomeQ", "Privat"];
+const KÄLLOR = ["MKB", "Boplats Väst", "Boplats Syd", "HomeQ", "Privat"];
 
 interface Props {
   filters: Filters;
@@ -219,6 +219,7 @@ export function FilterBar({ filters, onChange }: Props) {
               <SelectItem value="nu">Nu (redan ledig)</SelectItem>
               <SelectItem value="1m">Inom 1 månad</SelectItem>
               <SelectItem value="3m">Inom 3 månader</SelectItem>
+              <SelectItem value="3m+">Efter 3 månader</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -306,6 +307,10 @@ export function tillämpaFilter<
         const grans = new Date(nu);
         grans.setMonth(grans.getMonth() + 3);
         if (d > grans) return false;
+      } else if (f.ledig === "3m+") {
+        const grans = new Date(nu);
+        grans.setMonth(grans.getMonth() + 3);
+        if (d <= grans) return false;
       }
     }
 
