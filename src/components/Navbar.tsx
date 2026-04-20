@@ -24,11 +24,11 @@ export function Navbar() {
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-20 max-w-6xl items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-3" aria-label="HomeFinder hem">
-          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[image:var(--gradient-hero)] shadow-[var(--shadow-soft)]">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[image:var(--gradient-hero)] shadow-[var(--shadow-soft)]">
             <img
               src={logo}
               alt="HomeFinder logotyp"
-              className="h-12 w-12"
+              className="h-11 w-11"
             />
           </div>
           <span className="text-2xl font-bold tracking-tight">
