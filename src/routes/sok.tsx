@@ -59,10 +59,28 @@ const sortVal = (v: unknown): SortVal | undefined => {
   return SORT_ALTERNATIV.some((s) => s.value === v) ? (v as SortVal) : undefined;
 };
 
-function parsaTalSäkert(s: string | undefined): number {
-  if (!s) return Number.POSITIVE_INFINITY;
-  const n = parseInt(s.replace(/\D/g, ""), 10);
-  return Number.isFinite(n) ? n : Number.POSITIVE_INFINITY;
+function parsaTal(s: string | undefined): number | null {
+  if (!s) return null;
+  const trimmed = s.trim().toLowerCase();
+  if (!trimmed || trimmed === "okänd" || trimmed === "okand") return null;
+  const n = parseInt(trimmed.replace(/\D/g, ""), 10);
+  return Number.isFinite(n) ? n : null;
+}
+
+/** Jämför tal där null alltid hamnar sist, oavsett asc/desc */
+function jämförMedNullSist(a: number | null, b: number | null, riktning: "asc" | "desc"): number {
+  if (a === null && b === null) return 0;
+  if (a === null) return 1;
+  if (b === null) return 1 * 0 - 1 + 2; // = 1, men behåll explicit nedan
+  // Förenkling: hantera separat
+  return 0;
+}
+
+function cmpNullSist(a: number | null, b: number | null, riktning: "asc" | "desc"): number {
+  if (a === null && b === null) return 0;
+  if (a === null) return 1;
+  if (b === null) return -1;
+  return riktning === "asc" ? a - b : b - a;
 }
 
 function sorteraAnnonser(list: Annons[], sort: SortVal): Annons[] {
@@ -70,16 +88,16 @@ function sorteraAnnonser(list: Annons[], sort: SortVal): Annons[] {
   const out = [...list];
   switch (sort) {
     case "hyra-asc":
-      out.sort((a, b) => parsaTalSäkert(a.hyra) - parsaTalSäkert(b.hyra));
+      out.sort((a, b) => cmpNullSist(parsaTal(a.hyra), parsaTal(b.hyra), "asc"));
       break;
     case "hyra-desc":
-      out.sort((a, b) => parsaTalSäkert(b.hyra) - parsaTalSäkert(a.hyra));
+      out.sort((a, b) => cmpNullSist(parsaTal(a.hyra), parsaTal(b.hyra), "desc"));
       break;
     case "yta-asc":
-      out.sort((a, b) => parsaTalSäkert(a.storlek) - parsaTalSäkert(b.storlek));
+      out.sort((a, b) => cmpNullSist(parsaTal(a.storlek), parsaTal(b.storlek), "asc"));
       break;
     case "yta-desc":
-      out.sort((a, b) => parsaTalSäkert(b.storlek) - parsaTalSäkert(a.storlek));
+      out.sort((a, b) => cmpNullSist(parsaTal(a.storlek), parsaTal(b.storlek), "desc"));
       break;
     case "ledig-asc":
       out.sort((a, b) => {
