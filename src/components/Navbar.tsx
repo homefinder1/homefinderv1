@@ -1,9 +1,10 @@
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Home, Plus, Shield, LogIn, LogOut } from "lucide-react";
+import { Plus, Shield, LogIn, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import logo from "@/assets/logo.svg";
 
 export function Navbar() {
   const { user, isAdmin, loading } = useAuth();
@@ -23,9 +24,11 @@ export function Navbar() {
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-2">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[image:var(--gradient-hero)] text-primary-foreground shadow-[var(--shadow-soft)]">
-            <Home className="h-5 w-5" />
-          </div>
+          <img
+            src={logo}
+            alt="HomeFinder logotyp"
+            className="h-10 w-10 rounded-xl"
+          />
           <span className="text-lg font-semibold tracking-tight text-foreground">
             HomeFinder
           </span>
