@@ -42,13 +42,14 @@ function PostListing() {
   const [submitting, setSubmitting] = useState(false);
   const [profil, setProfil] = useState<ProfilData | null>(null);
   const [profilLoading, setProfilLoading] = useState(true);
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
 
-  // Kräv inloggning — redirect till /auth med return-URL
+  // Visa auth-modal när direktbesök sker utan inloggning
   useEffect(() => {
     if (!authLoading && !user) {
-      navigate({ to: "/auth", search: { redirect: "/lagg-upp" } });
+      setAuthDialogOpen(true);
     }
-  }, [authLoading, user, navigate]);
+  }, [authLoading, user]);
 
   // Ladda profil när user finns
   useEffect(() => {
