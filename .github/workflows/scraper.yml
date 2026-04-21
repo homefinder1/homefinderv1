@@ -24,6 +24,9 @@ jobs:
           playwright install chromium
       
       - name: Kör scrapern
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: python samla_annonser.py
       
       - name: Committa ny data
