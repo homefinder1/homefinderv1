@@ -72,16 +72,16 @@ function PostListing() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <div className="mx-auto max-w-2xl px-4 py-12">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+      <div className="mx-auto max-w-2xl px-4 py-8 md:py-12">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
           Lägg upp annons
         </h1>
-        <p className="mt-2 text-muted-foreground">
+        <p className="mt-2 text-sm text-muted-foreground sm:text-base">
           Nå tusentals bostadssökande — det är gratis.
         </p>
 
         {submitted ? (
-          <div className="mt-8 flex items-start gap-4 rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]">
+          <div className="mt-6 flex items-start gap-4 rounded-2xl border border-border bg-card p-5 shadow-[var(--shadow-card)] sm:p-6">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
               <Check className="h-5 w-5" />
             </div>
@@ -96,40 +96,41 @@ function PostListing() {
         ) : (
           <form
             onSubmit={handleSubmit}
-            className="mt-8 space-y-5 rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-card)]"
+            className="mt-6 space-y-5 rounded-2xl border border-border bg-card p-4 shadow-[var(--shadow-card)] sm:p-6"
           >
             <div className="space-y-2">
-              <Label htmlFor="title">Adress / rubrik</Label>
-              <Input id="title" name="title" placeholder="T.ex. Storgatan 5, Stockholm" required />
+              <Label htmlFor="title" className="text-sm">Adress / rubrik</Label>
+              <Input id="title" name="title" placeholder="T.ex. Storgatan 5, Stockholm" required className="h-12 text-base" />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="city">Område</Label>
-                <Input id="city" name="city" placeholder="Södermalm" />
+                <Label htmlFor="city" className="text-sm">Område</Label>
+                <Input id="city" name="city" placeholder="Södermalm" className="h-12 text-base" />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="price">Hyra (kr/mån)</Label>
-                <Input id="price" name="price" type="number" placeholder="9500" />
+                <Label htmlFor="price" className="text-sm">Hyra (kr/mån)</Label>
+                <Input id="price" name="price" type="number" inputMode="numeric" placeholder="9500" className="h-12 text-base" />
               </div>
               <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="rooms">Antal rum</Label>
-                <Input id="rooms" name="rooms" type="number" step="0.5" placeholder="2" />
+                <Label htmlFor="rooms" className="text-sm">Antal rum</Label>
+                <Input id="rooms" name="rooms" type="number" inputMode="decimal" step="0.5" placeholder="2" className="h-12 text-base" />
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="desc">Beskrivning</Label>
+              <Label htmlFor="desc" className="text-sm">Beskrivning</Label>
               <Textarea
                 id="desc"
                 name="desc"
                 rows={5}
                 placeholder="Beskriv bostaden, läget och vad som ingår..."
+                className="min-h-[140px] text-base"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">Din e-post (visas för intresserade)</Label>
-              <Input id="email" name="email" type="email" placeholder="namn@exempel.se" required />
+              <Label htmlFor="email" className="text-sm">Din e-post (visas för intresserade)</Label>
+              <Input id="email" name="email" type="email" inputMode="email" placeholder="namn@exempel.se" required className="h-12 text-base" />
             </div>
-            <Button type="submit" size="lg" className="w-full" disabled={submitting}>
+            <Button type="submit" size="lg" className="h-12 w-full text-base" disabled={submitting}>
               {submitting ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />

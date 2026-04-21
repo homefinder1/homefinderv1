@@ -192,25 +192,25 @@ VALUES ('${user.id}', 'admin');`}
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <div className="mx-auto max-w-5xl px-4 py-10">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">
+      <div className="mx-auto max-w-5xl px-3 py-6 sm:px-4 sm:py-10">
+        <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
+          <div className="min-w-0">
+            <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               Admin — Moderering
             </h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="mt-1 truncate text-xs text-muted-foreground sm:text-sm">
               Inloggad som {user.email}
             </p>
           </div>
-          <Button variant="outline" size="sm" onClick={handleLogout}>
+          <Button variant="outline" size="sm" onClick={handleLogout} className="h-10 self-start sm:self-auto">
             <LogOut className="h-4 w-4" />
             Logga ut
           </Button>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center gap-3">
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
           <div
-            className={`inline-flex rounded-lg border border-border bg-card p-1 ${
+            className={`inline-flex w-full overflow-x-auto rounded-lg border border-border bg-card p-1 sm:w-auto ${
               isSearching ? "opacity-50" : ""
             }`}
           >
@@ -219,7 +219,7 @@ VALUES ('${user.id}', 'admin');`}
                 key={s}
                 onClick={() => setTab(s)}
                 disabled={isSearching}
-                className={`rounded-md px-4 py-1.5 text-sm font-medium transition-colors ${
+                className={`flex-1 whitespace-nowrap rounded-md px-3 py-2 text-sm font-medium transition-colors sm:flex-none sm:px-4 sm:py-1.5 ${
                   tab === s
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground"
@@ -230,14 +230,14 @@ VALUES ('${user.id}', 'admin');`}
             ))}
           </div>
 
-          <div className="relative ml-auto w-full max-w-sm">
+          <div className="relative w-full sm:ml-auto sm:max-w-sm">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Sök titel, område eller email…"
-              className="pl-9"
+              className="h-11 pl-9 text-base sm:h-10 sm:text-sm"
             />
             {searching && (
               <Loader2 className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-muted-foreground" />
@@ -316,10 +316,11 @@ VALUES ('${user.id}', 'admin');`}
                   </Badge>
                 </div>
 
-                <div className="mt-4 flex flex-wrap gap-2">
+                <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
                   {a.status !== "godkand" && (
                     <Button
-                      size="sm"
+                      size="lg"
+                      className="h-11 w-full sm:h-9 sm:w-auto"
                       onClick={() => setStatus(a.id, "godkand")}
                       disabled={actingId === a.id}
                     >
@@ -329,8 +330,9 @@ VALUES ('${user.id}', 'admin');`}
                   )}
                   {a.status !== "avvisad" && (
                     <Button
-                      size="sm"
+                      size="lg"
                       variant="outline"
+                      className="h-11 w-full sm:h-9 sm:w-auto"
                       onClick={() => setStatus(a.id, "avvisad")}
                       disabled={actingId === a.id}
                     >
@@ -340,8 +342,9 @@ VALUES ('${user.id}', 'admin');`}
                   )}
                   {a.status === "godkand" && (
                     <Button
-                      size="sm"
+                      size="lg"
                       variant="outline"
+                      className="h-11 w-full sm:h-9 sm:w-auto"
                       onClick={() => setStatus(a.id, "vantande")}
                       disabled={actingId === a.id}
                     >

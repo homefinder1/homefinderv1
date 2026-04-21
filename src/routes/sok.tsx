@@ -235,15 +235,15 @@ function SearchPage() {
       <Navbar />
 
       <div className="border-b border-border bg-muted/30">
-        <div className="mx-auto max-w-6xl px-4 py-6">
+        <div className="mx-auto max-w-6xl px-3 py-4 sm:px-4 sm:py-6">
           <FilterBar filters={filters} onChange={handleChange} />
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div className="mx-auto max-w-6xl px-3 py-6 sm:px-4 sm:py-8">
+        <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+            <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
               {loading ? "Laddar…" : `${results.length} bostäder`}
             </h1>
             <p className="text-sm text-muted-foreground">
@@ -258,7 +258,7 @@ function SearchPage() {
               <ArrowUpDown className="h-4 w-4 text-primary" aria-hidden />
               <span className="text-muted-foreground">Sortera:</span>
               <Select value={sort} onValueChange={handleSort}>
-                <SelectTrigger className="h-9 w-[170px] border-0 bg-transparent px-2 font-medium text-foreground shadow-none hover:text-primary focus:ring-0 focus:ring-offset-0">
+                <SelectTrigger className="h-11 flex-1 border-0 bg-transparent px-2 text-base font-medium text-foreground shadow-none hover:text-primary focus:ring-0 focus:ring-offset-0 sm:h-9 sm:w-[170px] sm:flex-none sm:text-sm">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent align="end">

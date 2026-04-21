@@ -50,21 +50,21 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
         </div>
       )}
       <MiniMap query={mapQuery} className="h-32 w-full border-b border-border" />
-      <div className="flex-1 space-y-4 p-5">
+      <div className="flex-1 space-y-4 p-4 sm:p-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h3 className="line-clamp-2 text-lg font-semibold leading-tight text-foreground">
+            <h3 className="line-clamp-2 text-base font-semibold leading-tight text-foreground sm:text-lg">
               {annons.titel}
             </h3>
             {annons.område && annons.område.trim().toLowerCase() !== annons.titel.trim().toLowerCase() && (
               <div className="mt-1 flex items-center gap-1.5 text-sm text-muted-foreground">
-                <MapPin className="h-3.5 w-3.5" />
+                <MapPin className="h-3.5 w-3.5 shrink-0" />
                 <span className="truncate">{annons.område}</span>
               </div>
             )}
           </div>
           <Badge
-            className={`shrink-0 border-0 ${sourceColors[annons.källa] ?? "bg-secondary text-secondary-foreground"}`}
+            className={`shrink-0 border-0 text-xs ${sourceColors[annons.källa] ?? "bg-secondary text-secondary-foreground"}`}
           >
             {annons.källa}
           </Badge>
@@ -72,28 +72,28 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
 
         <div className="grid grid-cols-1 gap-2 border-t border-border pt-4 text-sm">
           <div className="flex items-center gap-2 text-muted-foreground">
-            <BedDouble className="h-4 w-4 text-primary" />
+            <BedDouble className="h-4 w-4 text-primary shrink-0" />
             <span className="text-foreground">{annons.antal_rum}</span>
           </div>
           {annons.storlek && (
             <div className="flex items-center gap-2 text-muted-foreground">
-              <Ruler className="h-4 w-4 text-primary" />
+              <Ruler className="h-4 w-4 text-primary shrink-0" />
               <span className="text-foreground">{annons.storlek}</span>
             </div>
           )}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between gap-2">
             <span className="text-muted-foreground">Hyra</span>
-            <span className="font-semibold text-foreground">{annons.hyra}</span>
+            <span className="font-semibold text-foreground text-right">{annons.hyra}</span>
           </div>
           <div className="flex items-center gap-2 text-muted-foreground">
-            <Calendar className="h-4 w-4 text-primary" />
-            <span>Ledig {formateraDatum(annons.ledig)}</span>
+            <Calendar className="h-4 w-4 text-primary shrink-0" />
+            <span className="truncate">Ledig {formateraDatum(annons.ledig)}</span>
           </div>
         </div>
       </div>
 
-      <div className="border-t border-border p-4">
-        <Button asChild className="w-full gap-2">
+      <div className="border-t border-border p-3 sm:p-4">
+        <Button asChild size="lg" className="h-12 w-full gap-2 text-base sm:h-10 sm:text-sm">
           <a href={annons.url} target="_blank" rel="noopener noreferrer">
             Visa annons
             <ExternalLink className="h-4 w-4" />
