@@ -68,8 +68,11 @@ export function FilterBar({ filters, onChange }: Props) {
     filters.källa !== "alla" ||
     filters.ledig !== "alla";
 
+  const inputClass = "h-12 text-base md:h-10 md:text-sm";
+  const triggerClass = "h-12 text-base md:h-10 md:text-sm";
+
   return (
-    <div className="rounded-3xl border border-border/60 bg-card p-5 shadow-[var(--shadow-soft)] md:p-6">
+    <div className="rounded-2xl border border-border/60 bg-card p-4 shadow-[var(--shadow-soft)] md:rounded-3xl md:p-6">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
           <SlidersHorizontal className="h-4 w-4 text-primary" />
@@ -80,7 +83,7 @@ export function FilterBar({ filters, onChange }: Props) {
             type="button"
             variant="ghost"
             size="sm"
-            className="h-8 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+            className="h-9 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
             onClick={() => onChange(TOMMA_FILTER)}
           >
             <X className="h-3.5 w-3.5" />
@@ -89,7 +92,7 @@ export function FilterBar({ filters, onChange }: Props) {
         )}
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {/* Ort */}
         <div className="space-y-1.5">
           <Label htmlFor="filter-ort" className="text-xs text-muted-foreground">
