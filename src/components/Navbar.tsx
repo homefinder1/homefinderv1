@@ -7,11 +7,22 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import logo from "@/assets/logo.svg";
+import { AuthRequiredDialog } from "@/components/AuthRequiredDialog";
 
 export function Navbar() {
   const { user, isAdmin, loading } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
+
+  function handleLaggUppClick(e: React.MouseEvent) {
+    if (loading) return;
+    if (!user) {
+      e.preventDefault();
+      setOpen(false);
+      setAuthDialogOpen(true);
+    }
+  }
 
   async function handleLogout() {
     setOpen(false);
@@ -92,7 +103,7 @@ export function Navbar() {
             </Button>
           )}
           <Button asChild size="sm" className="gap-1.5">
-            <Link to={user ? "/lagg-upp" : "/auth"} search={user ? undefined : { redirect: "/lagg-upp" }}>
+            <Link to="/lagg-upp" onClick={handleLaggUppClick}>
               <Plus className="h-4 w-4" />
               Lägg upp annons
             </Link>
@@ -156,9 +167,14 @@ export function Navbar() {
                 asChild
                 size="lg"
                 className="h-12 w-full justify-start gap-3 text-base"
-                onClick={() => setOpen(false)}
               >
-                <Link to={user ? "/lagg-upp" : "/auth"} search={user ? undefined : { redirect: "/lagg-upp" }}>
+                <Link
+                  to="/lagg-upp"
+                  onClick={(e) => {
+                    handleLaggUppClick(e);
+                    if (user) setOpen(false);
+                  }}
+                >
                   <Plus className="h-5 w-5" />
                   Lägg upp annons
                 </Link>
@@ -193,6 +209,8 @@ export function Navbar() {
           </SheetContent>
         </Sheet>
       </div>
+
+      <AuthRequiredDialog open={authDialogOpen} onOpenChange={setAuthDialogOpen} />
     </header>
   );
 }
