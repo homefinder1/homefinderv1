@@ -209,6 +209,8 @@ export function Navbar() {
           </SheetContent>
         </Sheet>
       </div>
+
+      <AuthRequiredDialog open={authDialogOpen} onOpenChange={setAuthDialogOpen} />
     </header>
   );
 }
