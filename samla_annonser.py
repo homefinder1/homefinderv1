@@ -1,18 +1,3 @@
-"""
-Samlar annonser från alla scrapers och laddar upp dem till Supabase
-(scraped_annonser-tabellen) med URL-deduplicering. Skriver också en
-backup till annonser.json så den gamla flödet fortsätter att fungera.
-
-Krävda miljövariabler:
-  SUPABASE_URL                t.ex. https://xxxx.supabase.co
-  SUPABASE_SERVICE_ROLE_KEY   service_role-nyckel (admin)
-
-Kör lokalt:
-  export SUPABASE_URL=...
-  export SUPABASE_SERVICE_ROLE_KEY=...
-  python samla_annonser.py
-"""
-
 import json
 import os
 import sys
@@ -24,10 +9,7 @@ from boplatssyd_scraper import scrape_boplatssyd
 from homeq_scraper import scrape_homeq
 
 
-# ----------------------------- Hjälpare -----------------------------
-
 def normalisera_kalla(k):
-    """Gamla data kan innehålla 'Boplats' som nu heter 'Boplats Väst'."""
     if not k:
         return "Okänd"
     if k == "Boplats":
@@ -35,22 +17,7 @@ def normalisera_kalla(k):
     return k
 
 
-def till_db_rad(annons):
-    """Konvertera scraper-output till rad-format för scraped_annonser-tabellen."""
-    return {
-        "titel": annons.get("titel") or "",
-        "omrade": annons.get("område") or None,
-        "antal_rum": annons.get("antal_rum") or None,
-        "storlek": annons.get("storlek") or None,
-        "hyra": annons.get("hyra") or None,
-        "ledig": annons.get("ledig") or None,
-        "url": annons.get("url"),
-        "kalla": normalisera_kalla(annons.get("källa")),
-    }
-
-
 def dedup_pa_url(annonser):
-    """Behåll första annonsen per unik URL — annonser utan URL hoppas över."""
     sett = set()
     unika = []
     for a in annonser:
@@ -64,38 +31,19 @@ def dedup_pa_url(annonser):
     return unika
 
 
-def upsert_chunk(rader, supabase_url, service_key, chunk_storlek=500):
-    """Skickar rader till Supabase i bitar. Vid URL-konflikt uppdateras raden."""
-    endpoint = f"{supabase_url}/rest/v1/scraped_annonser?on_conflict=url"
-    headers = {
-        "apikey": service_key,
-        "Authorization": f"Bearer {service_key}",
-        "Content-Type": "application/json",
-        # merge-duplicates = uppdatera befintliga rader (samma URL)
-        # return=minimal = vi behöver inte få tillbaka raderna
-        "Prefer": "resolution=merge-duplicates,return=minimal",
-    }
+def skicka_till_edge_function(annonser, api_key):
+    url = "https://njirepchwetcqhyxikha.supabase.co/functions/v1/upsert-annonser"
+    body = json.dumps(annonser).encode("utf-8")
+    req = request.Request(
+        url, data=body, method="POST",
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+    )
+    resp = request.urlopen(req, timeout=300)
+    return json.loads(resp.read().decode())
 
-    sparade = 0
-    for i in range(0, len(rader), chunk_storlek):
-        bit = rader[i:i + chunk_storlek]
-        body = json.dumps(bit).encode("utf-8")
-        req = request.Request(endpoint, data=body, method="POST", headers=headers)
-        try:
-            request.urlopen(req, timeout=120)
-            sparade += len(bit)
-            print(f"  Sparade chunk {i // chunk_storlek + 1} ({sparade}/{len(rader)})")
-        except error.HTTPError as e:
-            felmeddelande = e.read().decode(errors="replace")[:500]
-            print(
-                f"FEL i chunk {i // chunk_storlek + 1}: HTTP {e.code} — {felmeddelande}",
-                file=sys.stderr,
-            )
-            raise
-    return sparade
-
-
-# ----------------------------- Huvudflöde ---------------------------
 
 def main():
     print("Kör MKB-scrapern...")
@@ -119,24 +67,14 @@ def main():
     unika = dedup_pa_url(alla)
     print(f"  → {len(unika)} unika annonser (av {len(alla)} totalt)")
 
-
-    # Ladda upp till databasen
-    supabase_url = os.environ.get("SUPABASE_URL")
-    service_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
-
-    if not supabase_url or not service_key:
-        print(
-            "VARNING: SUPABASE_URL eller SUPABASE_SERVICE_ROLE_KEY saknas — "
-            "hoppar över databasuppladdning.",
-            file=sys.stderr,
-        )
-        print(f"Klart! {len(unika)} annonser sparade till annonser.json.")
+    api_key = os.environ.get("SCRAPER_API_KEY")
+    if not api_key:
+        print("VARNING: SCRAPER_API_KEY saknas — hoppar över uppladdning.", file=sys.stderr)
         return
 
-    print(f"Laddar upp {len(unika)} annonser till scraped_annonser...")
-    rader = [till_db_rad(a) for a in unika if a.get("url")]
-    sparade = upsert_chunk(rader, supabase_url, service_key)
-    print(f"Klart! {sparade} annonser upserterade i databasen.")
+    print(f"Skickar {len(unika)} annonser till databasen...")
+    resultat = skicka_till_edge_function(unika, api_key)
+    print(f"Klart! {resultat}")
 
 
 if __name__ == "__main__":
