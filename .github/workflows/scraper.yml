@@ -33,6 +33,7 @@ jobs:
         run: |
           git config user.name "HomeFinder Bot"
           git config user.email "info@homefinder.se"
+          git pull --rebase origin main
           git add annonser.json
           if git diff --staged --quiet; then
             echo "Inga ändringar att committa"
