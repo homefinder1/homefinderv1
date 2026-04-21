@@ -137,10 +137,35 @@ function PostListing() {
     setSubmitted(true);
   }
 
-  if (authLoading || (!user && !authLoading)) {
+  if (authLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="mx-auto max-w-2xl px-4 py-16 text-center">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            Lägg upp annons
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+            Du behöver vara inloggad för att fortsätta.
+          </p>
+          <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Button size="lg" onClick={() => setAuthDialogOpen(true)}>
+              Logga in
+            </Button>
+            <Button variant="outline" size="lg" onClick={() => navigate({ to: "/" })}>
+              Tillbaka till startsidan
+            </Button>
+          </div>
+        </div>
+        <AuthRequiredDialog open={authDialogOpen} onOpenChange={setAuthDialogOpen} />
       </div>
     );
   }
