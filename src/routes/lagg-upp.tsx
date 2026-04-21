@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { Check, Loader2 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/lagg-upp")({
@@ -27,12 +28,54 @@ export const Route = createFileRoute("/lagg-upp")({
   component: PostListing,
 });
 
+interface ProfilData {
+  fornamn: string;
+  efternamn: string;
+  telefon: string;
+}
+
 function PostListing() {
+  const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [profil, setProfil] = useState<ProfilData | null>(null);
+  const [profilLoading, setProfilLoading] = useState(true);
+
+  // Kräv inloggning — redirect till /auth med return-URL
+  useEffect(() => {
+    if (!authLoading && !user) {
+      navigate({ to: "/auth", search: { redirect: "/lagg-upp" } });
+    }
+  }, [authLoading, user, navigate]);
+
+  // Ladda profil när user finns
+  useEffect(() => {
+    if (!user) return;
+    let aktiv = true;
+    (async () => {
+      setProfilLoading(true);
+      const { data } = await supabase
+        .from("profiles")
+        .select("fornamn, efternamn, telefon")
+        .eq("id", user.id)
+        .maybeSingle();
+      if (!aktiv) return;
+      setProfil({
+        fornamn: data?.fornamn ?? "",
+        efternamn: data?.efternamn ?? "",
+        telefon: data?.telefon ?? "",
+      });
+      setProfilLoading(false);
+    })();
+    return () => {
+      aktiv = false;
+    };
+  }, [user]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!user) return;
     const form = e.currentTarget;
     const fd = new FormData(form);
 
@@ -42,22 +85,45 @@ function PostListing() {
     const rumRaw = Number(fd.get("rooms"));
     const antal_rum = Number.isFinite(rumRaw) && rumRaw >= 1 && rumRaw <= 10 ? Math.round(rumRaw) : null;
     const beskrivning = String(fd.get("desc") ?? "").trim() || null;
-    const kontakt_email = String(fd.get("email") ?? "").trim();
+    const fornamn = String(fd.get("fornamn") ?? "").trim();
+    const efternamn = String(fd.get("efternamn") ?? "").trim();
+    const telefon = String(fd.get("telefon") ?? "").trim();
 
-    if (!titel || !kontakt_email) {
-      toast.error("Fyll i adress och e-post");
+    if (!titel) {
+      toast.error("Fyll i adress/rubrik");
+      return;
+    }
+    if (!fornamn || !efternamn || !telefon) {
+      toast.error("Namn och telefon krävs");
       return;
     }
 
     setSubmitting(true);
+
+    // Uppdatera profil om ändrad
+    if (
+      profil &&
+      (profil.fornamn !== fornamn ||
+        profil.efternamn !== efternamn ||
+        profil.telefon !== telefon)
+    ) {
+      await supabase
+        .from("profiles")
+        .update({ fornamn, efternamn, telefon, uppdaterad_datum: new Date().toISOString() })
+        .eq("id", user.id);
+    }
+
     const { error } = await supabase.from("annonser").insert({
       titel,
       omrade: omrade || null,
       antal_rum,
       hyra: hyraNum ? `${hyraNum} kr/mån` : null,
       beskrivning,
-      kontakt_email,
+      kontakt_email: user.email ?? "",
+      kontakt_namn: `${fornamn} ${efternamn}`.trim(),
+      kontakt_telefon: telefon,
       kalla: "Privat",
+      user_id: user.id,
     });
     setSubmitting(false);
 
@@ -67,6 +133,14 @@ function PostListing() {
     }
 
     setSubmitted(true);
+  }
+
+  if (authLoading || (!user && !authLoading)) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      </div>
+    );
   }
 
   return (
@@ -93,6 +167,10 @@ function PostListing() {
                 HomeFinder. Det brukar gå snabbt.
               </p>
             </div>
+          </div>
+        ) : profilLoading ? (
+          <div className="mt-8 flex items-center justify-center py-12">
+            <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
           </div>
         ) : (
           <form
@@ -127,10 +205,56 @@ function PostListing() {
                 className="min-h-[140px] text-base"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm">Din e-post (visas för intresserade)</Label>
-              <Input id="email" name="email" type="email" inputMode="email" placeholder="namn@exempel.se" required className="h-12 text-base" />
+
+            <div className="space-y-4 rounded-xl border border-border/60 bg-muted/30 p-4">
+              <div>
+                <h2 className="text-sm font-semibold text-foreground">Dina kontaktuppgifter</h2>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Förifyllt från ditt konto. Du kan justera om något ändrats.
+                </p>
+              </div>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="space-y-2">
+                  <Label htmlFor="fornamn" className="text-sm">Förnamn</Label>
+                  <Input
+                    id="fornamn"
+                    name="fornamn"
+                    defaultValue={profil?.fornamn ?? ""}
+                    required
+                    autoComplete="given-name"
+                    className="h-12 text-base"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="efternamn" className="text-sm">Efternamn</Label>
+                  <Input
+                    id="efternamn"
+                    name="efternamn"
+                    defaultValue={profil?.efternamn ?? ""}
+                    required
+                    autoComplete="family-name"
+                    className="h-12 text-base"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="telefon" className="text-sm">Telefonnummer</Label>
+                <Input
+                  id="telefon"
+                  name="telefon"
+                  type="tel"
+                  inputMode="tel"
+                  defaultValue={profil?.telefon ?? ""}
+                  required
+                  autoComplete="tel"
+                  className="h-12 text-base"
+                />
+              </div>
+              <p className="text-xs text-muted-foreground">
+                E-post ({user?.email}) hämtas från ditt konto.
+              </p>
             </div>
+
             <Button type="submit" size="lg" className="h-12 w-full text-base" disabled={submitting}>
               {submitting ? (
                 <>

@@ -92,7 +92,7 @@ export function Navbar() {
             </Button>
           )}
           <Button asChild size="sm" className="gap-1.5">
-            <Link to="/lagg-upp">
+            <Link to={user ? "/lagg-upp" : "/auth"} search={user ? undefined : { redirect: "/lagg-upp" }}>
               <Plus className="h-4 w-4" />
               Lägg upp annons
             </Link>
@@ -158,7 +158,7 @@ export function Navbar() {
                 className="h-12 w-full justify-start gap-3 text-base"
                 onClick={() => setOpen(false)}
               >
-                <Link to="/lagg-upp">
+                <Link to={user ? "/lagg-upp" : "/auth"} search={user ? undefined : { redirect: "/lagg-upp" }}>
                   <Plus className="h-5 w-5" />
                   Lägg upp annons
                 </Link>
