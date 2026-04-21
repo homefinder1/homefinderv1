@@ -1,0 +1,35 @@
+name: Kör scraper dagligen
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout kod
+        uses: actions/checkout@v4
+      
+      - name: Sätt upp Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Installera beroenden
+        run: |
+          pip install playwright requests beautifulsoup4
+          playwright install chromium
+      
+      - name: Kör scrapern
+        run: python samla_annonser.py
+      
+      - name: Committa ny data
+        run: |
+          git config user.name "HomeFinder Bot"
+          git config user.email "info@homefinder.se"
+          git add annonser.json
+          git diff --staged --quiet || git commit -m "Automatisk uppdatering av annonser"
+          git push
