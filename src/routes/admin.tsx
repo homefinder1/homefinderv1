@@ -10,6 +10,8 @@ import {
   Home,
   Search,
   Undo2,
+  User as UserIcon,
+  Phone,
 } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
@@ -39,6 +41,8 @@ interface AdminAnnons {
   hyra: string | null;
   beskrivning: string | null;
   kontakt_email: string;
+  kontakt_namn: string | null;
+  kontakt_telefon: string | null;
   status: Status;
   skapad_datum: string;
 }
@@ -283,8 +287,27 @@ VALUES ('${user.id}', 'admin');`}
                       )}
                       {a.hyra && <span>{a.hyra}</span>}
                       <span className="inline-flex items-center gap-1">
-                        <Mail className="h-3.5 w-3.5" /> {a.kontakt_email}
+                        <Mail className="h-3.5 w-3.5" />{" "}
+                        <a href={`mailto:${a.kontakt_email}`} className="hover:text-foreground hover:underline">
+                          {a.kontakt_email}
+                        </a>
                       </span>
+                      {a.kontakt_namn && (
+                        <span className="inline-flex items-center gap-1">
+                          <UserIcon className="h-3.5 w-3.5" /> {a.kontakt_namn}
+                        </span>
+                      )}
+                      {a.kontakt_telefon && (
+                        <span className="inline-flex items-center gap-1">
+                          <Phone className="h-3.5 w-3.5" />{" "}
+                          <a
+                            href={`tel:${a.kontakt_telefon.replace(/\s|-/g, "")}`}
+                            className="hover:text-foreground hover:underline"
+                          >
+                            {a.kontakt_telefon}
+                          </a>
+                        </span>
+                      )}
                     </div>
                     {a.beskrivning && (
                       <p className="mt-3 whitespace-pre-wrap text-sm text-foreground/80">
