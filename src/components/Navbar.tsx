@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import logo from "@/assets/logo.svg";
+import { AuthRequiredDialog } from "@/components/AuthRequiredDialog";
 
 export function Navbar() {
   const { user, isAdmin, loading } = useAuth();
