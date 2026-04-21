@@ -14,20 +14,9 @@ import {
 import {
   FilterBar,
   TOMMA_FILTER,
-  tillämpaFilter,
   type Filters,
 } from "@/components/FilterBar";
-import { useAnnonser } from "@/hooks/useAnnonser";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
-import type { Annons } from "@/data/listings";
-
-type SortVal =
-  | "relevans"
-  | "hyra-asc"
-  | "hyra-desc"
-  | "yta-asc"
-  | "yta-desc"
-  | "ledig-asc";
+import { useAnnonser, type SortVal, type AnnonsFilter } from "@/hooks/useAnnonser";
 
 const SORT_ALTERNATIV: { value: SortVal; label: string }[] = [
   { value: "relevans", label: "Relevans" },
@@ -44,10 +33,8 @@ interface SearchParams extends Partial<Filters> {
   sort?: SortVal;
 }
 
-// Antal kolumner per breakpoint — används för att fylla rutnätet jämnt
-const KOLUMNER = { mobile: 1, tablet: 2, desktop: 3 } as const;
-// Antal rader per sida — desktop 5×3=15, tablet 5×2=10, mobil 6×1=6
-const RADER = { mobile: 6, tablet: 5, desktop: 5 } as const;
+// Antal per sida — 15 (3 kolumner × 5 rader på desktop)
+const PER_SIDA = 15;
 
 const str = (v: unknown) => (typeof v === "string" ? v : undefined);
 const num = (v: unknown) => {
@@ -59,46 +46,10 @@ const sortVal = (v: unknown): SortVal | undefined => {
   return SORT_ALTERNATIV.some((s) => s.value === v) ? (v as SortVal) : undefined;
 };
 
-function parsaTal(s: string | undefined): number | null {
-  if (!s) return null;
-  const trimmed = s.trim().toLowerCase();
-  if (!trimmed || trimmed === "okänd" || trimmed === "okand") return null;
-  const n = parseInt(trimmed.replace(/\D/g, ""), 10);
-  return Number.isFinite(n) ? n : null;
-}
-
-function cmpNullSist(a: number | null, b: number | null, riktning: "asc" | "desc"): number {
-  if (a === null && b === null) return 0;
-  if (a === null) return 1;
-  if (b === null) return -1;
-  return riktning === "asc" ? a - b : b - a;
-}
-
-function sorteraAnnonser(list: Annons[], sort: SortVal): Annons[] {
-  if (sort === "relevans") return list;
-  const out = [...list];
-  switch (sort) {
-    case "hyra-asc":
-      out.sort((a, b) => cmpNullSist(parsaTal(a.hyra), parsaTal(b.hyra), "asc"));
-      break;
-    case "hyra-desc":
-      out.sort((a, b) => cmpNullSist(parsaTal(a.hyra), parsaTal(b.hyra), "desc"));
-      break;
-    case "yta-asc":
-      out.sort((a, b) => cmpNullSist(parsaTal(a.storlek), parsaTal(b.storlek), "asc"));
-      break;
-    case "yta-desc":
-      out.sort((a, b) => cmpNullSist(parsaTal(a.storlek), parsaTal(b.storlek), "desc"));
-      break;
-    case "ledig-asc":
-      out.sort((a, b) => {
-        const da = new Date(a.ledig).getTime();
-        const db = new Date(b.ledig).getTime();
-        return (Number.isFinite(da) ? da : Infinity) - (Number.isFinite(db) ? db : Infinity);
-      });
-      break;
-  }
-  return out;
+function parsaTal(s: string | undefined): number | undefined {
+  if (!s) return undefined;
+  const n = parseInt(s.replace(/\D/g, ""), 10);
+  return Number.isFinite(n) && n >= 0 ? n : undefined;
 }
 
 export const Route = createFileRoute("/sok")({
@@ -135,10 +86,6 @@ export const Route = createFileRoute("/sok")({
 function SearchPage() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: "/sok" });
-  const { annonser, loading, error } = useAnnonser();
-  const bp = useBreakpoint();
-  const kolumner = KOLUMNER[bp];
-  const perSida = kolumner * RADER[bp];
 
   const filters: Filters = useMemo(
     () => ({
@@ -155,6 +102,29 @@ function SearchPage() {
   );
 
   const sort: SortVal = search.sort ?? "relevans";
+  const sida = search.sida ?? 1;
+
+  // Bygg DB-filter från UI-filter
+  const dbFilter: AnnonsFilter = useMemo(
+    () => ({
+      ort: filters.ort.trim() || undefined,
+      ytaMin: parsaTal(filters.ytaMin),
+      ytaMax: parsaTal(filters.ytaMax),
+      hyraMin: parsaTal(filters.hyraMin),
+      hyraMax: parsaTal(filters.hyraMax),
+      rum: filters.rum,
+      källa: filters.källa,
+      ledig: filters.ledig as AnnonsFilter["ledig"],
+    }),
+    [filters],
+  );
+
+  const { annonser, total, loading, error } = useAnnonser({
+    filter: dbFilter,
+    sort,
+    sida,
+    perSida: PER_SIDA,
+  });
 
   const handleChange = (next: Filters) => {
     const cleaned: Record<string, string | number | undefined> = {
@@ -185,40 +155,8 @@ function SearchPage() {
     });
   };
 
-  const filtered = useMemo(
-    () => tillämpaFilter(annonser, filters),
-    [annonser, filters],
-  );
-
-  const results = useMemo(
-    () => sorteraAnnonser(filtered, sort),
-    [filtered, sort],
-  );
-
-  const sida = search.sida ?? 1;
-
-  // Bygg sidor som alltid fyller hela rader (aldrig en ensam annons på sista raden,
-  // utom när det totala antalet är mindre än kolumner)
-  const sidStartIndex = useMemo(() => {
-    const starter: number[] = [];
-    let i = 0;
-    while (i < results.length) {
-      starter.push(i);
-      let nästa = i + perSida;
-      // Om resten efter denna sida är mindre än en hel rad → ta med dem på denna sida
-      const kvar = results.length - nästa;
-      if (kvar > 0 && kvar < kolumner) nästa = results.length;
-      i = nästa;
-    }
-    if (starter.length === 0) starter.push(0);
-    return starter;
-  }, [results.length, perSida, kolumner]);
-
-  const totalSidor = sidStartIndex.length;
+  const totalSidor = Math.max(1, Math.ceil(total / PER_SIDA));
   const aktuellSida = Math.min(Math.max(1, sida), totalSidor);
-  const start = sidStartIndex[aktuellSida - 1];
-  const slut = sidStartIndex[aktuellSida] ?? results.length;
-  const sidResultat = results.slice(start, slut);
 
   const gåTillSida = (n: number) => {
     navigate({
@@ -244,16 +182,18 @@ function SearchPage() {
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h1 className="text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
-              {loading ? "Laddar…" : `${results.length} bostäder`}
+              {loading ? "Laddar…" : `${total} bostäder`}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {results.length === annonser.length
+              {Object.values(dbFilter).every(
+                (v) => v == null || v === "" || v === "alla",
+              )
                 ? "Alla lediga annonser"
                 : "Filtrerat resultat"}
             </p>
           </div>
 
-          {!loading && !error && results.length > 0 && (
+          {!loading && !error && total > 0 && (
             <div className="flex items-center gap-2 text-sm">
               <ArrowUpDown className="h-4 w-4 text-primary" aria-hidden />
               <span className="text-muted-foreground">Sortera:</span>
@@ -285,7 +225,7 @@ function SearchPage() {
           </div>
         )}
 
-        {!loading && !error && results.length === 0 && (
+        {!loading && !error && total === 0 && (
           <div className="rounded-2xl border border-dashed border-border p-12 text-center">
             <p className="text-muted-foreground">
               Inga bostäder matchar dina filter. Prova att rensa eller bredda
@@ -294,10 +234,10 @@ function SearchPage() {
           </div>
         )}
 
-        {!loading && !error && results.length > 0 && (
+        {!loading && !error && annonser.length > 0 && (
           <>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {sidResultat.map((a) => (
+              {annonser.map((a) => (
                 <AnnonsCard key={a.id} annons={a} />
               ))}
             </div>

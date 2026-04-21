@@ -25,8 +25,13 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const { annonser, loading, error } = useAnnonser();
-  const featured = annonser.slice(0, 6);
+  const { annonser, total, loading, error } = useAnnonser({
+    filter: {},
+    sort: "relevans",
+    sida: 1,
+    perSida: 6,
+  });
+  const featured = annonser;
 
   return (
     <div className="min-h-screen bg-background">
@@ -68,7 +73,7 @@ function Home() {
           <div className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Building2 className="h-4 w-4 text-primary" />
-              {loading ? "Laddar…" : `${annonser.length} aktiva annonser`}
+              {loading ? "Laddar…" : `${total} aktiva annonser`}
             </div>
             <div className="flex items-center gap-2">
               <Search className="h-4 w-4 text-primary" /> Flera källor på ett ställe
