@@ -28,22 +28,3 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: python samla_annonser.py
-      
-      - name: Committa ny data
-        run: |
-          git config user.name "HomeFinder Bot"
-          git config user.email "info@homefinder.se"
-          git pull --rebase origin main
-          git add annonser.json
-          if git diff --staged --quiet; then
-            echo "Inga ändringar att committa"
-          else
-            git commit -m "Automatisk uppdatering av annonser"
-            # Hämta senaste ändringar från Lovable och rebasea ovanpå
-            for i in 1 2 3; do
-              git pull --rebase --autostash origin ${GITHUB_REF_NAME} && \
-              git push origin HEAD:${GITHUB_REF_NAME} && break
-              echo "Push misslyckades, försöker igen ($i/3)..."
-              sleep 5
-            done
-          fi
