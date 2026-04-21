@@ -119,10 +119,6 @@ def main():
     unika = dedup_pa_url(alla)
     print(f"  → {len(unika)} unika annonser (av {len(alla)} totalt)")
 
-    # Backup-fil (behåller bakåtkompatibilitet)
-    with open("annonser.json", "w", encoding="utf-8") as f:
-        json.dump(unika, f, ensure_ascii=False, indent=2)
-    print(f"  → Backup sparad till annonser.json")
 
     # Ladda upp till databasen
     supabase_url = os.environ.get("SUPABASE_URL")
