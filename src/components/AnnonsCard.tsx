@@ -58,6 +58,7 @@ function ärNy(annons: Annons): boolean {
 export function AnnonsCard({ annons }: { annons: Annons }) {
   const mapQuery = [annons.område, annons.titel].filter(Boolean).join(", ") || annons.titel;
   const ny = ärNy(annons);
+  const datumStatus = tolkaLedigDatum(annons.ledig);
 
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-primary/30 hover:shadow-[var(--shadow-elegant)]">
