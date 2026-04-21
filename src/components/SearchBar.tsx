@@ -24,8 +24,8 @@ export function SearchBar({ variant = "hero" }: Props) {
       onSubmit={handleSearch}
       className={
         variant === "hero"
-          ? "flex w-full items-center gap-2 rounded-3xl border border-border/50 bg-card p-3 shadow-[var(--shadow-soft)]"
-          : "flex w-full items-center gap-2 rounded-2xl border border-border bg-card p-2"
+          ? "flex w-full flex-col gap-2 rounded-3xl border border-border/50 bg-card p-3 shadow-[var(--shadow-soft)] sm:flex-row sm:items-center"
+          : "flex w-full flex-col gap-2 rounded-2xl border border-border bg-card p-2 sm:flex-row sm:items-center"
       }
     >
       <Input
@@ -33,9 +33,9 @@ export function SearchBar({ variant = "hero" }: Props) {
         placeholder="Sök på område, gata eller hyresvärd…"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        className="h-12 flex-1 border-0 bg-transparent shadow-none focus-visible:ring-0"
+        className="h-12 w-full flex-1 border-0 bg-transparent text-base shadow-none focus-visible:ring-0"
       />
-      <Button type="submit" size="lg" className="h-12 gap-2 px-6">
+      <Button type="submit" size="lg" className="h-12 w-full gap-2 px-6 text-base sm:w-auto">
         <Search className="h-4 w-4" />
         Sök
       </Button>
