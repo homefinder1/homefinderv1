@@ -16,14 +16,34 @@ const sourceColors: Record<string, string> = {
   Bostadsdirekt: "bg-amber-100 text-amber-900",
 };
 
-function formateraDatum(d: string) {
+type DatumStatus =
+  | { typ: "dölj" }
+  | { typ: "nu" }
+  | { typ: "framtid"; text: string };
+
+function tolkaLedigDatum(d: string | undefined | null): DatumStatus {
+  if (!d) return { typ: "dölj" };
   const date = new Date(d);
-  if (isNaN(date.getTime())) return d;
-  return date.toLocaleDateString("sv-SE", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  if (isNaN(date.getTime())) return { typ: "dölj" };
+  // Dölj epoch / 1970-datum
+  if (date.getUTCFullYear() <= 1970) return { typ: "dölj" };
+
+  // Jämför endast datum, inte tid
+  const idag = new Date();
+  idag.setHours(0, 0, 0, 0);
+  const datumUtanTid = new Date(date);
+  datumUtanTid.setHours(0, 0, 0, 0);
+
+  if (datumUtanTid.getTime() <= idag.getTime()) return { typ: "nu" };
+
+  return {
+    typ: "framtid",
+    text: date.toLocaleDateString("sv-SE", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }),
+  };
 }
 
 function ärNy(annons: Annons): boolean {
@@ -38,6 +58,7 @@ function ärNy(annons: Annons): boolean {
 export function AnnonsCard({ annons }: { annons: Annons }) {
   const mapQuery = [annons.område, annons.titel].filter(Boolean).join(", ") || annons.titel;
   const ny = ärNy(annons);
+  const datumStatus = tolkaLedigDatum(annons.ledig);
 
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-primary/30 hover:shadow-[var(--shadow-elegant)]">
@@ -85,10 +106,14 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
             <span className="text-muted-foreground">Hyra</span>
             <span className="font-semibold text-foreground text-right">{annons.hyra}</span>
           </div>
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Calendar className="h-4 w-4 text-primary shrink-0" />
-            <span className="truncate">Ledig {formateraDatum(annons.ledig)}</span>
-          </div>
+          {datumStatus.typ !== "dölj" && (
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Calendar className="h-4 w-4 text-primary shrink-0" />
+              <span className="truncate">
+                {datumStatus.typ === "nu" ? "Ledig nu" : `Ledig ${datumStatus.text}`}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 

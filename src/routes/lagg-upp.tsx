@@ -39,7 +39,8 @@ function PostListing() {
     const titel = String(fd.get("title") ?? "").trim();
     const omrade = String(fd.get("city") ?? "").trim();
     const hyraNum = String(fd.get("price") ?? "").trim();
-    const antal_rum = Number(fd.get("rooms")) || null;
+    const rumRaw = Number(fd.get("rooms"));
+    const antal_rum = Number.isFinite(rumRaw) && rumRaw >= 1 && rumRaw <= 10 ? Math.round(rumRaw) : null;
     const beskrivning = String(fd.get("desc") ?? "").trim() || null;
     const kontakt_email = String(fd.get("email") ?? "").trim();
 
@@ -113,7 +114,7 @@ function PostListing() {
               </div>
               <div className="space-y-2 sm:col-span-2">
                 <Label htmlFor="rooms" className="text-sm">Antal rum</Label>
-                <Input id="rooms" name="rooms" type="number" inputMode="decimal" step="0.5" placeholder="2" className="h-12 text-base" />
+                <Input id="rooms" name="rooms" type="number" inputMode="numeric" min={1} max={10} step={1} placeholder="2" className="h-12 text-base" />
               </div>
             </div>
             <div className="space-y-2">
