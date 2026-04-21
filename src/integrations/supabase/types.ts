@@ -22,10 +22,13 @@ export type Database = {
           id: string
           kalla: string
           kontakt_email: string
+          kontakt_namn: string | null
+          kontakt_telefon: string | null
           omrade: string | null
           skapad_datum: string
           status: Database["public"]["Enums"]["annons_status"]
           titel: string
+          user_id: string | null
         }
         Insert: {
           antal_rum?: number | null
@@ -34,10 +37,13 @@ export type Database = {
           id?: string
           kalla?: string
           kontakt_email: string
+          kontakt_namn?: string | null
+          kontakt_telefon?: string | null
           omrade?: string | null
           skapad_datum?: string
           status?: Database["public"]["Enums"]["annons_status"]
           titel: string
+          user_id?: string | null
         }
         Update: {
           antal_rum?: number | null
@@ -46,10 +52,40 @@ export type Database = {
           id?: string
           kalla?: string
           kontakt_email?: string
+          kontakt_namn?: string | null
+          kontakt_telefon?: string | null
           omrade?: string | null
           skapad_datum?: string
           status?: Database["public"]["Enums"]["annons_status"]
           titel?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          efternamn: string
+          fornamn: string
+          id: string
+          skapad_datum: string
+          telefon: string
+          uppdaterad_datum: string
+        }
+        Insert: {
+          efternamn?: string
+          fornamn?: string
+          id: string
+          skapad_datum?: string
+          telefon?: string
+          uppdaterad_datum?: string
+        }
+        Update: {
+          efternamn?: string
+          fornamn?: string
+          id?: string
+          skapad_datum?: string
+          telefon?: string
+          uppdaterad_datum?: string
         }
         Relationships: []
       }
