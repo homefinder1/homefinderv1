@@ -89,6 +89,57 @@ export type Database = {
         }
         Relationships: []
       }
+      scraped_annonser: {
+        Row: {
+          antal_rum: string | null
+          hyra: string | null
+          hyra_num: number | null
+          id: string
+          kalla: string
+          ledig: string | null
+          ledig_datum: string | null
+          omrade: string | null
+          rum_num: number | null
+          skapad_datum: string
+          storlek: string | null
+          storlek_num: number | null
+          titel: string
+          url: string
+        }
+        Insert: {
+          antal_rum?: string | null
+          hyra?: string | null
+          hyra_num?: number | null
+          id?: string
+          kalla: string
+          ledig?: string | null
+          ledig_datum?: string | null
+          omrade?: string | null
+          rum_num?: number | null
+          skapad_datum?: string
+          storlek?: string | null
+          storlek_num?: number | null
+          titel: string
+          url: string
+        }
+        Update: {
+          antal_rum?: string | null
+          hyra?: string | null
+          hyra_num?: number | null
+          id?: string
+          kalla?: string
+          ledig?: string | null
+          ledig_datum?: string | null
+          omrade?: string | null
+          rum_num?: number | null
+          skapad_datum?: string
+          storlek?: string | null
+          storlek_num?: number | null
+          titel?: string
+          url?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -112,7 +163,26 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      alla_annonser: {
+        Row: {
+          antal_rum: string | null
+          hyra: string | null
+          hyra_num: number | null
+          id: string | null
+          kalla: string | null
+          ledig: string | null
+          ledig_datum: string | null
+          omrade: string | null
+          rum_num: number | null
+          skapad_datum: string | null
+          storlek: string | null
+          storlek_num: number | null
+          titel: string | null
+          typ: string | null
+          url: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       has_role: {
@@ -122,6 +192,8 @@ export type Database = {
         }
         Returns: boolean
       }
+      show_limit: { Args: never; Returns: number }
+      show_trgm: { Args: { "": string }; Returns: string[] }
     }
     Enums: {
       annons_status: "vantande" | "godkand" | "avvisad"
