@@ -39,7 +39,8 @@ function PostListing() {
     const titel = String(fd.get("title") ?? "").trim();
     const omrade = String(fd.get("city") ?? "").trim();
     const hyraNum = String(fd.get("price") ?? "").trim();
-    const antal_rum = Number(fd.get("rooms")) || null;
+    const rumRaw = Number(fd.get("rooms"));
+    const antal_rum = Number.isFinite(rumRaw) && rumRaw >= 1 && rumRaw <= 10 ? Math.round(rumRaw) : null;
     const beskrivning = String(fd.get("desc") ?? "").trim() || null;
     const kontakt_email = String(fd.get("email") ?? "").trim();
 
