@@ -106,10 +106,14 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
             <span className="text-muted-foreground">Hyra</span>
             <span className="font-semibold text-foreground text-right">{annons.hyra}</span>
           </div>
-          <div className="flex items-center gap-2 text-muted-foreground">
-            <Calendar className="h-4 w-4 text-primary shrink-0" />
-            <span className="truncate">Ledig {formateraDatum(annons.ledig)}</span>
-          </div>
+          {datumStatus.typ !== "dölj" && (
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Calendar className="h-4 w-4 text-primary shrink-0" />
+              <span className="truncate">
+                {datumStatus.typ === "nu" ? "Ledig nu" : `Ledig ${datumStatus.text}`}
+              </span>
+            </div>
+          )}
         </div>
       </div>
 
