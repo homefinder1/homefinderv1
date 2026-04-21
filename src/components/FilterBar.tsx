@@ -104,7 +104,7 @@ export function FilterBar({ filters, onChange }: Props) {
             placeholder="t.ex. Stockholm"
             value={filters.ort}
             onChange={(e) => update("ort", e.target.value)}
-            className="h-10"
+            className={inputClass}
           />
           <datalist id="filter-städer">
             {STÄDER.map((s) => (
@@ -117,7 +117,7 @@ export function FilterBar({ filters, onChange }: Props) {
         <div className="space-y-1.5">
           <Label className="text-xs text-muted-foreground">Antal rum</Label>
           <Select value={filters.rum} onValueChange={(v) => update("rum", v)}>
-            <SelectTrigger className="h-10">
+            <SelectTrigger className={triggerClass}>
               <SelectValue placeholder="Alla" />
             </SelectTrigger>
             <SelectContent>
@@ -138,7 +138,7 @@ export function FilterBar({ filters, onChange }: Props) {
             value={filters.källa}
             onValueChange={(v) => update("källa", v)}
           >
-            <SelectTrigger className="h-10">
+            <SelectTrigger className={triggerClass}>
               <SelectValue placeholder="Alla" />
             </SelectTrigger>
             <SelectContent>
@@ -163,7 +163,7 @@ export function FilterBar({ filters, onChange }: Props) {
               placeholder="Min"
               value={filters.ytaMin}
               onChange={(e) => update("ytaMin", e.target.value)}
-              className="h-10"
+              className={inputClass}
             />
             <span className="text-muted-foreground">–</span>
             <Input
@@ -173,7 +173,7 @@ export function FilterBar({ filters, onChange }: Props) {
               placeholder="Max"
               value={filters.ytaMax}
               onChange={(e) => update("ytaMax", e.target.value)}
-              className="h-10"
+              className={inputClass}
             />
           </div>
         </div>
@@ -189,7 +189,7 @@ export function FilterBar({ filters, onChange }: Props) {
               placeholder="Min"
               value={filters.hyraMin}
               onChange={(e) => update("hyraMin", e.target.value)}
-              className="h-10"
+              className={inputClass}
             />
             <span className="text-muted-foreground">–</span>
             <Input
@@ -199,7 +199,7 @@ export function FilterBar({ filters, onChange }: Props) {
               placeholder="Max"
               value={filters.hyraMax}
               onChange={(e) => update("hyraMax", e.target.value)}
-              className="h-10"
+              className={inputClass}
             />
           </div>
         </div>
@@ -211,7 +211,7 @@ export function FilterBar({ filters, onChange }: Props) {
             value={filters.ledig}
             onValueChange={(v) => update("ledig", v)}
           >
-            <SelectTrigger className="h-10">
+            <SelectTrigger className={triggerClass}>
               <span className="flex items-center gap-2">
                 <CalendarIcon className="h-4 w-4 text-primary" />
                 <SelectValue placeholder="Alla" />
