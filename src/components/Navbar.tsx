@@ -103,7 +103,7 @@ export function Navbar() {
             </Button>
           )}
           <Button asChild size="sm" className="gap-1.5">
-            <Link to={user ? "/lagg-upp" : "/auth"} search={user ? undefined : { redirect: "/lagg-upp" }}>
+            <Link to="/lagg-upp" onClick={handleLaggUppClick}>
               <Plus className="h-4 w-4" />
               Lägg upp annons
             </Link>
@@ -167,9 +167,14 @@ export function Navbar() {
                 asChild
                 size="lg"
                 className="h-12 w-full justify-start gap-3 text-base"
-                onClick={() => setOpen(false)}
               >
-                <Link to={user ? "/lagg-upp" : "/auth"} search={user ? undefined : { redirect: "/lagg-upp" }}>
+                <Link
+                  to="/lagg-upp"
+                  onClick={(e) => {
+                    handleLaggUppClick(e);
+                    if (user) setOpen(false);
+                  }}
+                >
                   <Plus className="h-5 w-5" />
                   Lägg upp annons
                 </Link>
