@@ -13,6 +13,16 @@ export function Navbar() {
   const { user, isAdmin, loading } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
+
+  function handleLaggUppClick(e: React.MouseEvent) {
+    if (loading) return;
+    if (!user) {
+      e.preventDefault();
+      setOpen(false);
+      setAuthDialogOpen(true);
+    }
+  }
 
   async function handleLogout() {
     setOpen(false);
