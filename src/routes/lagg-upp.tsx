@@ -113,7 +113,7 @@ function PostListing() {
               </div>
               <div className="space-y-2 sm:col-span-2">
                 <Label htmlFor="rooms" className="text-sm">Antal rum</Label>
-                <Input id="rooms" name="rooms" type="number" inputMode="decimal" step="0.5" placeholder="2" className="h-12 text-base" />
+                <Input id="rooms" name="rooms" type="number" inputMode="numeric" min={1} max={10} step={1} placeholder="2" className="h-12 text-base" />
               </div>
             </div>
             <div className="space-y-2">
