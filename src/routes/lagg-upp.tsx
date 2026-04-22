@@ -93,17 +93,27 @@ function PostListing() {
     const hyraNum = String(fd.get("price") ?? "").trim();
     const rumRaw = Number(fd.get("rooms"));
     const antal_rum = Number.isFinite(rumRaw) && rumRaw >= 1 && rumRaw <= 10 ? Math.round(rumRaw) : null;
+    const ytaRaw = Number(fd.get("yta"));
+    const storlek_num = Number.isFinite(ytaRaw) && ytaRaw > 0 && ytaRaw <= 10000 ? ytaRaw : null;
     const beskrivning = String(fd.get("desc") ?? "").trim() || null;
     const fornamn = String(fd.get("fornamn") ?? "").trim();
     const efternamn = String(fd.get("efternamn") ?? "").trim();
     const telefon = String(fd.get("telefon") ?? "").trim();
 
     if (!titel) {
-      toast.error("Fyll i adress/rubrik");
+      toast.error("Adress/rubrik är obligatoriskt");
       return;
     }
-    if (!fornamn || !efternamn || !telefon) {
-      toast.error("Namn och telefon krävs");
+    if (!omrade) {
+      toast.error("Område är obligatoriskt");
+      return;
+    }
+    if (!hyraNum) {
+      toast.error("Hyra är obligatoriskt");
+      return;
+    }
+    if (!fornamn) {
+      toast.error("Förnamn är obligatoriskt");
       return;
     }
 
@@ -126,11 +136,12 @@ function PostListing() {
       titel,
       omrade: omrade || null,
       antal_rum,
+      storlek_num,
       hyra: hyraNum ? `${hyraNum} kr/mån` : null,
       beskrivning,
       kontakt_email: user.email ?? "",
       kontakt_namn: `${fornamn} ${efternamn}`.trim(),
-      kontakt_telefon: telefon,
+      kontakt_telefon: telefon || null,
       kalla: "Privat",
       user_id: user.id,
     });
@@ -218,15 +229,25 @@ function PostListing() {
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="city" className="text-sm">Område</Label>
-                <Input id="city" name="city" placeholder="Södermalm" className="h-12 text-base" />
+                <Input id="city" name="city" placeholder="Södermalm" required className="h-12 text-base" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="price" className="text-sm">Hyra (kr/mån)</Label>
-                <Input id="price" name="price" type="number" inputMode="numeric" placeholder="9500" className="h-12 text-base" />
+                <Input id="price" name="price" type="number" inputMode="numeric" placeholder="9500" required className="h-12 text-base" />
               </div>
-              <div className="space-y-2 sm:col-span-2">
-                <Label htmlFor="rooms" className="text-sm">Antal rum</Label>
+              <div className="space-y-2">
+                <Label htmlFor="rooms" className="text-sm flex items-center justify-between">
+                  <span>Antal rum</span>
+                  <span className="text-xs font-normal text-muted-foreground">Valfritt</span>
+                </Label>
                 <Input id="rooms" name="rooms" type="number" inputMode="numeric" min={1} max={10} step={1} placeholder="2" className="h-12 text-base" />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="yta" className="text-sm flex items-center justify-between">
+                  <span>Yta (m²)</span>
+                  <span className="text-xs font-normal text-muted-foreground">Valfritt</span>
+                </Label>
+                <Input id="yta" name="yta" type="number" inputMode="numeric" min={1} max={10000} step={1} placeholder="65" className="h-12 text-base" />
               </div>
             </div>
             <div className="space-y-2">
@@ -260,26 +281,30 @@ function PostListing() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="efternamn" className="text-sm">Efternamn</Label>
+                  <Label htmlFor="efternamn" className="text-sm flex items-center justify-between">
+                    <span>Efternamn</span>
+                    <span className="text-xs font-normal text-muted-foreground">Valfritt</span>
+                  </Label>
                   <Input
                     id="efternamn"
                     name="efternamn"
                     defaultValue={profil?.efternamn ?? ""}
-                    required
                     autoComplete="family-name"
                     className="h-12 text-base"
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="telefon" className="text-sm">Telefonnummer</Label>
+                <Label htmlFor="telefon" className="text-sm flex items-center justify-between">
+                  <span>Telefonnummer</span>
+                  <span className="text-xs font-normal text-muted-foreground">Valfritt</span>
+                </Label>
                 <Input
                   id="telefon"
                   name="telefon"
                   type="tel"
                   inputMode="tel"
                   defaultValue={profil?.telefon ?? ""}
-                  required
                   autoComplete="tel"
                   className="h-12 text-base"
                 />
