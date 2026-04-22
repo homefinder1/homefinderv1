@@ -59,8 +59,23 @@ interface ProfilData {
   telefon: string;
 }
 
+interface BefintligAnnons {
+  id: string;
+  titel: string;
+  omrade: string | null;
+  hyra: string | null;
+  antal_rum: number | null;
+  storlek_num: number | null;
+  beskrivning: string | null;
+  ledig_datum: string | null;
+  kontakt_namn: string | null;
+  kontakt_telefon: string | null;
+  bilder: string[] | null;
+}
+
 function PostListing() {
   const navigate = useNavigate();
+  const { id: editId } = Route.useSearch();
   const { user, loading: authLoading } = useAuth();
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -69,8 +84,12 @@ function PostListing() {
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [ledigDatum, setLedigDatum] = useState<Date | undefined>(undefined);
   const [bilder, setBilder] = useState<Array<{ file: File; preview: string }>>([]);
+  const [befintligaBilder, setBefintligaBilder] = useState<string[]>([]);
   const [beskrivning, setBeskrivning] = useState("");
+  const [befintlig, setBefintlig] = useState<BefintligAnnons | null>(null);
+  const [laddarAnnons, setLaddarAnnons] = useState(false);
   const filinputRef = useRef<HTMLInputElement | null>(null);
+  const isEdit = !!editId;
 
   // Rensa preview URLs vid unmount
   useEffect(() => {
