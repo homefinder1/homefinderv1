@@ -14,17 +14,24 @@ import { toast } from "sonner";
 export const Route = createFileRoute("/lagg-upp")({
   head: () => ({
     meta: [
-      { title: "Lägg upp annons — HomeFinder" },
+      { title: "Annonsera din hyresbostad gratis — HomeFinder" },
       {
         name: "description",
-        content: "Annonsera din hyresbostad gratis på HomeFinder.",
+        content:
+          "Lägg upp en annons för din hyresbostad gratis på HomeFinder och nå tusentals bostadssökande i hela Sverige.",
       },
-      { property: "og:title", content: "Lägg upp annons — HomeFinder" },
+      {
+        property: "og:title",
+        content: "Annonsera din hyresbostad gratis — HomeFinder",
+      },
       {
         property: "og:description",
-        content: "Nå tusentals bostadssökande i hela Sverige.",
+        content:
+          "Lägg upp en annons för din hyresbostad gratis och nå tusentals bostadssökande i hela Sverige.",
       },
+      { property: "og:type", content: "website" },
     ],
+    links: [{ rel: "canonical", href: "https://homefinder.se/lagg-upp" }],
   }),
   component: PostListing,
 });

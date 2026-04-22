@@ -30,16 +30,18 @@ export const Route = createRootRoute({
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "google-site-verification", content: "6TOWcXBoQdFCGVo8QqqHEIRbL6nAttSZ1W1fEB2HD0c" },
-      { title: "homefinderv1" },
-      { name: "description", content: "HomeFinder Hub is a Swedish rental listing aggregator website." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "homefinderv1" },
-      { property: "og:description", content: "HomeFinder Hub is a Swedish rental listing aggregator website." },
+      { title: "Lediga hyreslägenheter i Sverige — HomeFinder" },
+      {
+        name: "description",
+        content:
+          "Hitta din nästa hyresrätt på HomeFinder. Vi samlar lediga lägenheter från MKB, Boplats, HomeQ och fler källor på ett ställe.",
+      },
+      { name: "author", content: "HomeFinder" },
+      { name: "robots", content: "index, follow" },
+      { property: "og:site_name", content: "HomeFinder" },
+      { property: "og:locale", content: "sv_SE" },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "homefinderv1" },
-      { name: "twitter:description", content: "HomeFinder Hub is a Swedish rental listing aggregator website." },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       {

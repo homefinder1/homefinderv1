@@ -68,17 +68,24 @@ export const Route = createFileRoute("/sok")({
   }),
   head: () => ({
     meta: [
-      { title: "Sök hyresbostäder — HomeFinder" },
+      { title: "Sök lediga hyresbostäder i Sverige — HomeFinder" },
       {
         name: "description",
-        content: "Bläddra bland lediga hyresannonser från MKB och fler källor.",
+        content:
+          "Sök bland tusentals lediga hyresrätter från MKB, Boplats, HomeQ och fler. Filtrera på ort, hyra, antal rum och storlek.",
       },
-      { property: "og:title", content: "Sök hyresbostäder — HomeFinder" },
+      {
+        property: "og:title",
+        content: "Sök lediga hyresbostäder i Sverige — HomeFinder",
+      },
       {
         property: "og:description",
-        content: "Hitta lediga hyreslägenheter på ett ställe.",
+        content:
+          "Sök bland tusentals lediga hyresrätter från MKB, Boplats, HomeQ och fler källor på ett ställe.",
       },
+      { property: "og:type", content: "website" },
     ],
+    links: [{ rel: "canonical", href: "https://homefinder.se/sok" }],
   }),
   component: SearchPage,
 });
