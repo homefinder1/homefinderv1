@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Plus, Shield, LogIn, LogOut, Menu, Home, Building2, Heart } from "lucide-react";
+import { Plus, Shield, LogIn, LogOut, Menu, Home, Building2, Heart, ListChecks } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useAuth } from "@/hooks/useAuth";
@@ -69,6 +69,16 @@ export function Navbar() {
           >
             Bostäder
           </Link>
+          {user && (
+            <Link
+              to="/dina-annonser"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              activeProps={{ className: "text-foreground" }}
+            >
+              <ListChecks className="h-4 w-4" />
+              Dina annonser
+            </Link>
+          )}
           {user && (
             <Link
               to="/favoriter"
@@ -159,6 +169,17 @@ export function Navbar() {
                 <Building2 className="h-5 w-5 text-primary" />
                 Bostäder
               </Link>
+              {user && (
+                <Link
+                  to="/dina-annonser"
+                  onClick={() => setOpen(false)}
+                  className="flex min-h-12 items-center gap-3 rounded-lg px-3 py-3 text-base font-medium text-foreground transition-colors hover:bg-muted"
+                  activeProps={{ className: "bg-muted text-primary" }}
+                >
+                  <ListChecks className="h-5 w-5 text-primary" />
+                  Dina annonser
+                </Link>
+              )}
               {user && (
                 <Link
                   to="/favoriter"
