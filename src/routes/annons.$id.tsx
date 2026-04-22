@@ -224,7 +224,15 @@ function AnnonsDetalj() {
         </Button>
 
         <article className="overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)]">
-          <MiniMap query={mapQuery} className="h-56 w-full border-b border-border sm:h-72" />
+          {annons.bilder && annons.bilder.length > 0 ? (
+            <BildGallery
+              bilder={annons.bilder}
+              alt={annons.titel}
+              className="h-64 w-full border-b border-border sm:h-96"
+            />
+          ) : (
+            <MiniMap query={mapQuery} className="h-56 w-full border-b border-border sm:h-72" />
+          )}
 
           <div className="space-y-6 p-5 sm:p-8">
             <div className="flex flex-wrap items-start justify-between gap-3">
@@ -346,10 +354,21 @@ function AnnonsDetalj() {
                       const cardClass = "group flex w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-xl border border-border bg-card shadow-[var(--shadow-card)] transition-all hover:-translate-y-0.5 hover:border-primary/30 sm:w-[280px]";
                       const innehåll = (
                         <>
-                          <MiniMap
-                            query={[l.omrade, l.titel].filter(Boolean).join(", ") || l.titel}
-                            className="h-28 w-full border-b border-border"
-                          />
+                          {l.bilder && l.bilder.length > 0 ? (
+                            <div className="h-28 w-full overflow-hidden border-b border-border bg-muted">
+                              <img
+                                src={l.bilder[0]}
+                                alt={l.titel}
+                                loading="lazy"
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+                          ) : (
+                            <MiniMap
+                              query={[l.omrade, l.titel].filter(Boolean).join(", ") || l.titel}
+                              className="h-28 w-full border-b border-border"
+                            />
+                          )}
                           <div className="flex flex-1 flex-col gap-2 p-3">
                             <h3 className="line-clamp-2 text-sm font-semibold text-foreground group-hover:text-primary">
                               {l.titel}
