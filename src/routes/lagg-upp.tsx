@@ -128,6 +128,46 @@ function PostListing() {
     };
   }, [user]);
 
+  // Ladda befintlig annons om vi redigerar
+  useEffect(() => {
+    if (!user || !editId) {
+      setBefintlig(null);
+      return;
+    }
+    let aktiv = true;
+    (async () => {
+      setLaddarAnnons(true);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (supabase as any)
+        .from("annonser")
+        .select(
+          "id, titel, omrade, hyra, antal_rum, storlek_num, beskrivning, ledig_datum, kontakt_namn, kontakt_telefon, bilder",
+        )
+        .eq("id", editId)
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (!aktiv) return;
+      if (error || !data) {
+        toast.error("Kunde inte hämta annonsen för redigering");
+        setLaddarAnnons(false);
+        navigate({ to: "/dina-annonser" });
+        return;
+      }
+      const a = data as BefintligAnnons;
+      setBefintlig(a);
+      setBeskrivning(a.beskrivning ?? "");
+      setBefintligaBilder(a.bilder ?? []);
+      if (a.ledig_datum) {
+        const d = new Date(a.ledig_datum);
+        if (!isNaN(d.getTime())) setLedigDatum(d);
+      }
+      setLaddarAnnons(false);
+    })();
+    return () => {
+      aktiv = false;
+    };
+  }, [user, editId, navigate]);
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (!user) return;
