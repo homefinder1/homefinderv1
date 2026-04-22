@@ -76,6 +76,7 @@ export const Route = createFileRoute("/annons/$id")({
     const omrade = loaderData?.annons?.omrade ?? "";
     const desc = loaderData?.annons?.beskrivning?.slice(0, 155) ??
       `Hyresbostad ${omrade ? "i " + omrade : ""} på HomeFinder.`;
+    const ogImage = loaderData?.annons?.bilder?.[0];
     return {
       meta: [
         { title: `${titel} — HomeFinder` },
@@ -83,6 +84,13 @@ export const Route = createFileRoute("/annons/$id")({
         { property: "og:title", content: `${titel} — HomeFinder` },
         { property: "og:description", content: desc },
         { property: "og:type", content: "article" },
+        ...(ogImage
+          ? [
+              { property: "og:image", content: ogImage },
+              { name: "twitter:image", content: ogImage },
+              { name: "twitter:card", content: "summary_large_image" },
+            ]
+          : []),
       ],
     };
   },
@@ -144,7 +152,7 @@ function AnnonsDetalj() {
       return;
     }
 
-    const baseSelect = "id, titel, omrade, antal_rum, storlek, hyra, hyra_num, kalla, url";
+    const baseSelect = "id, titel, omrade, antal_rum, storlek, hyra, hyra_num, kalla, url, bilder";
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const sb: any = supabase as any;
 
