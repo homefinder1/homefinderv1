@@ -133,30 +133,30 @@ function AnnonsDetalj() {
       ? annons.omrade.replace(/[%,]/g, "").split(/\s+/)[0]
       : null;
 
+    // Utan område kan vi inte matcha — sektionen döljs
+    if (!ort) {
+      setLiknande([]);
+      return;
+    }
+
     const baseSelect = "id, titel, omrade, antal_rum, storlek, hyra, hyra_num, kalla, url";
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const sb: any = supabase as any;
 
-    async function körFråga(opts: {
-      ort?: boolean;
-      rum?: boolean;
-      pris?: boolean;
-      prisSpann?: number;
-    }) {
+    async function körFråga(opts: { rum?: boolean; pris?: boolean }) {
       let q = sb
         .from("alla_annonser")
         .select(baseSelect)
         .neq("id", `privat-${annons.id}`)
+        .ilike("omrade", `%${ort}%`) // OBLIGATORISK: samma område
         .limit(20);
       if (opts.rum && annons.antal_rum != null) {
-        q = q.gte("rum_num", annons.antal_rum).lt("rum_num", annons.antal_rum + 1);
+        // ±1 rum
+        q = q.gte("rum_num", annons.antal_rum - 1).lte("rum_num", annons.antal_rum + 1);
       }
       if (opts.pris && hyraNum != null) {
-        const spann = opts.prisSpann ?? 1000;
-        q = q.gte("hyra_num", Math.max(0, hyraNum - spann)).lte("hyra_num", hyraNum + spann);
-      }
-      if (opts.ort && ort) {
-        q = q.ilike("omrade", `%${ort}%`);
+        // ±2000 kr
+        q = q.gte("hyra_num", Math.max(0, hyraNum - 2000)).lte("hyra_num", hyraNum + 2000);
       }
       const { data, error } = await q;
       if (error) {
@@ -167,15 +167,11 @@ function AnnonsDetalj() {
     }
 
     (async () => {
-      // Progressiv fallback: börja strikt, lossa filter tills vi har träffar
+      // Progressiv fallback INOM samma område
       const försök: Array<Parameters<typeof körFråga>[0]> = [
-        { ort: true, rum: true, pris: true, prisSpann: 1000 },
-        { ort: true, rum: true, pris: true, prisSpann: 3000 },
-        { ort: true, rum: true },
-        { ort: true, pris: true, prisSpann: 2000 },
-        { ort: true },
-        { rum: true, pris: true, prisSpann: 2000 },
+        { rum: true, pris: true },
         { rum: true },
+        { pris: true },
         {},
       ];
       for (const opts of försök) {
