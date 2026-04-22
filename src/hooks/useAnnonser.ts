@@ -164,6 +164,7 @@ export function useAnnonser({ filter, sort, sida, perSida }: Args): State {
           url: string;
           kalla: string;
           skapad_datum: string;
+          bilder?: string[] | null;
         }>;
 
         const annonser: Annons[] = rows.map((r) => ({
@@ -177,6 +178,7 @@ export function useAnnonser({ filter, sort, sida, perSida }: Args): State {
           url: r.url,
           källa: normaliseraKälla(r.kalla),
           skapad: r.skapad_datum,
+          bilder: r.bilder ?? undefined,
         }));
 
         setState({
