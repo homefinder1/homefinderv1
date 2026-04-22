@@ -115,7 +115,7 @@ function PostListing() {
     const antal_rum = Number.isFinite(rumRaw) && rumRaw >= 1 && rumRaw <= 10 ? Math.round(rumRaw) : null;
     const ytaRaw = Number(fd.get("yta"));
     const storlek_num = Number.isFinite(ytaRaw) && ytaRaw > 0 && ytaRaw <= 10000 ? ytaRaw : null;
-    const beskrivning = String(fd.get("desc") ?? "").trim() || null;
+    const beskrivningTrim = beskrivning.trim().slice(0, MAX_BESKRIVNING) || null;
     const fornamn = String(fd.get("fornamn") ?? "").trim();
     const efternamn = String(fd.get("efternamn") ?? "").trim();
     const telefon = String(fd.get("telefon") ?? "").trim();
@@ -152,19 +152,37 @@ function PostListing() {
         .eq("id", user.id);
     }
 
+    // Ladda upp bilder (komprimeras automatiskt)
+    let bildUrls: string[] = [];
+    if (bilder.length > 0) {
+      try {
+        bildUrls = await Promise.all(
+          bilder.map((b) => laddaUppBild(b.file, user.id)),
+        );
+      } catch (err) {
+        setSubmitting(false);
+        toast.error(
+          "Kunde inte ladda upp bild: " +
+            (err instanceof Error ? err.message : "okänt fel"),
+        );
+        return;
+      }
+    }
+
     const { error } = await supabase.from("annonser").insert({
       titel,
       omrade: omrade || null,
       antal_rum,
       storlek_num,
       hyra: hyraNum ? `${hyraNum} kr/mån` : null,
-      beskrivning,
+      beskrivning: beskrivningTrim,
       ledig_datum: ledigDatum ? format(ledigDatum, "yyyy-MM-dd") : null,
       kontakt_email: user.email ?? "",
       kontakt_namn: `${fornamn} ${efternamn}`.trim(),
       kontakt_telefon: telefon || null,
       kalla: "Privat",
       user_id: user.id,
+      bilder: bildUrls.length > 0 ? bildUrls : null,
     });
     setSubmitting(false);
 
@@ -174,6 +192,37 @@ function PostListing() {
     }
 
     setSubmitted(true);
+  }
+
+  function läggTillBilder(filer: FileList | null) {
+    if (!filer || filer.length === 0) return;
+    const lediga = MAX_BILDER - bilder.length;
+    if (lediga <= 0) {
+      toast.error(`Du kan ladda upp max ${MAX_BILDER} bilder`);
+      return;
+    }
+    const nya: Array<{ file: File; preview: string }> = [];
+    for (const f of Array.from(filer).slice(0, lediga)) {
+      if (!f.type.startsWith("image/")) {
+        toast.error(`"${f.name}" är inte en bild`);
+        continue;
+      }
+      if (f.size > MAX_FILSTORLEK_MB * 1024 * 1024) {
+        toast.error(`"${f.name}" är större än ${MAX_FILSTORLEK_MB} MB`);
+        continue;
+      }
+      nya.push({ file: f, preview: URL.createObjectURL(f) });
+    }
+    if (nya.length > 0) setBilder((prev) => [...prev, ...nya]);
+    if (filinputRef.current) filinputRef.current.value = "";
+  }
+
+  function taBortBild(idx: number) {
+    setBilder((prev) => {
+      const removed = prev[idx];
+      if (removed) URL.revokeObjectURL(removed.preview);
+      return prev.filter((_, i) => i !== idx);
+    });
   }
 
   if (authLoading) {
