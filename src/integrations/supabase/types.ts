@@ -27,6 +27,7 @@ export type Database = {
           omrade: string | null
           skapad_datum: string
           status: Database["public"]["Enums"]["annons_status"]
+          storlek_num: number | null
           titel: string
           user_id: string | null
         }
@@ -42,6 +43,7 @@ export type Database = {
           omrade?: string | null
           skapad_datum?: string
           status?: Database["public"]["Enums"]["annons_status"]
+          storlek_num?: number | null
           titel: string
           user_id?: string | null
         }
@@ -57,6 +59,7 @@ export type Database = {
           omrade?: string | null
           skapad_datum?: string
           status?: Database["public"]["Enums"]["annons_status"]
+          storlek_num?: number | null
           titel?: string
           user_id?: string | null
         }
