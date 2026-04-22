@@ -199,6 +199,7 @@ export type Database = {
       alla_annonser: {
         Row: {
           antal_rum: string | null
+          bilder: string[] | null
           hyra: string | null
           hyra_num: number | null
           id: string | null
