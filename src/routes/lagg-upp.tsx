@@ -367,14 +367,76 @@ function PostListing() {
               </Popover>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="desc" className="text-sm">Beskrivning</Label>
+              <Label htmlFor="desc" className="text-sm flex items-center justify-between">
+                <span>Beskrivning</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  {beskrivning.length}/{MAX_BESKRIVNING}
+                </span>
+              </Label>
               <Textarea
                 id="desc"
                 name="desc"
                 rows={5}
-                placeholder="Beskriv bostaden, läget och vad som ingår..."
+                value={beskrivning}
+                onChange={(e) => setBeskrivning(e.target.value.slice(0, MAX_BESKRIVNING))}
+                placeholder="Förbättra dina odds — beskriv vad som gör bostaden special (200–500 tecken)"
                 className="min-h-[140px] text-base"
               />
+              <p className="text-xs text-muted-foreground">Valfritt. Max {MAX_BESKRIVNING} tecken.</p>
+            </div>
+
+            <div className="space-y-3">
+              <Label className="text-sm flex items-center justify-between">
+                <span>Bilder</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  Valfritt — max {MAX_BILDER} st
+                </span>
+              </Label>
+
+              <input
+                ref={filinputRef}
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={(e) => läggTillBilder(e.target.files)}
+              />
+
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {bilder.map((b, idx) => (
+                  <div
+                    key={b.preview}
+                    className="group relative aspect-square overflow-hidden rounded-xl border border-border bg-muted"
+                  >
+                    <img
+                      src={b.preview}
+                      alt={`Bild ${idx + 1}`}
+                      className="h-full w-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => taBortBild(idx)}
+                      aria-label="Ta bort bild"
+                      className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md transition hover:bg-background"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+                {bilder.length < MAX_BILDER && (
+                  <button
+                    type="button"
+                    onClick={() => filinputRef.current?.click()}
+                    className="flex aspect-square flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border bg-muted/30 text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+                  >
+                    <ImagePlus className="h-6 w-6" />
+                    <span className="text-xs font-medium">Lägg till bild</span>
+                  </button>
+                )}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Bilder komprimeras automatiskt. Max {MAX_FILSTORLEK_MB} MB per bild.
+              </p>
             </div>
 
             <div className="space-y-4 rounded-xl border border-border/60 bg-muted/30 p-4">
