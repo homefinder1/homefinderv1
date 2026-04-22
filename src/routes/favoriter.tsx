@@ -1,8 +1,9 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Heart, MapPin, BedDouble, Ruler, Trash2 } from "lucide-react";
+import { Heart, MapPin, BedDouble, Ruler, Trash2, ExternalLink } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { MiniMap } from "@/components/MiniMap";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -11,10 +12,12 @@ interface FavoritAnnons {
   id: string;
   titel: string;
   omrade: string | null;
-  antal_rum: number | null;
-  storlek_num: number | null;
+  antal_rum: string | null;
+  storlek: string | null;
   hyra: string | null;
   bilder: string[] | null;
+  url: string | null;
+  kalla: string | null;
 }
 
 interface FavoritRad {
@@ -23,6 +26,14 @@ interface FavoritRad {
   skapad_datum: string;
   annons: FavoritAnnons | null;
 }
+
+const sourceColors: Record<string, string> = {
+  MKB: "bg-blue-100 text-blue-900",
+  HomeQ: "bg-emerald-100 text-emerald-900",
+  "Boplats Väst": "bg-orange-100 text-orange-900",
+  "Boplats Syd": "bg-purple-100 text-purple-900",
+  Privat: "bg-pink-100 text-pink-900",
+};
 
 export const Route = createFileRoute("/favoriter")({
   head: () => ({
@@ -71,12 +82,12 @@ function FavoriterPage() {
       return;
     }
     const ids = rader.map((r: { annons_id: string }) => r.annons_id);
+    // Hämta från alla_annonser-vyn så ALLA källor (MKB, HomeQ, Boplats, privata) hittas
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: annonser } = await (supabase as any)
-      .from("annonser")
-      .select("id, titel, omrade, antal_rum, storlek_num, hyra, bilder")
-      .in("id", ids)
-      .eq("status", "godkand");
+      .from("alla_annonser")
+      .select("id, titel, omrade, antal_rum, storlek, hyra, bilder, url, kalla")
+      .in("id", ids);
     const map = new Map<string, FavoritAnnons>();
     (annonser ?? []).forEach((a: FavoritAnnons) => map.set(a.id, a));
     setFavoriter(
@@ -153,58 +164,82 @@ function FavoriterPage() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {synliga.map((f) => {
               const a = f.annons!;
+              const isPrivat = a.kalla === "Privat" || a.id.startsWith("privat-");
+              const innerId = a.id.replace(/^privat-/, "");
+              const innehåll = (
+                <>
+                  {a.bilder && a.bilder.length > 0 ? (
+                    <div className="h-40 w-full overflow-hidden border-b border-border bg-muted">
+                      <img
+                        src={a.bilder[0]}
+                        alt={a.titel}
+                        loading="lazy"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <MiniMap
+                      query={[a.omrade, a.titel].filter(Boolean).join(", ") || a.titel}
+                      className="h-40 w-full border-b border-border"
+                    />
+                  )}
+                  <div className="space-y-2 p-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="line-clamp-2 text-sm font-semibold text-foreground group-hover:text-primary">
+                        {a.titel}
+                      </h3>
+                      {a.kalla && (
+                        <Badge
+                          className={`shrink-0 border-0 text-[10px] ${sourceColors[a.kalla] ?? "bg-secondary text-secondary-foreground"}`}
+                        >
+                          {a.kalla}
+                        </Badge>
+                      )}
+                    </div>
+                    {a.omrade && (
+                      <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <MapPin className="h-3 w-3 shrink-0" />
+                        <span className="truncate">{a.omrade}</span>
+                      </p>
+                    )}
+                    <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1">
+                        <BedDouble className="h-3 w-3" />
+                        {a.antal_rum ?? "—"}
+                      </span>
+                      {a.storlek && (
+                        <span className="flex items-center gap-1">
+                          <Ruler className="h-3 w-3" />
+                          {a.storlek}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center justify-between gap-2 border-t border-border/60 pt-2 text-sm font-semibold text-foreground">
+                      <span>{a.hyra ?? "—"}</span>
+                      {!isPrivat && <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />}
+                    </div>
+                  </div>
+                </>
+              );
               return (
                 <div
                   key={f.id}
                   className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition-all hover:-translate-y-0.5 hover:border-primary/30"
                 >
-                  <Link
-                    to="/annons/$id"
-                    params={{ id: a.id }}
-                    className="block"
-                  >
-                    {a.bilder && a.bilder.length > 0 ? (
-                      <div className="h-40 w-full overflow-hidden border-b border-border bg-muted">
-                        <img
-                          src={a.bilder[0]}
-                          alt={a.titel}
-                          loading="lazy"
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-                    ) : (
-                      <MiniMap
-                        query={[a.omrade, a.titel].filter(Boolean).join(", ") || a.titel}
-                        className="h-40 w-full border-b border-border"
-                      />
-                    )}
-                    <div className="space-y-2 p-4">
-                      <h3 className="line-clamp-2 text-sm font-semibold text-foreground group-hover:text-primary">
-                        {a.titel}
-                      </h3>
-                      {a.omrade && (
-                        <p className="flex items-center gap-1 text-xs text-muted-foreground">
-                          <MapPin className="h-3 w-3 shrink-0" />
-                          <span className="truncate">{a.omrade}</span>
-                        </p>
-                      )}
-                      <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <BedDouble className="h-3 w-3" />
-                          {a.antal_rum ?? "—"}
-                        </span>
-                        {a.storlek_num != null && (
-                          <span className="flex items-center gap-1">
-                            <Ruler className="h-3 w-3" />
-                            {a.storlek_num} m²
-                          </span>
-                        )}
-                      </div>
-                      <div className="border-t border-border/60 pt-2 text-sm font-semibold text-foreground">
-                        {a.hyra ?? "—"}
-                      </div>
-                    </div>
-                  </Link>
+                  {isPrivat ? (
+                    <Link to="/annons/$id" params={{ id: innerId }} className="block">
+                      {innehåll}
+                    </Link>
+                  ) : (
+                    <a
+                      href={a.url ?? "#"}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      {innehåll}
+                    </a>
+                  )}
                   <Button
                     variant="ghost"
                     size="icon"

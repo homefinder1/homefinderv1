@@ -21,7 +21,14 @@ const MAX_BILDER = 5;
 const MAX_FILSTORLEK_MB = 10;
 const MAX_BESKRIVNING = 500;
 
+interface LaggUppSearch {
+  id?: string;
+}
+
 export const Route = createFileRoute("/lagg-upp")({
+  validateSearch: (search: Record<string, unknown>): LaggUppSearch => ({
+    id: typeof search.id === "string" ? search.id : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Annonsera din hyresbostad gratis — HomeFinder" },
@@ -52,8 +59,23 @@ interface ProfilData {
   telefon: string;
 }
 
+interface BefintligAnnons {
+  id: string;
+  titel: string;
+  omrade: string | null;
+  hyra: string | null;
+  antal_rum: number | null;
+  storlek_num: number | null;
+  beskrivning: string | null;
+  ledig_datum: string | null;
+  kontakt_namn: string | null;
+  kontakt_telefon: string | null;
+  bilder: string[] | null;
+}
+
 function PostListing() {
   const navigate = useNavigate();
+  const { id: editId } = Route.useSearch();
   const { user, loading: authLoading } = useAuth();
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -62,8 +84,12 @@ function PostListing() {
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [ledigDatum, setLedigDatum] = useState<Date | undefined>(undefined);
   const [bilder, setBilder] = useState<Array<{ file: File; preview: string }>>([]);
+  const [befintligaBilder, setBefintligaBilder] = useState<string[]>([]);
   const [beskrivning, setBeskrivning] = useState("");
+  const [befintlig, setBefintlig] = useState<BefintligAnnons | null>(null);
+  const [laddarAnnons, setLaddarAnnons] = useState(false);
   const filinputRef = useRef<HTMLInputElement | null>(null);
+  const isEdit = !!editId;
 
   // Rensa preview URLs vid unmount
   useEffect(() => {
@@ -101,6 +127,46 @@ function PostListing() {
       aktiv = false;
     };
   }, [user]);
+
+  // Ladda befintlig annons om vi redigerar
+  useEffect(() => {
+    if (!user || !editId) {
+      setBefintlig(null);
+      return;
+    }
+    let aktiv = true;
+    (async () => {
+      setLaddarAnnons(true);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data, error } = await (supabase as any)
+        .from("annonser")
+        .select(
+          "id, titel, omrade, hyra, antal_rum, storlek_num, beskrivning, ledig_datum, kontakt_namn, kontakt_telefon, bilder",
+        )
+        .eq("id", editId)
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (!aktiv) return;
+      if (error || !data) {
+        toast.error("Kunde inte hämta annonsen för redigering");
+        setLaddarAnnons(false);
+        navigate({ to: "/dina-annonser" });
+        return;
+      }
+      const a = data as BefintligAnnons;
+      setBefintlig(a);
+      setBeskrivning(a.beskrivning ?? "");
+      setBefintligaBilder(a.bilder ?? []);
+      if (a.ledig_datum) {
+        const d = new Date(a.ledig_datum);
+        if (!isNaN(d.getTime())) setLedigDatum(d);
+      }
+      setLaddarAnnons(false);
+    })();
+    return () => {
+      aktiv = false;
+    };
+  }, [user, editId, navigate]);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -152,11 +218,11 @@ function PostListing() {
         .eq("id", user.id);
     }
 
-    // Ladda upp bilder (komprimeras automatiskt)
-    let bildUrls: string[] = [];
+    // Ladda upp NYA bilder (komprimeras automatiskt) — befintliga URL:er behålls
+    let nyaBildUrls: string[] = [];
     if (bilder.length > 0) {
       try {
-        bildUrls = await Promise.all(
+        nyaBildUrls = await Promise.all(
           bilder.map((b) => laddaUppBild(b.file, user.id)),
         );
       } catch (err) {
@@ -169,6 +235,39 @@ function PostListing() {
       }
     }
 
+    const allaBilder = [...befintligaBilder, ...nyaBildUrls].slice(0, MAX_BILDER);
+
+    if (isEdit && befintlig) {
+      // UPPDATERA befintlig annons — sätter tillbaka status till "vantande" för ny granskning
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase as any)
+        .from("annonser")
+        .update({
+          titel,
+          omrade: omrade || null,
+          antal_rum,
+          storlek_num,
+          hyra: hyraNum ? `${hyraNum} kr/mån` : null,
+          beskrivning: beskrivningTrim,
+          ledig_datum: ledigDatum ? format(ledigDatum, "yyyy-MM-dd") : null,
+          kontakt_email: user.email ?? "",
+          kontakt_namn: `${fornamn} ${efternamn}`.trim(),
+          kontakt_telefon: telefon || null,
+          bilder: allaBilder.length > 0 ? allaBilder : null,
+          status: "vantande",
+        })
+        .eq("id", befintlig.id);
+      setSubmitting(false);
+      if (error) {
+        toast.error("Kunde inte spara ändringarna: " + error.message);
+        return;
+      }
+      toast.success("Annonsen är uppdaterad och skickad för granskning");
+      navigate({ to: "/dina-annonser" });
+      return;
+    }
+
+    // SKAPA ny annons
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (supabase as any).from("annonser").insert({
       titel,
@@ -183,7 +282,7 @@ function PostListing() {
       kontakt_telefon: telefon || null,
       kalla: "Privat",
       user_id: user.id,
-      bilder: bildUrls.length > 0 ? bildUrls : null,
+      bilder: allaBilder.length > 0 ? allaBilder : null,
     });
     setSubmitting(false);
 
@@ -265,10 +364,12 @@ function PostListing() {
 
       <div className="mx-auto max-w-2xl px-4 py-8 md:py-12">
         <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl md:text-4xl">
-          Lägg upp annons
+          {isEdit ? "Redigera annons" : "Lägg upp annons"}
         </h1>
         <p className="mt-2 text-sm text-muted-foreground sm:text-base">
-          Nå tusentals bostadssökande — det är gratis.
+          {isEdit
+            ? "Spara ändringarna — annonsen skickas för granskning igen."
+            : "Nå tusentals bostadssökande — det är gratis."}
         </p>
 
         {submitted ? (
@@ -284,7 +385,7 @@ function PostListing() {
               </p>
             </div>
           </div>
-        ) : profilLoading ? (
+        ) : profilLoading || laddarAnnons ? (
           <div className="mt-8 flex items-center justify-center py-12">
             <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
           </div>
@@ -295,30 +396,30 @@ function PostListing() {
           >
             <div className="space-y-2">
               <Label htmlFor="title" className="text-sm">Adress / rubrik</Label>
-              <Input id="title" name="title" placeholder="T.ex. Storgatan 5, Stockholm" required className="h-12 text-base" />
+              <Input key={`title-${befintlig?.id ?? "new"}`} id="title" name="title" placeholder="T.ex. Storgatan 5, Stockholm" required defaultValue={befintlig?.titel ?? ""} className="h-12 text-base" />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="city" className="text-sm">Område</Label>
-                <Input id="city" name="city" placeholder="Södermalm" required className="h-12 text-base" />
+                <Input key={`city-${befintlig?.id ?? "new"}`} id="city" name="city" placeholder="Södermalm" required defaultValue={befintlig?.omrade ?? ""} className="h-12 text-base" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="price" className="text-sm">Hyra (kr/mån)</Label>
-                <Input id="price" name="price" type="number" inputMode="numeric" placeholder="9500" required className="h-12 text-base" />
+                <Input key={`price-${befintlig?.id ?? "new"}`} id="price" name="price" type="number" inputMode="numeric" placeholder="9500" required defaultValue={befintlig?.hyra ? String(befintlig.hyra).replace(/\D/g, "") : ""} className="h-12 text-base" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="rooms" className="text-sm flex items-center justify-between">
                   <span>Antal rum</span>
                   <span className="text-xs font-normal text-muted-foreground">Valfritt</span>
                 </Label>
-                <Input id="rooms" name="rooms" type="number" inputMode="numeric" min={1} max={10} step={1} placeholder="2" className="h-12 text-base" />
+                <Input key={`rooms-${befintlig?.id ?? "new"}`} id="rooms" name="rooms" type="number" inputMode="numeric" min={1} max={10} step={1} placeholder="2" defaultValue={befintlig?.antal_rum ?? ""} className="h-12 text-base" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="yta" className="text-sm flex items-center justify-between">
                   <span>Yta (m²)</span>
                   <span className="text-xs font-normal text-muted-foreground">Valfritt</span>
                 </Label>
-                <Input id="yta" name="yta" type="number" inputMode="numeric" min={1} max={10000} step={1} placeholder="65" className="h-12 text-base" />
+                <Input key={`yta-${befintlig?.id ?? "new"}`} id="yta" name="yta" type="number" inputMode="numeric" min={1} max={10000} step={1} placeholder="65" defaultValue={befintlig?.storlek_num ?? ""} className="h-12 text-base" />
               </div>
             </div>
             <div className="space-y-2">
@@ -403,6 +504,26 @@ function PostListing() {
               />
 
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {befintligaBilder.map((url, idx) => (
+                  <div
+                    key={url}
+                    className="group relative aspect-square overflow-hidden rounded-xl border border-border bg-muted"
+                  >
+                    <img
+                      src={url}
+                      alt={`Befintlig bild ${idx + 1}`}
+                      className="h-full w-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setBefintligaBilder((prev) => prev.filter((_, i) => i !== idx))}
+                      aria-label="Ta bort bild"
+                      className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md transition hover:bg-background"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
                 {bilder.map((b, idx) => (
                   <div
                     key={b.preview}
@@ -423,7 +544,7 @@ function PostListing() {
                     </button>
                   </div>
                 ))}
-                {bilder.length < MAX_BILDER && (
+                {(befintligaBilder.length + bilder.length) < MAX_BILDER && (
                   <button
                     type="button"
                     onClick={() => filinputRef.current?.click()}
@@ -496,10 +617,10 @@ function PostListing() {
               {submitting ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Publicerar…
+                  {isEdit ? "Sparar…" : "Publicerar…"}
                 </>
               ) : (
-                "Publicera annons"
+                isEdit ? "Spara ändringar" : "Publicera annons"
               )}
             </Button>
           </form>
