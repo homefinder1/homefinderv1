@@ -21,7 +21,14 @@ const MAX_BILDER = 5;
 const MAX_FILSTORLEK_MB = 10;
 const MAX_BESKRIVNING = 500;
 
+interface LaggUppSearch {
+  id?: string;
+}
+
 export const Route = createFileRoute("/lagg-upp")({
+  validateSearch: (search: Record<string, unknown>): LaggUppSearch => ({
+    id: typeof search.id === "string" ? search.id : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Annonsera din hyresbostad gratis — HomeFinder" },
