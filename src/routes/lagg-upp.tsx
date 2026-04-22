@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 import { sv } from "date-fns/locale";
-import { Calendar as CalendarIcon, Check, Loader2 } from "lucide-react";
+import { Calendar as CalendarIcon, Check, Loader2, ImagePlus, X } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { AuthRequiredDialog } from "@/components/AuthRequiredDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { laddaUppBild } from "@/lib/imageUpload";
 import { toast } from "sonner";
+
+const MAX_BILDER = 5;
+const MAX_FILSTORLEK_MB = 10;
+const MAX_BESKRIVNING = 500;
 
 export const Route = createFileRoute("/lagg-upp")({
   head: () => ({
