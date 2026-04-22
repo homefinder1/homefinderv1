@@ -35,7 +35,7 @@ interface SimilarRow {
   omrade: string | null;
   antal_rum: number | null;
   hyra: string | null;
-  hyra_num: number | null;
+  kontakt_namn: string | null;
 }
 
 async function laddaAnnons(id: string): Promise<PrivatAnnons | null> {
@@ -127,18 +127,17 @@ function AnnonsDetalj() {
   useEffect(() => {
     let aktiv = true;
     (async () => {
+      // Hämta liknande privata annonser med kontakt_namn
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let q: any = (supabase as any)
-        .from("alla_annonser")
-        .select("id, titel, omrade, antal_rum, hyra, hyra_num")
-        .neq("id", `privat-${annons.id}`)
-        .limit(6);
+        .from("annonser")
+        .select("id, titel, omrade, antal_rum, hyra, kontakt_namn")
+        .eq("status", "godkand")
+        .neq("id", annons.id)
+        .limit(3);
 
       if (annons.antal_rum != null) {
-        q = q.gte("rum_num", annons.antal_rum).lt("rum_num", annons.antal_rum + 1);
-      }
-      if (hyraNum != null) {
-        q = q.gte("hyra_num", Math.max(0, hyraNum - 1000)).lte("hyra_num", hyraNum + 1000);
+        q = q.eq("antal_rum", annons.antal_rum);
       }
       if (annons.omrade) {
         const ort = annons.omrade.replace(/[%,]/g, "").split(/\s+/)[0];
@@ -147,7 +146,17 @@ function AnnonsDetalj() {
 
       const { data } = await q;
       if (!aktiv) return;
-      setLiknande((data ?? []) as SimilarRow[]);
+      let rader = (data ?? []) as SimilarRow[];
+
+      // Filtrera på hyra ±1000 kr i klienten
+      if (hyraNum != null) {
+        rader = rader.filter((r) => {
+          const h = parsaHyra(r.hyra);
+          return h == null || Math.abs(h - hyraNum) <= 1000;
+        });
+      }
+
+      setLiknande(rader.slice(0, 3));
     })();
     return () => {
       aktiv = false;
@@ -280,44 +289,59 @@ function AnnonsDetalj() {
                 )}
               </div>
             </div>
+
+            {liknande.length > 0 && (
+              <section className="border-t border-border pt-6">
+                <h2 className="text-lg font-semibold tracking-tight text-foreground">
+                  Du kanske gillar dessa också
+                </h2>
+                <div className="mt-4 -mx-5 sm:-mx-8 overflow-x-auto pb-2 scroll-smooth snap-x snap-mandatory">
+                  <div className="flex gap-4 px-5 sm:px-8">
+                    {liknande.map((l) => (
+                      <Link
+                        key={l.id}
+                        to="/annons/$id"
+                        params={{ id: l.id }}
+                        className="group flex w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-xl border border-border bg-card shadow-[var(--shadow-card)] transition-all hover:-translate-y-0.5 hover:border-primary/30 sm:w-[280px]"
+                      >
+                        <MiniMap
+                          query={[l.omrade, l.titel].filter(Boolean).join(", ") || l.titel}
+                          className="h-28 w-full border-b border-border"
+                        />
+                        <div className="flex flex-1 flex-col gap-2 p-3">
+                          <h3 className="line-clamp-2 text-sm font-semibold text-foreground group-hover:text-primary">
+                            {l.titel}
+                          </h3>
+                          {l.omrade && (
+                            <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                              <MapPin className="h-3 w-3 shrink-0" />
+                              <span className="truncate">{l.omrade}</span>
+                            </p>
+                          )}
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="flex items-center gap-1 text-muted-foreground">
+                              <BedDouble className="h-3 w-3" />
+                              {l.antal_rum ?? "—"} rum
+                            </span>
+                            <span className="font-semibold text-foreground">
+                              {l.hyra ?? "—"}
+                            </span>
+                          </div>
+                          {l.kontakt_namn && (
+                            <p className="flex items-center gap-1 border-t border-border/60 pt-2 text-xs text-muted-foreground">
+                              <User className="h-3 w-3 shrink-0" />
+                              <span className="truncate">{l.kontakt_namn}</span>
+                            </p>
+                          )}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
           </div>
         </article>
-
-        {liknande.length > 0 && (
-          <section className="mt-10">
-            <h2 className="text-xl font-semibold tracking-tight text-foreground">
-              Liknande annonser
-            </h2>
-            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {liknande.map((l) => {
-                const isPrivat = l.id.startsWith("privat-");
-                const innerId = l.id.replace(/^(privat-|scraped-)/, "");
-                return (
-                  <Link
-                    key={l.id}
-                    to={isPrivat ? "/annons/$id" : "/sok"}
-                    params={isPrivat ? { id: innerId } : undefined}
-                    className="block rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)] transition-all hover:-translate-y-0.5 hover:border-primary/30"
-                  >
-                    <h3 className="line-clamp-2 text-sm font-semibold text-foreground">
-                      {l.titel}
-                    </h3>
-                    {l.omrade && (
-                      <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
-                        <MapPin className="h-3 w-3" />
-                        {l.omrade}
-                      </p>
-                    )}
-                    <div className="mt-3 flex items-center justify-between text-xs text-muted-foreground">
-                      <span>{l.antal_rum ?? "—"} rum</span>
-                      <span className="font-semibold text-foreground">{l.hyra ?? "—"}</span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </section>
-        )}
       </div>
     </div>
   );
