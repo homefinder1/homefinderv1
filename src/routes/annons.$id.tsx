@@ -14,6 +14,7 @@ import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MiniMap } from "@/components/MiniMap";
+import { BildGallery } from "@/components/BildGallery";
 import { supabase } from "@/integrations/supabase/client";
 
 interface PrivatAnnons {
@@ -29,6 +30,7 @@ interface PrivatAnnons {
   kontakt_telefon: string | null;
   skapad_datum: string;
   ledig_datum: string | null;
+  bilder: string[] | null;
 }
 
 interface SimilarRow {
@@ -41,13 +43,15 @@ interface SimilarRow {
   hyra_num: number | null;
   kalla: string | null;
   url: string | null;
+  bilder: string[] | null;
 }
 
 async function laddaAnnons(id: string): Promise<PrivatAnnons | null> {
-  const { data, error } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (supabase as any)
     .from("annonser")
     .select(
-      "id, titel, omrade, antal_rum, storlek_num, hyra, beskrivning, kontakt_namn, kontakt_email, kontakt_telefon, skapad_datum, ledig_datum",
+      "id, titel, omrade, antal_rum, storlek_num, hyra, beskrivning, kontakt_namn, kontakt_email, kontakt_telefon, skapad_datum, ledig_datum, bilder",
     )
     .eq("id", id)
     .eq("status", "godkand")
@@ -73,6 +77,7 @@ export const Route = createFileRoute("/annons/$id")({
     const omrade = loaderData?.annons?.omrade ?? "";
     const desc = loaderData?.annons?.beskrivning?.slice(0, 155) ??
       `Hyresbostad ${omrade ? "i " + omrade : ""} på HomeFinder.`;
+    const ogImage = loaderData?.annons?.bilder?.[0];
     return {
       meta: [
         { title: `${titel} — HomeFinder` },
@@ -80,6 +85,13 @@ export const Route = createFileRoute("/annons/$id")({
         { property: "og:title", content: `${titel} — HomeFinder` },
         { property: "og:description", content: desc },
         { property: "og:type", content: "article" },
+        ...(ogImage
+          ? [
+              { property: "og:image", content: ogImage },
+              { name: "twitter:image", content: ogImage },
+              { name: "twitter:card", content: "summary_large_image" },
+            ]
+          : []),
       ],
     };
   },
@@ -141,7 +153,7 @@ function AnnonsDetalj() {
       return;
     }
 
-    const baseSelect = "id, titel, omrade, antal_rum, storlek, hyra, hyra_num, kalla, url";
+    const baseSelect = "id, titel, omrade, antal_rum, storlek, hyra, hyra_num, kalla, url, bilder";
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const sb: any = supabase as any;
 
@@ -213,7 +225,15 @@ function AnnonsDetalj() {
         </Button>
 
         <article className="overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)]">
-          <MiniMap query={mapQuery} className="h-56 w-full border-b border-border sm:h-72" />
+          {annons.bilder && annons.bilder.length > 0 ? (
+            <BildGallery
+              bilder={annons.bilder}
+              alt={annons.titel}
+              className="h-64 w-full border-b border-border sm:h-96"
+            />
+          ) : (
+            <MiniMap query={mapQuery} className="h-56 w-full border-b border-border sm:h-72" />
+          )}
 
           <div className="space-y-6 p-5 sm:p-8">
             <div className="flex flex-wrap items-start justify-between gap-3">
@@ -335,10 +355,21 @@ function AnnonsDetalj() {
                       const cardClass = "group flex w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-xl border border-border bg-card shadow-[var(--shadow-card)] transition-all hover:-translate-y-0.5 hover:border-primary/30 sm:w-[280px]";
                       const innehåll = (
                         <>
-                          <MiniMap
-                            query={[l.omrade, l.titel].filter(Boolean).join(", ") || l.titel}
-                            className="h-28 w-full border-b border-border"
-                          />
+                          {l.bilder && l.bilder.length > 0 ? (
+                            <div className="h-28 w-full overflow-hidden border-b border-border bg-muted">
+                              <img
+                                src={l.bilder[0]}
+                                alt={l.titel}
+                                loading="lazy"
+                                className="h-full w-full object-cover"
+                              />
+                            </div>
+                          ) : (
+                            <MiniMap
+                              query={[l.omrade, l.titel].filter(Boolean).join(", ") || l.titel}
+                              className="h-28 w-full border-b border-border"
+                            />
+                          )}
                           <div className="flex flex-1 flex-col gap-2 p-3">
                             <h3 className="line-clamp-2 text-sm font-semibold text-foreground group-hover:text-primary">
                               {l.titel}

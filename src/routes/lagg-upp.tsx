@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { format } from "date-fns";
 import { sv } from "date-fns/locale";
-import { Calendar as CalendarIcon, Check, Loader2 } from "lucide-react";
+import { Calendar as CalendarIcon, Check, Loader2, ImagePlus, X } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { AuthRequiredDialog } from "@/components/AuthRequiredDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { laddaUppBild } from "@/lib/imageUpload";
 import { toast } from "sonner";
+
+const MAX_BILDER = 5;
+const MAX_FILSTORLEK_MB = 10;
+const MAX_BESKRIVNING = 500;
 
 export const Route = createFileRoute("/lagg-upp")({
   head: () => ({
@@ -56,8 +61,17 @@ function PostListing() {
   const [profilLoading, setProfilLoading] = useState(true);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [ledigDatum, setLedigDatum] = useState<Date | undefined>(undefined);
+  const [bilder, setBilder] = useState<Array<{ file: File; preview: string }>>([]);
+  const [beskrivning, setBeskrivning] = useState("");
+  const filinputRef = useRef<HTMLInputElement | null>(null);
 
-  // Visa auth-modal när direktbesök sker utan inloggning
+  // Rensa preview URLs vid unmount
+  useEffect(() => {
+    return () => {
+      bilder.forEach((b) => URL.revokeObjectURL(b.preview));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     if (!authLoading && !user) {
       setAuthDialogOpen(true);
@@ -101,7 +115,7 @@ function PostListing() {
     const antal_rum = Number.isFinite(rumRaw) && rumRaw >= 1 && rumRaw <= 10 ? Math.round(rumRaw) : null;
     const ytaRaw = Number(fd.get("yta"));
     const storlek_num = Number.isFinite(ytaRaw) && ytaRaw > 0 && ytaRaw <= 10000 ? ytaRaw : null;
-    const beskrivning = String(fd.get("desc") ?? "").trim() || null;
+    const beskrivningTrim = beskrivning.trim().slice(0, MAX_BESKRIVNING) || null;
     const fornamn = String(fd.get("fornamn") ?? "").trim();
     const efternamn = String(fd.get("efternamn") ?? "").trim();
     const telefon = String(fd.get("telefon") ?? "").trim();
@@ -138,19 +152,38 @@ function PostListing() {
         .eq("id", user.id);
     }
 
-    const { error } = await supabase.from("annonser").insert({
+    // Ladda upp bilder (komprimeras automatiskt)
+    let bildUrls: string[] = [];
+    if (bilder.length > 0) {
+      try {
+        bildUrls = await Promise.all(
+          bilder.map((b) => laddaUppBild(b.file, user.id)),
+        );
+      } catch (err) {
+        setSubmitting(false);
+        toast.error(
+          "Kunde inte ladda upp bild: " +
+            (err instanceof Error ? err.message : "okänt fel"),
+        );
+        return;
+      }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (supabase as any).from("annonser").insert({
       titel,
       omrade: omrade || null,
       antal_rum,
       storlek_num,
       hyra: hyraNum ? `${hyraNum} kr/mån` : null,
-      beskrivning,
+      beskrivning: beskrivningTrim,
       ledig_datum: ledigDatum ? format(ledigDatum, "yyyy-MM-dd") : null,
       kontakt_email: user.email ?? "",
       kontakt_namn: `${fornamn} ${efternamn}`.trim(),
       kontakt_telefon: telefon || null,
       kalla: "Privat",
       user_id: user.id,
+      bilder: bildUrls.length > 0 ? bildUrls : null,
     });
     setSubmitting(false);
 
@@ -160,6 +193,37 @@ function PostListing() {
     }
 
     setSubmitted(true);
+  }
+
+  function läggTillBilder(filer: FileList | null) {
+    if (!filer || filer.length === 0) return;
+    const lediga = MAX_BILDER - bilder.length;
+    if (lediga <= 0) {
+      toast.error(`Du kan ladda upp max ${MAX_BILDER} bilder`);
+      return;
+    }
+    const nya: Array<{ file: File; preview: string }> = [];
+    for (const f of Array.from(filer).slice(0, lediga)) {
+      if (!f.type.startsWith("image/")) {
+        toast.error(`"${f.name}" är inte en bild`);
+        continue;
+      }
+      if (f.size > MAX_FILSTORLEK_MB * 1024 * 1024) {
+        toast.error(`"${f.name}" är större än ${MAX_FILSTORLEK_MB} MB`);
+        continue;
+      }
+      nya.push({ file: f, preview: URL.createObjectURL(f) });
+    }
+    if (nya.length > 0) setBilder((prev) => [...prev, ...nya]);
+    if (filinputRef.current) filinputRef.current.value = "";
+  }
+
+  function taBortBild(idx: number) {
+    setBilder((prev) => {
+      const removed = prev[idx];
+      if (removed) URL.revokeObjectURL(removed.preview);
+      return prev.filter((_, i) => i !== idx);
+    });
   }
 
   if (authLoading) {
@@ -303,14 +367,76 @@ function PostListing() {
               </Popover>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="desc" className="text-sm">Beskrivning</Label>
+              <Label htmlFor="desc" className="text-sm flex items-center justify-between">
+                <span>Beskrivning</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  {beskrivning.length}/{MAX_BESKRIVNING}
+                </span>
+              </Label>
               <Textarea
                 id="desc"
                 name="desc"
                 rows={5}
-                placeholder="Beskriv bostaden, läget och vad som ingår..."
+                value={beskrivning}
+                onChange={(e) => setBeskrivning(e.target.value.slice(0, MAX_BESKRIVNING))}
+                placeholder="Förbättra dina odds — beskriv vad som gör bostaden special (200–500 tecken)"
                 className="min-h-[140px] text-base"
               />
+              <p className="text-xs text-muted-foreground">Valfritt. Max {MAX_BESKRIVNING} tecken.</p>
+            </div>
+
+            <div className="space-y-3">
+              <Label className="text-sm flex items-center justify-between">
+                <span>Bilder</span>
+                <span className="text-xs font-normal text-muted-foreground">
+                  Valfritt — max {MAX_BILDER} st
+                </span>
+              </Label>
+
+              <input
+                ref={filinputRef}
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={(e) => läggTillBilder(e.target.files)}
+              />
+
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {bilder.map((b, idx) => (
+                  <div
+                    key={b.preview}
+                    className="group relative aspect-square overflow-hidden rounded-xl border border-border bg-muted"
+                  >
+                    <img
+                      src={b.preview}
+                      alt={`Bild ${idx + 1}`}
+                      className="h-full w-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => taBortBild(idx)}
+                      aria-label="Ta bort bild"
+                      className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md transition hover:bg-background"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+                {bilder.length < MAX_BILDER && (
+                  <button
+                    type="button"
+                    onClick={() => filinputRef.current?.click()}
+                    className="flex aspect-square flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border bg-muted/30 text-muted-foreground transition hover:border-primary/40 hover:text-foreground"
+                  >
+                    <ImagePlus className="h-6 w-6" />
+                    <span className="text-xs font-medium">Lägg till bild</span>
+                  </button>
+                )}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Bilder komprimeras automatiskt. Max {MAX_FILSTORLEK_MB} MB per bild.
+              </p>
             </div>
 
             <div className="space-y-4 rounded-xl border border-border/60 bg-muted/30 p-4">

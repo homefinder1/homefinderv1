@@ -40,6 +40,8 @@ export interface Annons {
   källa: Source;
   /** ISO-tidsstämpel för när annonsen lades till — används för "NY"-badge */
   skapad?: string;
+  /** Publika URL:er till uppladdade bilder (endast för privata annonser) */
+  bilder?: string[];
 }
 
 export const ANNONSER_URL =
