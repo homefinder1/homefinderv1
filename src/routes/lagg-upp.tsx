@@ -617,10 +617,10 @@ function PostListing() {
               {submitting ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Publicerar…
+                  {isEdit ? "Sparar…" : "Publicerar…"}
                 </>
               ) : (
-                "Publicera annons"
+                isEdit ? "Spara ändringar" : "Publicera annons"
               )}
             </Button>
           </form>
