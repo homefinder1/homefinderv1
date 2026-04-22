@@ -129,29 +129,64 @@ function AnnonsDetalj() {
 
   useEffect(() => {
     let aktiv = true;
-    (async () => {
-      // Hämta liknande annonser från alla källor via alla_annonser-vyn
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      let q: any = (supabase as any)
-        .from("alla_annonser")
-        .select("id, titel, omrade, antal_rum, storlek, hyra, hyra_num, kalla, url")
-        .neq("id", `privat-${annons.id}`)
-        .limit(12);
+    const ort = annons.omrade
+      ? annons.omrade.replace(/[%,]/g, "").split(/\s+/)[0]
+      : null;
 
-      if (annons.antal_rum != null) {
+    const baseSelect = "id, titel, omrade, antal_rum, storlek, hyra, hyra_num, kalla, url";
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const sb: any = supabase as any;
+
+    async function körFråga(opts: {
+      ort?: boolean;
+      rum?: boolean;
+      pris?: boolean;
+      prisSpann?: number;
+    }) {
+      let q = sb
+        .from("alla_annonser")
+        .select(baseSelect)
+        .neq("id", `privat-${annons.id}`)
+        .limit(20);
+      if (opts.rum && annons.antal_rum != null) {
         q = q.gte("rum_num", annons.antal_rum).lt("rum_num", annons.antal_rum + 1);
       }
-      if (hyraNum != null) {
-        q = q.gte("hyra_num", Math.max(0, hyraNum - 1000)).lte("hyra_num", hyraNum + 1000);
+      if (opts.pris && hyraNum != null) {
+        const spann = opts.prisSpann ?? 1000;
+        q = q.gte("hyra_num", Math.max(0, hyraNum - spann)).lte("hyra_num", hyraNum + spann);
       }
-      if (annons.omrade) {
-        const ort = annons.omrade.replace(/[%,]/g, "").split(/\s+/)[0];
-        if (ort) q = q.ilike("omrade", `%${ort}%`);
+      if (opts.ort && ort) {
+        q = q.ilike("omrade", `%${ort}%`);
       }
+      const { data, error } = await q;
+      if (error) {
+        console.warn("Liknande annonser fel:", error);
+        return [] as SimilarRow[];
+      }
+      return (data ?? []) as SimilarRow[];
+    }
 
-      const { data } = await q;
-      if (!aktiv) return;
-      setLiknande(((data ?? []) as SimilarRow[]).slice(0, 3));
+    (async () => {
+      // Progressiv fallback: börja strikt, lossa filter tills vi har träffar
+      const försök: Array<Parameters<typeof körFråga>[0]> = [
+        { ort: true, rum: true, pris: true, prisSpann: 1000 },
+        { ort: true, rum: true, pris: true, prisSpann: 3000 },
+        { ort: true, rum: true },
+        { ort: true, pris: true, prisSpann: 2000 },
+        { ort: true },
+        { rum: true, pris: true, prisSpann: 2000 },
+        { rum: true },
+        {},
+      ];
+      for (const opts of försök) {
+        const rows = await körFråga(opts);
+        if (!aktiv) return;
+        if (rows.length > 0) {
+          setLiknande(rows.slice(0, 3));
+          return;
+        }
+      }
+      if (aktiv) setLiknande([]);
     })();
     return () => {
       aktiv = false;
