@@ -1,9 +1,22 @@
-import { MapPin, BedDouble, Calendar, ExternalLink, Ruler, Sparkles } from "lucide-react";
+import { MapPin, BedDouble, Calendar, ExternalLink, Ruler, Sparkles, Heart, Share2 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
+import { useState } from "react";
 import type { Annons } from "@/data/listings";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { MiniMap } from "@/components/MiniMap";
+import { useFavorit } from "@/hooks/useFavorit";
+import { useAuth } from "@/hooks/useAuth";
+import { AuthRequiredDialog } from "@/components/AuthRequiredDialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Facebook, MessageCircle, Mail, Link as LinkIcon, Check } from "lucide-react";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 // Färgkodade källbadges enligt stilguiden
 const sourceColors: Record<string, string> = {
