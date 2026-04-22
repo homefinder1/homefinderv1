@@ -18,6 +18,7 @@ export type Database = {
         Row: {
           antal_rum: number | null
           beskrivning: string | null
+          bilder: string[] | null
           hyra: string | null
           id: string
           kalla: string
@@ -35,6 +36,7 @@ export type Database = {
         Insert: {
           antal_rum?: number | null
           beskrivning?: string | null
+          bilder?: string[] | null
           hyra?: string | null
           id?: string
           kalla?: string
@@ -52,6 +54,7 @@ export type Database = {
         Update: {
           antal_rum?: number | null
           beskrivning?: string | null
+          bilder?: string[] | null
           hyra?: string | null
           id?: string
           kalla?: string
