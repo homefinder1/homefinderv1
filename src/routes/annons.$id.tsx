@@ -29,6 +29,7 @@ interface PrivatAnnons {
   kontakt_telefon: string | null;
   skapad_datum: string;
   ledig_datum: string | null;
+  bilder: string[] | null;
 }
 
 interface SimilarRow {
@@ -41,13 +42,15 @@ interface SimilarRow {
   hyra_num: number | null;
   kalla: string | null;
   url: string | null;
+  bilder: string[] | null;
 }
 
 async function laddaAnnons(id: string): Promise<PrivatAnnons | null> {
-  const { data, error } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (supabase as any)
     .from("annonser")
     .select(
-      "id, titel, omrade, antal_rum, storlek_num, hyra, beskrivning, kontakt_namn, kontakt_email, kontakt_telefon, skapad_datum, ledig_datum",
+      "id, titel, omrade, antal_rum, storlek_num, hyra, beskrivning, kontakt_namn, kontakt_email, kontakt_telefon, skapad_datum, ledig_datum, bilder",
     )
     .eq("id", id)
     .eq("status", "godkand")
