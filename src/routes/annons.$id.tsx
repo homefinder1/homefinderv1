@@ -14,6 +14,7 @@ import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MiniMap } from "@/components/MiniMap";
+import { BildGallery } from "@/components/BildGallery";
 import { supabase } from "@/integrations/supabase/client";
 
 interface PrivatAnnons {
