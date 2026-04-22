@@ -61,8 +61,17 @@ function PostListing() {
   const [profilLoading, setProfilLoading] = useState(true);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [ledigDatum, setLedigDatum] = useState<Date | undefined>(undefined);
+  const [bilder, setBilder] = useState<Array<{ file: File; preview: string }>>([]);
+  const [beskrivning, setBeskrivning] = useState("");
+  const filinputRef = useRef<HTMLInputElement | null>(null);
 
-  // Visa auth-modal när direktbesök sker utan inloggning
+  // Rensa preview URLs vid unmount
+  useEffect(() => {
+    return () => {
+      bilder.forEach((b) => URL.revokeObjectURL(b.preview));
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     if (!authLoading && !user) {
       setAuthDialogOpen(true);
