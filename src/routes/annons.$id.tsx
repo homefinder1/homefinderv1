@@ -33,9 +33,11 @@ interface SimilarRow {
   id: string;
   titel: string;
   omrade: string | null;
-  antal_rum: number | null;
+  antal_rum: string | null;
+  storlek: string | null;
   hyra: string | null;
-  kontakt_namn: string | null;
+  hyra_num: number | null;
+  kalla: string | null;
 }
 
 async function laddaAnnons(id: string): Promise<PrivatAnnons | null> {
@@ -127,17 +129,19 @@ function AnnonsDetalj() {
   useEffect(() => {
     let aktiv = true;
     (async () => {
-      // Hämta liknande privata annonser med kontakt_namn
+      // Hämta liknande annonser från alla källor via alla_annonser-vyn
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let q: any = (supabase as any)
-        .from("annonser")
-        .select("id, titel, omrade, antal_rum, hyra, kontakt_namn")
-        .eq("status", "godkand")
-        .neq("id", annons.id)
-        .limit(3);
+        .from("alla_annonser")
+        .select("id, titel, omrade, antal_rum, storlek, hyra, hyra_num, kalla")
+        .neq("id", `privat-${annons.id}`)
+        .limit(12);
 
       if (annons.antal_rum != null) {
-        q = q.eq("antal_rum", annons.antal_rum);
+        q = q.gte("rum_num", annons.antal_rum).lt("rum_num", annons.antal_rum + 1);
+      }
+      if (hyraNum != null) {
+        q = q.gte("hyra_num", Math.max(0, hyraNum - 1000)).lte("hyra_num", hyraNum + 1000);
       }
       if (annons.omrade) {
         const ort = annons.omrade.replace(/[%,]/g, "").split(/\s+/)[0];
@@ -146,17 +150,7 @@ function AnnonsDetalj() {
 
       const { data } = await q;
       if (!aktiv) return;
-      let rader = (data ?? []) as SimilarRow[];
-
-      // Filtrera på hyra ±1000 kr i klienten
-      if (hyraNum != null) {
-        rader = rader.filter((r) => {
-          const h = parsaHyra(r.hyra);
-          return h == null || Math.abs(h - hyraNum) <= 1000;
-        });
-      }
-
-      setLiknande(rader.slice(0, 3));
+      setLiknande(((data ?? []) as SimilarRow[]).slice(0, 3));
     })();
     return () => {
       aktiv = false;
