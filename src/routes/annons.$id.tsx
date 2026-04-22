@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { MiniMap } from "@/components/MiniMap";
 import { BildGallery } from "@/components/BildGallery";
+import { FavoritShareBar } from "@/components/FavoritShareBar";
 import { supabase } from "@/integrations/supabase/client";
 
 interface PrivatAnnons {
@@ -237,7 +238,7 @@ function AnnonsDetalj() {
 
           <div className="space-y-6 p-5 sm:p-8">
             <div className="flex flex-wrap items-start justify-between gap-3">
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <Badge className="mb-2 border-0 bg-pink-100 text-pink-900">Privat</Badge>
                 <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
                   {annons.titel}
@@ -249,6 +250,11 @@ function AnnonsDetalj() {
                   </div>
                 )}
               </div>
+              <FavoritShareBar
+                annonsId={annons.id}
+                titel={annons.titel}
+                url={typeof window !== "undefined" ? window.location.href : `https://homefinder.se/annons/${annons.id}`}
+              />
             </div>
 
             <div className="grid grid-cols-2 gap-4 rounded-xl border border-border/60 bg-muted/30 p-4 sm:grid-cols-4">
