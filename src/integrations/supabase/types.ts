@@ -71,6 +71,27 @@ export type Database = {
         }
         Relationships: []
       }
+      favoriter: {
+        Row: {
+          annons_id: string
+          id: string
+          skapad_datum: string
+          user_id: string
+        }
+        Insert: {
+          annons_id: string
+          id?: string
+          skapad_datum?: string
+          user_id: string
+        }
+        Update: {
+          annons_id?: string
+          id?: string
+          skapad_datum?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       geocode_cache: {
         Row: {
           created_at: string
@@ -226,6 +247,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      rakna_favoriter: { Args: { _annons_id: string }; Returns: number }
       show_limit: { Args: never; Returns: number }
       show_trgm: { Args: { "": string }; Returns: string[] }
     }
