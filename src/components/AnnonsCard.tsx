@@ -73,6 +73,44 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
   const datumStatus = tolkaLedigDatum(annons.ledig);
   const förstaBild = annons.bilder && annons.bilder.length > 0 ? annons.bilder[0] : null;
 
+  const { user } = useAuth();
+  const { isFavorit, toggle, loading: favLoading } = useFavorit(annons.id);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [kopierad, setKopierad] = useState(false);
+
+  // URL för delning — privata pekar på vår sida, övriga på extern URL
+  const isPrivat = annons.källa === "Privat";
+  const detaljUrl = isPrivat
+    ? `https://homefinder.se/annons/${annons.id.replace(/^privat-/, "")}`
+    : annons.url;
+
+  function handleHjarta(e: React.MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user) {
+      setAuthOpen(true);
+      return;
+    }
+    toggle();
+  }
+
+  async function kopieraLank(e: Event) {
+    e.preventDefault();
+    try {
+      await navigator.clipboard.writeText(detaljUrl);
+      setKopierad(true);
+      toast.success("Länk kopierad!");
+      setTimeout(() => setKopierad(false), 2000);
+    } catch {
+      toast.error("Kunde inte kopiera länken");
+    }
+  }
+
+  const delaText = `Kolla in den här bostaden: ${annons.titel}`;
+  const fbUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(detaljUrl)}`;
+  const waUrl = `https://wa.me/?text=${encodeURIComponent(delaText + " " + detaljUrl)}`;
+  const mailUrl = `mailto:?subject=${encodeURIComponent(annons.titel)}&body=${encodeURIComponent(delaText + "\n\n" + detaljUrl)}`;
+
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-primary/30 hover:shadow-[var(--shadow-elegant)]">
       {ny && (
@@ -83,6 +121,64 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
           </Badge>
         </div>
       )}
+
+      {/* Favorit + Dela uppe i högra hörnet — fungerar för ALLA annonser */}
+      <div className="absolute right-2 top-2 z-10 flex items-center gap-1.5">
+        <button
+          type="button"
+          onClick={handleHjarta}
+          disabled={favLoading}
+          aria-label={isFavorit ? "Ta bort från favoriter" : "Spara som favorit"}
+          aria-pressed={isFavorit}
+          className={cn(
+            "flex h-9 w-9 items-center justify-center rounded-full bg-background/90 shadow-sm backdrop-blur transition-colors hover:bg-background",
+            isFavorit ? "text-red-600" : "text-foreground/70 hover:text-red-600",
+          )}
+        >
+          <Heart className={cn("h-4 w-4 transition-all", isFavorit && "fill-current")} />
+        </button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              type="button"
+              onClick={(e) => e.stopPropagation()}
+              aria-label="Dela annons"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-background/90 text-blue-600 shadow-sm backdrop-blur transition-colors hover:bg-background hover:text-blue-700"
+            >
+              <Share2 className="h-4 w-4" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-52" onClick={(e) => e.stopPropagation()}>
+            <DropdownMenuItem asChild>
+              <a href={fbUrl} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
+                <Facebook className="mr-2 h-4 w-4" />
+                Facebook
+              </a>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <a href={waUrl} target="_blank" rel="noopener noreferrer" className="cursor-pointer">
+                <MessageCircle className="mr-2 h-4 w-4" />
+                WhatsApp
+              </a>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <a href={mailUrl} className="cursor-pointer">
+                <Mail className="mr-2 h-4 w-4" />
+                E-post
+              </a>
+            </DropdownMenuItem>
+            <DropdownMenuItem onSelect={kopieraLank} className="cursor-pointer">
+              {kopierad ? (
+                <Check className="mr-2 h-4 w-4 text-green-600" />
+              ) : (
+                <LinkIcon className="mr-2 h-4 w-4" />
+              )}
+              {kopierad ? "Kopierat!" : "Kopiera länk"}
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
       {förstaBild ? (
         <div className="h-32 w-full overflow-hidden border-b border-border bg-muted">
           <img
@@ -142,7 +238,7 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
       </div>
 
       <div className="border-t border-border p-3 sm:p-4">
-        {annons.källa === "Privat" ? (
+        {isPrivat ? (
           <Button asChild size="lg" className="h-12 w-full gap-2 text-base sm:h-10 sm:text-sm">
             <Link
               to="/annons/$id"
@@ -160,6 +256,8 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
           </Button>
         )}
       </div>
+
+      <AuthRequiredDialog open={authOpen} onOpenChange={setAuthOpen} />
     </article>
   );
 }
