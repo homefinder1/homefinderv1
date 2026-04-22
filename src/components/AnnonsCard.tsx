@@ -1,4 +1,5 @@
 import { MapPin, BedDouble, Calendar, ExternalLink, Ruler, Sparkles } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import type { Annons } from "@/data/listings";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -118,12 +119,23 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
       </div>
 
       <div className="border-t border-border p-3 sm:p-4">
-        <Button asChild size="lg" className="h-12 w-full gap-2 text-base sm:h-10 sm:text-sm">
-          <a href={annons.url} target="_blank" rel="noopener noreferrer">
-            Visa annons
-            <ExternalLink className="h-4 w-4" />
-          </a>
-        </Button>
+        {annons.källa === "Privat" ? (
+          <Button asChild size="lg" className="h-12 w-full gap-2 text-base sm:h-10 sm:text-sm">
+            <Link
+              to="/annons/$id"
+              params={{ id: annons.id.replace(/^privat-/, "") }}
+            >
+              Visa annons
+            </Link>
+          </Button>
+        ) : (
+          <Button asChild size="lg" className="h-12 w-full gap-2 text-base sm:h-10 sm:text-sm">
+            <a href={annons.url} target="_blank" rel="noopener noreferrer">
+              Visa annons
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          </Button>
+        )}
       </div>
     </article>
   );
