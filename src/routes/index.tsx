@@ -1,11 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Building2, Search, Sparkles } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  ArrowRight,
+  Building2,
+  CheckCircle2,
+  Clock,
+  Filter,
+  Layers,
+  RefreshCw,
+  Search,
+  Sparkles,
+  Wallet,
+} from "lucide-react";
 import { Navbar } from "@/components/Navbar";
-import { SearchBar } from "@/components/SearchBar";
-import { AnnonsCard } from "@/components/AnnonsCard";
-import { useAnnonser } from "@/hooks/useAnnonser";
-import { supabase } from "@/integrations/supabase/client";
-import type { Annons, Source } from "@/data/listings";
+import { Button } from "@/components/ui/button";
 
 const SITE_URL = "https://homefinder.se";
 
@@ -13,102 +20,8 @@ const META_TITLE = "Lediga hyreslägenheter i Sverige — HomeFinder";
 const META_DESCRIPTION =
   "Hitta din nästa hyresrätt på HomeFinder. Vi samlar lediga lägenheter från MKB, Boplats, HomeQ och fler källor på ett ställe.";
 
-function normaliseraKälla(k: string | undefined): Source {
-  if (!k) return "MKB";
-  if (k === "Boplats") return "Boplats Väst";
-  return k as Source;
-}
-
-function rensaStorlek(s: string | null | undefined): string | undefined {
-  if (!s) return undefined;
-  const t = s.trim();
-  if (!t || t.toLowerCase() === "okänd") return undefined;
-  return t;
-}
-
-interface LoaderData {
-  annonser: Annons[];
-  total: number;
-}
-
 export const Route = createFileRoute("/")({
-  loader: async (): Promise<LoaderData> => {
-    try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { data, count, error } = await (supabase as any)
-        .from("alla_annonser")
-        .select("*", { count: "exact" })
-        .order("skapad_datum", { ascending: false, nullsFirst: false })
-        .order("id", { ascending: true })
-        .range(0, 5);
-
-      if (error) throw error;
-
-      const rows = (data ?? []) as Array<{
-        id: string;
-        titel: string;
-        omrade: string | null;
-        antal_rum: string | null;
-        storlek: string | null;
-        hyra: string | null;
-        ledig: string | null;
-        url: string;
-        kalla: string;
-        skapad_datum: string;
-      }>;
-
-      const annonser: Annons[] = rows.map((r) => ({
-        id: r.id,
-        titel: r.titel,
-        område: r.omrade ?? "",
-        antal_rum: r.antal_rum ?? "—",
-        storlek: rensaStorlek(r.storlek),
-        hyra: r.hyra ?? "—",
-        ledig: r.ledig ?? "",
-        url: r.url,
-        källa: normaliseraKälla(r.kalla),
-        skapad: r.skapad_datum,
-      }));
-
-      return { annonser, total: count ?? annonser.length };
-    } catch {
-      return { annonser: [], total: 0 };
-    }
-  },
-  head: ({ loaderData }) => {
-    const annonser = loaderData?.annonser ?? [];
-
-    const itemList = {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      name: "Lediga hyreslägenheter",
-      itemListElement: annonser.map((a, i) => ({
-        "@type": "ListItem",
-        position: i + 1,
-        item: {
-          "@type": "Apartment",
-          name: a.titel,
-          url: a.url,
-          address: a.område
-            ? {
-                "@type": "PostalAddress",
-                addressLocality: a.område,
-                addressCountry: "SE",
-              }
-            : undefined,
-          numberOfRooms: a.antal_rum,
-          floorSize: a.storlek
-            ? { "@type": "QuantitativeValue", value: a.storlek }
-            : undefined,
-          offers: {
-            "@type": "Offer",
-            price: a.hyra,
-            priceCurrency: "SEK",
-          },
-        },
-      })),
-    };
-
+  head: () => {
     const website = {
       "@context": "https://schema.org",
       "@type": "WebSite",
@@ -119,6 +32,14 @@ export const Route = createFileRoute("/")({
         target: `${SITE_URL}/sok?q={search_term_string}`,
         "query-input": "required name=search_term_string",
       },
+    };
+
+    const organization = {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "HomeFinder",
+      url: SITE_URL,
+      description: META_DESCRIPTION,
     };
 
     return {
@@ -140,7 +61,7 @@ export const Route = createFileRoute("/")({
         },
         {
           type: "application/ld+json",
-          children: JSON.stringify(itemList),
+          children: JSON.stringify(organization),
         },
       ],
     };
@@ -148,18 +69,37 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-function Home() {
-  const { annonser: initial, total: initialTotal } = Route.useLoaderData();
-  const { annonser, total, loading, error } = useAnnonser({
-    filter: {},
-    sort: "relevans",
-    sida: 1,
-    perSida: 6,
-  });
-  // Visa loader-data som SSR-fallback tills klient-hooken laddat
-  const featured = annonser.length > 0 ? annonser : initial;
-  const totalCount = total || initialTotal;
+const benefits = [
+  {
+    icon: Layers,
+    title: "7 720+ annonser från flera källor",
+    text: "Vi samlar lediga hyresrätter från MKB, Boplats, HomeQ och fler hyresvärdar — alla på ett ställe.",
+  },
+  {
+    icon: RefreshCw,
+    title: "Uppdateras automatiskt varje dag",
+    text: "Våra robotar hämtar nya annonser dygnet runt så du alltid ser det senaste utbudet.",
+  },
+  {
+    icon: Filter,
+    title: "Smart filtrering",
+    text: "Sök på ort, pris, storlek och antal rum — hitta exakt det du letar efter på sekunder.",
+  },
+  {
+    icon: Wallet,
+    title: "Helt gratis att använda",
+    text: "Inga konton som krävs, inga avgifter, inga dolda kostnader. Vi finns för att underlätta ditt bostadssökande.",
+  },
+];
 
+const stats = [
+  { value: "7 720+", label: "Aktiva annonser" },
+  { value: "5+", label: "Hyresvärdar & källor" },
+  { value: "24/7", label: "Automatisk uppdatering" },
+  { value: "0 kr", label: "Helt gratis" },
+];
+
+function Home() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -175,72 +115,171 @@ function Home() {
           style={{ background: "var(--gradient-hero)" }}
         />
 
-        <div className="mx-auto max-w-5xl px-4 pb-16 pt-16 md:pb-24 md:pt-24">
+        <div className="mx-auto max-w-5xl px-4 pb-20 pt-16 md:pb-28 md:pt-24">
           <div className="mb-6 flex justify-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground shadow-sm">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
-              Lediga annonser uppdaterade dagligen
+              Sveriges hyresmarknad samlad på ett ställe
             </div>
           </div>
           <h1 className="text-center text-4xl font-bold tracking-tight text-foreground md:text-6xl">
-            Hitta din nästa{" "}
+            Sluta leta på{" "}
             <span className="bg-[image:var(--gradient-hero)] bg-clip-text text-transparent">
-              hyresbostad
+              tio olika sajter
             </span>
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-center text-base text-muted-foreground md:text-lg">
-            Vi samlar lediga hyreslägenheter från MKB och fler hyresvärdar — så
-            du slipper leta på flera sajter.
+          <p className="mx-auto mt-6 max-w-2xl text-center text-base text-muted-foreground md:text-lg">
+            HomeFinder samlar lediga hyresrätter från MKB, Boplats, HomeQ och
+            fler hyresvärdar — så du hittar din nästa bostad på ett enda ställe.
           </p>
 
-          <div className="mx-auto mt-10 max-w-3xl">
-            <SearchBar />
+          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Button asChild size="lg" className="h-12 gap-2 px-7 text-base">
+              <Link to="/sok">
+                Börja sök nu
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+            <p className="text-sm text-muted-foreground">
+              Gratis · Inget konto behövs
+            </p>
           </div>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Building2 className="h-4 w-4 text-primary" />
-              {totalCount > 0 ? `${totalCount} aktiva annonser` : "Laddar…"}
+          {/* Stats */}
+          <div className="mx-auto mt-16 grid max-w-3xl grid-cols-2 gap-6 md:grid-cols-4">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center">
+                <div className="text-2xl font-bold text-foreground md:text-3xl">
+                  {s.value}
+                </div>
+                <div className="mt-1 text-xs text-muted-foreground md:text-sm">
+                  {s.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Varför HomeFinder */}
+      <section className="mx-auto max-w-5xl px-4 py-20">
+        <div className="grid items-center gap-12 md:grid-cols-2">
+          <div>
+            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
+              <Clock className="h-3.5 w-3.5 text-primary" />
+              Varför HomeFinder?
             </div>
-            <div className="flex items-center gap-2">
-              <Search className="h-4 w-4 text-primary" /> Flera källor på ett ställe
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+              Bostadssökande borde inte vara ett heltidsjobb
+            </h2>
+            <p className="mt-5 text-base text-muted-foreground md:text-lg">
+              Den svenska hyresmarknaden är utspridd över dussintals olika
+              webbplatser. Du måste registrera dig på MKB, ha koll på Boplats,
+              kolla HomeQ — och ändå riskerar du att missa den perfekta
+              lägenheten.
+            </p>
+            <p className="mt-4 text-base text-muted-foreground md:text-lg">
+              Vi byggde HomeFinder för att lösa det. En sökmotor. Alla
+              hyresvärdar. Inga prenumerationer.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-5">
+              <div className="text-sm font-semibold text-destructive">
+                Utan HomeFinder
+              </div>
+              <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
+                <li>· Hoppa mellan 5–10 olika sajter varje dag</li>
+                <li>· Olika konton, lösenord och köpoäng</li>
+                <li>· Lätt att missa nya annonser</li>
+              </ul>
+            </div>
+            <div className="rounded-2xl border border-primary/30 bg-primary/5 p-5">
+              <div className="text-sm font-semibold text-primary">
+                Med HomeFinder
+              </div>
+              <ul className="mt-3 space-y-2 text-sm text-foreground">
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  Alla annonser samlade på ett ställe
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  Sök, filtrera och jämför direkt
+                </li>
+                <li className="flex items-start gap-2">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                  Uppdateras dygnet runt — gratis
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured */}
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="mb-8 flex items-end justify-between">
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight text-foreground md:text-3xl">
-              Senaste annonserna
+      {/* Benefits */}
+      <section className="border-t border-border bg-card/30">
+        <div className="mx-auto max-w-6xl px-4 py-20">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+              Allt du behöver för att hitta hem
             </h2>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Ett urval av nya bostäder
+            <p className="mt-4 text-base text-muted-foreground md:text-lg">
+              Vi tar hand om det tråkiga så du kan fokusera på det viktiga —
+              att hitta din nästa bostad.
             </p>
           </div>
-        </div>
 
-        {error && !loading && featured.length === 0 && (
-          <div className="rounded-2xl border border-destructive/30 bg-destructive/5 p-6 text-center text-sm text-destructive">
-            Kunde inte hämta annonser: {error}
-          </div>
-        )}
-
-        {featured.length > 0 && (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {featured.map((a) => (
-              <AnnonsCard key={a.id} annons={a} />
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {benefits.map((b) => (
+              <div
+                key={b.title}
+                className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-soft)] transition-shadow hover:shadow-md"
+              >
+                <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <b.icon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-4 text-base font-semibold text-foreground">
+                  {b.title}
+                </h3>
+                <p className="mt-2 text-sm text-muted-foreground">{b.text}</p>
+              </div>
             ))}
           </div>
-        )}
+        </div>
+      </section>
 
-        {loading && featured.length === 0 && !error && (
-          <div className="rounded-2xl border border-dashed border-border p-12 text-center text-muted-foreground">
-            Laddar annonser…
+      {/* Final CTA */}
+      <section className="mx-auto max-w-4xl px-4 py-20">
+        <div
+          className="relative overflow-hidden rounded-3xl border border-border p-10 text-center md:p-14"
+          style={{ background: "var(--gradient-soft)" }}
+        >
+          <div
+            className="absolute -bottom-24 left-1/2 -z-10 h-[300px] w-[600px] -translate-x-1/2 rounded-full opacity-40 blur-3xl"
+            style={{ background: "var(--gradient-hero)" }}
+          />
+          <div className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+            <Building2 className="h-6 w-6" />
           </div>
-        )}
+          <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+            Redo att hitta din nästa bostad?
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground md:text-lg">
+            Tusentals lediga hyresrätter väntar. Sök bland alla källor på
+            sekunder.
+          </p>
+          <div className="mt-8 flex justify-center">
+            <Button asChild size="lg" className="h-12 gap-2 px-7 text-base">
+              <Link to="/sok">
+                <Search className="h-4 w-4" />
+                Börja sök nu
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
       </section>
 
       <footer className="border-t border-border py-8 text-center text-sm text-muted-foreground">
