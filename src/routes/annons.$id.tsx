@@ -38,6 +38,7 @@ interface SimilarRow {
   hyra: string | null;
   hyra_num: number | null;
   kalla: string | null;
+  url: string | null;
 }
 
 async function laddaAnnons(id: string): Promise<PrivatAnnons | null> {
@@ -133,7 +134,7 @@ function AnnonsDetalj() {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let q: any = (supabase as any)
         .from("alla_annonser")
-        .select("id, titel, omrade, antal_rum, storlek, hyra, hyra_num, kalla")
+        .select("id, titel, omrade, antal_rum, storlek, hyra, hyra_num, kalla, url")
         .neq("id", `privat-${annons.id}`)
         .limit(12);
 
@@ -291,45 +292,63 @@ function AnnonsDetalj() {
                 </h2>
                 <div className="mt-4 -mx-5 sm:-mx-8 overflow-x-auto pb-2 scroll-smooth snap-x snap-mandatory">
                   <div className="flex gap-4 px-5 sm:px-8">
-                    {liknande.map((l) => (
-                      <Link
-                        key={l.id}
-                        to="/annons/$id"
-                        params={{ id: l.id }}
-                        className="group flex w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-xl border border-border bg-card shadow-[var(--shadow-card)] transition-all hover:-translate-y-0.5 hover:border-primary/30 sm:w-[280px]"
-                      >
-                        <MiniMap
-                          query={[l.omrade, l.titel].filter(Boolean).join(", ") || l.titel}
-                          className="h-28 w-full border-b border-border"
-                        />
-                        <div className="flex flex-1 flex-col gap-2 p-3">
-                          <h3 className="line-clamp-2 text-sm font-semibold text-foreground group-hover:text-primary">
-                            {l.titel}
-                          </h3>
-                          {l.omrade && (
-                            <p className="flex items-center gap-1 text-xs text-muted-foreground">
-                              <MapPin className="h-3 w-3 shrink-0" />
-                              <span className="truncate">{l.omrade}</span>
-                            </p>
-                          )}
-                          <div className="flex items-center justify-between text-xs">
-                            <span className="flex items-center gap-1 text-muted-foreground">
-                              <BedDouble className="h-3 w-3" />
-                              {l.antal_rum ?? "—"} rum
-                            </span>
-                            <span className="font-semibold text-foreground">
-                              {l.hyra ?? "—"}
-                            </span>
+                    {liknande.map((l) => {
+                      const isPrivat = l.id.startsWith("privat-");
+                      const innerId = l.id.replace(/^privat-/, "");
+                      const cardClass = "group flex w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-xl border border-border bg-card shadow-[var(--shadow-card)] transition-all hover:-translate-y-0.5 hover:border-primary/30 sm:w-[280px]";
+                      const innehåll = (
+                        <>
+                          <MiniMap
+                            query={[l.omrade, l.titel].filter(Boolean).join(", ") || l.titel}
+                            className="h-28 w-full border-b border-border"
+                          />
+                          <div className="flex flex-1 flex-col gap-2 p-3">
+                            <h3 className="line-clamp-2 text-sm font-semibold text-foreground group-hover:text-primary">
+                              {l.titel}
+                            </h3>
+                            {l.omrade && (
+                              <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                                <MapPin className="h-3 w-3 shrink-0" />
+                                <span className="truncate">{l.omrade}</span>
+                              </p>
+                            )}
+                            <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
+                              <span className="flex items-center gap-1">
+                                <BedDouble className="h-3 w-3" />
+                                {l.antal_rum ?? "—"}
+                              </span>
+                              {l.storlek && (
+                                <span className="flex items-center gap-1">
+                                  <Ruler className="h-3 w-3" />
+                                  {l.storlek}
+                                </span>
+                              )}
+                            </div>
+                            <div className="flex items-center justify-between border-t border-border/60 pt-2 text-xs">
+                              <span className="text-muted-foreground">{l.kalla ?? ""}</span>
+                              <span className="font-semibold text-foreground">
+                                {l.hyra ?? "—"}
+                              </span>
+                            </div>
                           </div>
-                          {l.kontakt_namn && (
-                            <p className="flex items-center gap-1 border-t border-border/60 pt-2 text-xs text-muted-foreground">
-                              <User className="h-3 w-3 shrink-0" />
-                              <span className="truncate">{l.kontakt_namn}</span>
-                            </p>
-                          )}
-                        </div>
-                      </Link>
-                    ))}
+                        </>
+                      );
+                      return isPrivat ? (
+                        <Link key={l.id} to="/annons/$id" params={{ id: innerId }} className={cardClass}>
+                          {innehåll}
+                        </Link>
+                      ) : (
+                        <a
+                          key={l.id}
+                          href={l.url ?? "#"}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={cardClass}
+                        >
+                          {innehåll}
+                        </a>
+                      );
+                    })}
                   </div>
                 </div>
               </section>
