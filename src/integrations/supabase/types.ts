@@ -62,6 +62,30 @@ export type Database = {
         }
         Relationships: []
       }
+      geocode_cache: {
+        Row: {
+          created_at: string
+          found: boolean
+          lat: number | null
+          lon: number | null
+          query: string
+        }
+        Insert: {
+          created_at?: string
+          found?: boolean
+          lat?: number | null
+          lon?: number | null
+          query: string
+        }
+        Update: {
+          created_at?: string
+          found?: boolean
+          lat?: number | null
+          lon?: number | null
+          query?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           efternamn: string
