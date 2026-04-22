@@ -76,14 +76,21 @@ function lonLatToTile(lon: number, lat: number, zoom: number) {
 }
 
 export function MiniMap({ query, className }: MiniMapProps) {
-  const [coords, setCoords] = useState<Coords | null | undefined>(() =>
-    readCache(query),
-  );
+  // Starta alltid som "loading" för att matcha SSR-HTML, läs cache i useEffect
+  const [coords, setCoords] = useState<Coords | null | undefined>(undefined);
   const requested = useRef(false);
 
   useEffect(() => {
-    if (coords !== undefined || requested.current) return;
+    if (requested.current) return;
     requested.current = true;
+
+    // Försök läsa cache först (klient-only, undviker hydration mismatch)
+    const cached = readCache(query);
+    if (cached !== undefined) {
+      setCoords(cached);
+      return;
+    }
+
     let cancelled = false;
     const timer = setTimeout(
       () => {
@@ -97,7 +104,7 @@ export function MiniMap({ query, className }: MiniMapProps) {
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [query, coords]);
+  }, [query]);
 
   if (coords === undefined) {
     return (
