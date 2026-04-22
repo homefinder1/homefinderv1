@@ -24,6 +24,7 @@ export type Database = {
           kontakt_email: string
           kontakt_namn: string | null
           kontakt_telefon: string | null
+          ledig_datum: string | null
           omrade: string | null
           skapad_datum: string
           status: Database["public"]["Enums"]["annons_status"]
@@ -40,6 +41,7 @@ export type Database = {
           kontakt_email: string
           kontakt_namn?: string | null
           kontakt_telefon?: string | null
+          ledig_datum?: string | null
           omrade?: string | null
           skapad_datum?: string
           status?: Database["public"]["Enums"]["annons_status"]
@@ -56,6 +58,7 @@ export type Database = {
           kontakt_email?: string
           kontakt_namn?: string | null
           kontakt_telefon?: string | null
+          ledig_datum?: string | null
           omrade?: string | null
           skapad_datum?: string
           status?: Database["public"]["Enums"]["annons_status"]

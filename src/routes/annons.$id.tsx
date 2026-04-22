@@ -21,12 +21,14 @@ interface PrivatAnnons {
   titel: string;
   omrade: string | null;
   antal_rum: number | null;
+  storlek_num: number | null;
   hyra: string | null;
   beskrivning: string | null;
   kontakt_namn: string | null;
   kontakt_email: string;
   kontakt_telefon: string | null;
   skapad_datum: string;
+  ledig_datum: string | null;
 }
 
 interface SimilarRow {
@@ -45,7 +47,7 @@ async function laddaAnnons(id: string): Promise<PrivatAnnons | null> {
   const { data, error } = await supabase
     .from("annonser")
     .select(
-      "id, titel, omrade, antal_rum, hyra, beskrivning, kontakt_namn, kontakt_email, kontakt_telefon, skapad_datum",
+      "id, titel, omrade, antal_rum, storlek_num, hyra, beskrivning, kontakt_namn, kontakt_email, kontakt_telefon, skapad_datum, ledig_datum",
     )
     .eq("id", id)
     .eq("status", "godkand")
@@ -247,14 +249,18 @@ function AnnonsDetalj() {
                 <p className="text-xs uppercase tracking-wide text-muted-foreground">Yta</p>
                 <p className="mt-1 flex items-center gap-1.5 text-lg font-semibold text-foreground">
                   <Ruler className="h-4 w-4 text-primary" />
-                  —
+                  {annons.storlek_num != null ? `${annons.storlek_num} m²` : "—"}
                 </p>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">Inlagd</p>
+                <p className="text-xs uppercase tracking-wide text-muted-foreground">
+                  {annons.ledig_datum ? "Ledig från" : "Inlagd"}
+                </p>
                 <p className="mt-1 flex items-center gap-1.5 text-sm font-medium text-foreground">
                   <Calendar className="h-4 w-4 text-primary" />
-                  {inflyttning}
+                  {annons.ledig_datum
+                    ? new Date(annons.ledig_datum).toLocaleDateString("sv-SE", { year: "numeric", month: "long", day: "numeric" })
+                    : inflyttning}
                 </p>
               </div>
             </div>

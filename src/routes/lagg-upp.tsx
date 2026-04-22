@@ -1,6 +1,11 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Check, Loader2 } from "lucide-react";
+import { format } from "date-fns";
+import { sv } from "date-fns/locale";
+import { Calendar as CalendarIcon, Check, Loader2 } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -50,6 +55,7 @@ function PostListing() {
   const [profil, setProfil] = useState<ProfilData | null>(null);
   const [profilLoading, setProfilLoading] = useState(true);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
+  const [ledigDatum, setLedigDatum] = useState<Date | undefined>(undefined);
 
   // Visa auth-modal när direktbesök sker utan inloggning
   useEffect(() => {
@@ -139,6 +145,7 @@ function PostListing() {
       storlek_num,
       hyra: hyraNum ? `${hyraNum} kr/mån` : null,
       beskrivning,
+      ledig_datum: ledigDatum ? format(ledigDatum, "yyyy-MM-dd") : null,
       kontakt_email: user.email ?? "",
       kontakt_namn: `${fornamn} ${efternamn}`.trim(),
       kontakt_telefon: telefon || null,
@@ -249,6 +256,51 @@ function PostListing() {
                 </Label>
                 <Input id="yta" name="yta" type="number" inputMode="numeric" min={1} max={10000} step={1} placeholder="65" className="h-12 text-base" />
               </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="ledig" className="text-sm flex items-center justify-between">
+                <span>Ledig från</span>
+                <span className="text-xs font-normal text-muted-foreground">Valfritt</span>
+              </Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    id="ledig"
+                    type="button"
+                    variant="outline"
+                    className={cn(
+                      "h-12 w-full justify-start text-left text-base font-normal",
+                      !ledigDatum && "text-muted-foreground",
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {ledigDatum ? format(ledigDatum, "d MMMM yyyy", { locale: sv }) : "Välj inflyttningsdatum"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={ledigDatum}
+                    onSelect={setLedigDatum}
+                    disabled={(date) => date < new Date(new Date().setHours(0, 0, 0, 0))}
+                    initialFocus
+                    className={cn("p-3 pointer-events-auto")}
+                  />
+                  {ledigDatum && (
+                    <div className="border-t border-border p-2">
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="w-full"
+                        onClick={() => setLedigDatum(undefined)}
+                      >
+                        Rensa datum
+                      </Button>
+                    </div>
+                  )}
+                </PopoverContent>
+              </Popover>
             </div>
             <div className="space-y-2">
               <Label htmlFor="desc" className="text-sm">Beskrivning</Label>
