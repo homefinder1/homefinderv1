@@ -289,44 +289,59 @@ function AnnonsDetalj() {
                 )}
               </div>
             </div>
+
+            {liknande.length > 0 && (
+              <section className="border-t border-border pt-6">
+                <h2 className="text-lg font-semibold tracking-tight text-foreground">
+                  Du kanske gillar dessa också
+                </h2>
+                <div className="mt-4 -mx-5 sm:-mx-8 overflow-x-auto pb-2 scroll-smooth snap-x snap-mandatory">
+                  <div className="flex gap-4 px-5 sm:px-8">
+                    {liknande.map((l) => (
+                      <Link
+                        key={l.id}
+                        to="/annons/$id"
+                        params={{ id: l.id }}
+                        className="group flex w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-xl border border-border bg-card shadow-[var(--shadow-card)] transition-all hover:-translate-y-0.5 hover:border-primary/30 sm:w-[280px]"
+                      >
+                        <MiniMap
+                          query={[l.omrade, l.titel].filter(Boolean).join(", ") || l.titel}
+                          className="h-28 w-full border-b border-border"
+                        />
+                        <div className="flex flex-1 flex-col gap-2 p-3">
+                          <h3 className="line-clamp-2 text-sm font-semibold text-foreground group-hover:text-primary">
+                            {l.titel}
+                          </h3>
+                          {l.omrade && (
+                            <p className="flex items-center gap-1 text-xs text-muted-foreground">
+                              <MapPin className="h-3 w-3 shrink-0" />
+                              <span className="truncate">{l.omrade}</span>
+                            </p>
+                          )}
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="flex items-center gap-1 text-muted-foreground">
+                              <BedDouble className="h-3 w-3" />
+                              {l.antal_rum ?? "—"} rum
+                            </span>
+                            <span className="font-semibold text-foreground">
+                              {l.hyra ?? "—"}
+                            </span>
+                          </div>
+                          {l.kontakt_namn && (
+                            <p className="flex items-center gap-1 border-t border-border/60 pt-2 text-xs text-muted-foreground">
+                              <User className="h-3 w-3 shrink-0" />
+                              <span className="truncate">{l.kontakt_namn}</span>
+                            </p>
+                          )}
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            )}
           </div>
         </article>
-
-        {liknande.length > 0 && (
-          <section className="mt-10">
-            <h2 className="text-xl font-semibold tracking-tight text-foreground">
-              Liknande annonser
-            </h2>
-            <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {liknande.map((l) => {
-                const isPrivat = l.id.startsWith("privat-");
-                const innerId = l.id.replace(/^(privat-|scraped-)/, "");
-                return (
-                  <Link
-                    key={l.id}
-                    to={isPrivat ? "/annons/$id" : "/sok"}
-                    params={isPrivat ? { id: innerId } : undefined}
-                    className="block rounded-xl border border-border bg-card p-4 shadow-[var(--shadow-card)] transition-all hover:-translate-y-0.5 hover:border-primary/30"
-                  >
-                    <h3 className="line-clamp-2 text-sm font-semibold text-foreground">
-                      {l.titel}
-                    </h3>
-                    {l.omrade && (
-                      <p className="mt-1 flex items-center gap-1 text-xs text-muted-foreground">
-                        <MapPin className="h-3 w-3" />
-                        {l.omrade}
-                      </p>
-                    )}
-                    <div className="mt-3 flex items-center justify-between text-xs text-muted-foreground">
-                      <span>{l.antal_rum ?? "—"} rum</span>
-                      <span className="font-semibold text-foreground">{l.hyra ?? "—"}</span>
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </section>
-        )}
       </div>
     </div>
   );
