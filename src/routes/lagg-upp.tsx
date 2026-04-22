@@ -385,7 +385,7 @@ function PostListing() {
               </p>
             </div>
           </div>
-        ) : profilLoading ? (
+        ) : profilLoading || laddarAnnons ? (
           <div className="mt-8 flex items-center justify-center py-12">
             <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
           </div>
@@ -396,30 +396,30 @@ function PostListing() {
           >
             <div className="space-y-2">
               <Label htmlFor="title" className="text-sm">Adress / rubrik</Label>
-              <Input id="title" name="title" placeholder="T.ex. Storgatan 5, Stockholm" required className="h-12 text-base" />
+              <Input key={`title-${befintlig?.id ?? "new"}`} id="title" name="title" placeholder="T.ex. Storgatan 5, Stockholm" required defaultValue={befintlig?.titel ?? ""} className="h-12 text-base" />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="city" className="text-sm">Område</Label>
-                <Input id="city" name="city" placeholder="Södermalm" required className="h-12 text-base" />
+                <Input key={`city-${befintlig?.id ?? "new"}`} id="city" name="city" placeholder="Södermalm" required defaultValue={befintlig?.omrade ?? ""} className="h-12 text-base" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="price" className="text-sm">Hyra (kr/mån)</Label>
-                <Input id="price" name="price" type="number" inputMode="numeric" placeholder="9500" required className="h-12 text-base" />
+                <Input key={`price-${befintlig?.id ?? "new"}`} id="price" name="price" type="number" inputMode="numeric" placeholder="9500" required defaultValue={befintlig?.hyra ? String(befintlig.hyra).replace(/\D/g, "") : ""} className="h-12 text-base" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="rooms" className="text-sm flex items-center justify-between">
                   <span>Antal rum</span>
                   <span className="text-xs font-normal text-muted-foreground">Valfritt</span>
                 </Label>
-                <Input id="rooms" name="rooms" type="number" inputMode="numeric" min={1} max={10} step={1} placeholder="2" className="h-12 text-base" />
+                <Input key={`rooms-${befintlig?.id ?? "new"}`} id="rooms" name="rooms" type="number" inputMode="numeric" min={1} max={10} step={1} placeholder="2" defaultValue={befintlig?.antal_rum ?? ""} className="h-12 text-base" />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="yta" className="text-sm flex items-center justify-between">
                   <span>Yta (m²)</span>
                   <span className="text-xs font-normal text-muted-foreground">Valfritt</span>
                 </Label>
-                <Input id="yta" name="yta" type="number" inputMode="numeric" min={1} max={10000} step={1} placeholder="65" className="h-12 text-base" />
+                <Input key={`yta-${befintlig?.id ?? "new"}`} id="yta" name="yta" type="number" inputMode="numeric" min={1} max={10000} step={1} placeholder="65" defaultValue={befintlig?.storlek_num ?? ""} className="h-12 text-base" />
               </div>
             </div>
             <div className="space-y-2">
@@ -504,6 +504,26 @@ function PostListing() {
               />
 
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {befintligaBilder.map((url, idx) => (
+                  <div
+                    key={url}
+                    className="group relative aspect-square overflow-hidden rounded-xl border border-border bg-muted"
+                  >
+                    <img
+                      src={url}
+                      alt={`Befintlig bild ${idx + 1}`}
+                      className="h-full w-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setBefintligaBilder((prev) => prev.filter((_, i) => i !== idx))}
+                      aria-label="Ta bort bild"
+                      className="absolute right-1.5 top-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-background/90 text-foreground shadow-md transition hover:bg-background"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
                 {bilder.map((b, idx) => (
                   <div
                     key={b.preview}
@@ -524,7 +544,7 @@ function PostListing() {
                     </button>
                   </div>
                 ))}
-                {bilder.length < MAX_BILDER && (
+                {(befintligaBilder.length + bilder.length) < MAX_BILDER && (
                   <button
                     type="button"
                     onClick={() => filinputRef.current?.click()}
