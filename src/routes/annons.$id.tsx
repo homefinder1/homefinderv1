@@ -35,7 +35,7 @@ interface SimilarRow {
   omrade: string | null;
   antal_rum: number | null;
   hyra: string | null;
-  hyra_num: number | null;
+  kontakt_namn: string | null;
 }
 
 async function laddaAnnons(id: string): Promise<PrivatAnnons | null> {
@@ -127,18 +127,17 @@ function AnnonsDetalj() {
   useEffect(() => {
     let aktiv = true;
     (async () => {
+      // Hämta liknande privata annonser med kontakt_namn
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let q: any = (supabase as any)
-        .from("alla_annonser")
-        .select("id, titel, omrade, antal_rum, hyra, hyra_num")
-        .neq("id", `privat-${annons.id}`)
-        .limit(6);
+        .from("annonser")
+        .select("id, titel, omrade, antal_rum, hyra, kontakt_namn")
+        .eq("status", "godkand")
+        .neq("id", annons.id)
+        .limit(3);
 
       if (annons.antal_rum != null) {
-        q = q.gte("rum_num", annons.antal_rum).lt("rum_num", annons.antal_rum + 1);
-      }
-      if (hyraNum != null) {
-        q = q.gte("hyra_num", Math.max(0, hyraNum - 1000)).lte("hyra_num", hyraNum + 1000);
+        q = q.eq("antal_rum", annons.antal_rum);
       }
       if (annons.omrade) {
         const ort = annons.omrade.replace(/[%,]/g, "").split(/\s+/)[0];
@@ -147,7 +146,17 @@ function AnnonsDetalj() {
 
       const { data } = await q;
       if (!aktiv) return;
-      setLiknande((data ?? []) as SimilarRow[]);
+      let rader = (data ?? []) as SimilarRow[];
+
+      // Filtrera på hyra ±1000 kr i klienten
+      if (hyraNum != null) {
+        rader = rader.filter((r) => {
+          const h = parsaHyra(r.hyra);
+          return h == null || Math.abs(h - hyraNum) <= 1000;
+        });
+      }
+
+      setLiknande(rader.slice(0, 3));
     })();
     return () => {
       aktiv = false;
