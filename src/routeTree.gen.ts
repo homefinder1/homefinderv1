@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as LaggUppRouteImport } from './routes/lagg-upp'
 import { Route as FavoriterRouteImport } from './routes/favoriter'
+import { Route as DinaAnnonserRouteImport } from './routes/dina-annonser'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -44,6 +45,11 @@ const FavoriterRoute = FavoriterRouteImport.update({
   path: '/favoriter',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DinaAnnonserRoute = DinaAnnonserRouteImport.update({
+  id: '/dina-annonser',
+  path: '/dina-annonser',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
@@ -69,6 +75,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
+  '/dina-annonser': typeof DinaAnnonserRoute
   '/favoriter': typeof FavoriterRoute
   '/lagg-upp': typeof LaggUppRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -80,6 +87,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
+  '/dina-annonser': typeof DinaAnnonserRoute
   '/favoriter': typeof FavoriterRoute
   '/lagg-upp': typeof LaggUppRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -92,6 +100,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
+  '/dina-annonser': typeof DinaAnnonserRoute
   '/favoriter': typeof FavoriterRoute
   '/lagg-upp': typeof LaggUppRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -105,6 +114,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/dina-annonser'
     | '/favoriter'
     | '/lagg-upp'
     | '/robots.txt'
@@ -116,6 +126,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/dina-annonser'
     | '/favoriter'
     | '/lagg-upp'
     | '/robots.txt'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/'
     | '/admin'
     | '/auth'
+    | '/dina-annonser'
     | '/favoriter'
     | '/lagg-upp'
     | '/robots.txt'
@@ -139,6 +151,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRoute
   AuthRoute: typeof AuthRoute
+  DinaAnnonserRoute: typeof DinaAnnonserRoute
   FavoriterRoute: typeof FavoriterRoute
   LaggUppRoute: typeof LaggUppRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
@@ -184,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FavoriterRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dina-annonser': {
+      id: '/dina-annonser'
+      path: '/dina-annonser'
+      fullPath: '/dina-annonser'
+      preLoaderRoute: typeof DinaAnnonserRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth': {
       id: '/auth'
       path: '/auth'
@@ -219,6 +239,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRoute,
   AuthRoute: AuthRoute,
+  DinaAnnonserRoute: DinaAnnonserRoute,
   FavoriterRoute: FavoriterRoute,
   LaggUppRoute: LaggUppRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
