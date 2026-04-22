@@ -218,11 +218,11 @@ function PostListing() {
         .eq("id", user.id);
     }
 
-    // Ladda upp bilder (komprimeras automatiskt)
-    let bildUrls: string[] = [];
+    // Ladda upp NYA bilder (komprimeras automatiskt) — befintliga URL:er behålls
+    let nyaBildUrls: string[] = [];
     if (bilder.length > 0) {
       try {
-        bildUrls = await Promise.all(
+        nyaBildUrls = await Promise.all(
           bilder.map((b) => laddaUppBild(b.file, user.id)),
         );
       } catch (err) {
@@ -235,6 +235,39 @@ function PostListing() {
       }
     }
 
+    const allaBilder = [...befintligaBilder, ...nyaBildUrls].slice(0, MAX_BILDER);
+
+    if (isEdit && befintlig) {
+      // UPPDATERA befintlig annons — sätter tillbaka status till "vantande" för ny granskning
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase as any)
+        .from("annonser")
+        .update({
+          titel,
+          omrade: omrade || null,
+          antal_rum,
+          storlek_num,
+          hyra: hyraNum ? `${hyraNum} kr/mån` : null,
+          beskrivning: beskrivningTrim,
+          ledig_datum: ledigDatum ? format(ledigDatum, "yyyy-MM-dd") : null,
+          kontakt_email: user.email ?? "",
+          kontakt_namn: `${fornamn} ${efternamn}`.trim(),
+          kontakt_telefon: telefon || null,
+          bilder: allaBilder.length > 0 ? allaBilder : null,
+          status: "vantande",
+        })
+        .eq("id", befintlig.id);
+      setSubmitting(false);
+      if (error) {
+        toast.error("Kunde inte spara ändringarna: " + error.message);
+        return;
+      }
+      toast.success("Annonsen är uppdaterad och skickad för granskning");
+      navigate({ to: "/dina-annonser" });
+      return;
+    }
+
+    // SKAPA ny annons
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (supabase as any).from("annonser").insert({
       titel,
@@ -249,7 +282,7 @@ function PostListing() {
       kontakt_telefon: telefon || null,
       kalla: "Privat",
       user_id: user.id,
-      bilder: bildUrls.length > 0 ? bildUrls : null,
+      bilder: allaBilder.length > 0 ? allaBilder : null,
     });
     setSubmitting(false);
 
