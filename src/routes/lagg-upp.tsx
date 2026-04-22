@@ -169,7 +169,8 @@ function PostListing() {
       }
     }
 
-    const { error } = await supabase.from("annonser").insert({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (supabase as any).from("annonser").insert({
       titel,
       omrade: omrade || null,
       antal_rum,
