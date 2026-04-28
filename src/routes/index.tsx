@@ -174,7 +174,7 @@ function Home() {
         <div
           aria-hidden="true"
           className={`pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 transition-opacity duration-500 ${
-            scrolled ? "opacity-0" : "opacity-100"
+            scrolled ? "opacity-100" : "opacity-0"
           }`}
         >
           <div className="flex flex-col items-center gap-1 text-muted-foreground">
