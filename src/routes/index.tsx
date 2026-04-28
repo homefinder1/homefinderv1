@@ -115,7 +115,7 @@ function Home() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative flex h-screen min-h-[640px] flex-col overflow-hidden">
+      <section className="relative flex min-h-[calc(100svh-4rem)] flex-col overflow-hidden md:min-h-[calc(100svh-5rem)]">
         <div
           className="absolute inset-0 -z-10"
           style={{ background: "var(--gradient-soft)" }}
