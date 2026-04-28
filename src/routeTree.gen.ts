@@ -18,6 +18,7 @@ import { Route as DinaAnnonserRouteImport } from './routes/dina-annonser'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as HyresratterStadRouteImport } from './routes/hyresratter.$stad'
 import { Route as AnnonsIdRouteImport } from './routes/annons.$id'
 
 const SokRoute = SokRouteImport.update({
@@ -65,6 +66,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HyresratterStadRoute = HyresratterStadRouteImport.update({
+  id: '/hyresratter/$stad',
+  path: '/hyresratter/$stad',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AnnonsIdRoute = AnnonsIdRouteImport.update({
   id: '/annons/$id',
   path: '/annons/$id',
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sok': typeof SokRoute
   '/annons/$id': typeof AnnonsIdRoute
+  '/hyresratter/$stad': typeof HyresratterStadRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +101,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sok': typeof SokRoute
   '/annons/$id': typeof AnnonsIdRoute
+  '/hyresratter/$stad': typeof HyresratterStadRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/sok': typeof SokRoute
   '/annons/$id': typeof AnnonsIdRoute
+  '/hyresratter/$stad': typeof HyresratterStadRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sok'
     | '/annons/$id'
+    | '/hyresratter/$stad'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sok'
     | '/annons/$id'
+    | '/hyresratter/$stad'
   id:
     | '__root__'
     | '/'
@@ -145,6 +156,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/sok'
     | '/annons/$id'
+    | '/hyresratter/$stad'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -158,6 +170,7 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   SokRoute: typeof SokRoute
   AnnonsIdRoute: typeof AnnonsIdRoute
+  HyresratterStadRoute: typeof HyresratterStadRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -225,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/hyresratter/$stad': {
+      id: '/hyresratter/$stad'
+      path: '/hyresratter/$stad'
+      fullPath: '/hyresratter/$stad'
+      preLoaderRoute: typeof HyresratterStadRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/annons/$id': {
       id: '/annons/$id'
       path: '/annons/$id'
@@ -246,6 +266,7 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   SokRoute: SokRoute,
   AnnonsIdRoute: AnnonsIdRoute,
+  HyresratterStadRoute: HyresratterStadRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
