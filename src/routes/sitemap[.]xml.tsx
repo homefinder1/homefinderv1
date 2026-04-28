@@ -26,7 +26,7 @@ const STATIC_PATHS: { path: string; priority: string; changefreq: string }[] = [
   { path: "/hyresratter/halmstad", priority: "0.8", changefreq: "daily" },
   { path: "/hyresratter/sundsvall", priority: "0.8", changefreq: "daily" },
   { path: "/hyresratter/ostersund", priority: "0.8", changefreq: "daily" },
-];
+]; 
 
 export const Route = createFileRoute("/sitemap.xml")({
   server: {
