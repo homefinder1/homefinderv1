@@ -102,12 +102,20 @@ const stats = [
 ];
 
 function Home() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
 
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section className="relative flex h-screen min-h-[640px] flex-col overflow-hidden">
         <div
           className="absolute inset-0 -z-10"
           style={{ background: "var(--gradient-soft)" }}
@@ -117,7 +125,7 @@ function Home() {
           style={{ background: "var(--gradient-hero)" }}
         />
 
-        <div className="mx-auto max-w-5xl px-4 pb-20 pt-16 md:pb-28 md:pt-24">
+        <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center px-4 pb-16 pt-8">
           <div className="mb-6 flex justify-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground shadow-sm">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
@@ -159,6 +167,19 @@ function Home() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div
+          aria-hidden="true"
+          className={`pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 transition-opacity duration-500 ${
+            scrolled ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <div className="flex flex-col items-center gap-1 text-muted-foreground">
+            <span className="text-xs font-medium">Scrolla ner</span>
+            <ChevronDown className="h-6 w-6 animate-bounce" />
           </div>
         </div>
       </section>
