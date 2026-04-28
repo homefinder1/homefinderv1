@@ -125,8 +125,8 @@ function Home() {
           style={{ background: "var(--gradient-hero)" }}
         />
 
-        <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center px-4 pb-16 pt-8">
-          <div className="mb-6 flex justify-center">
+        <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center px-4 pb-20 pt-8 md:pt-12">
+          <div className="mb-5 flex justify-center">
             <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground shadow-sm">
               <Sparkles className="h-3.5 w-3.5 text-primary" />
               Sveriges hyresmarknad samlad på ett ställe
@@ -138,12 +138,12 @@ function Home() {
               tio olika sajter
             </span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-center text-base text-muted-foreground md:text-lg">
+          <p className="mx-auto mt-5 max-w-2xl text-center text-base text-muted-foreground md:text-lg">
             HomeFinder samlar lediga hyresrätter från MKB, Boplats, HomeQ och
             fler hyresvärdar — så du hittar din nästa bostad på ett enda ställe.
           </p>
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button asChild size="lg" className="h-12 gap-2 px-7 text-base">
               <Link to="/sok">
                 Börja sök nu
@@ -156,7 +156,7 @@ function Home() {
           </div>
 
           {/* Stats */}
-          <div className="mx-auto mt-16 grid max-w-3xl grid-cols-2 gap-6 md:grid-cols-4">
+          <div className="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-6 md:mt-12 md:grid-cols-4">
             {stats.map((s) => (
               <div key={s.label} className="text-center">
                 <div className="text-2xl font-bold text-foreground md:text-3xl">
