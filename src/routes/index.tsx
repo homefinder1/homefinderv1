@@ -183,7 +183,6 @@ function Home() {
             <ChevronDown className={`h-6 w-6 ${scrolled ? "animate-bounce" : ""}`} />
           </div>
         </div>
-        </div>
       </section>
 
       {/* Varför HomeFinder */}
