@@ -175,12 +175,12 @@ function Home() {
         <div
           aria-hidden="true"
           className={`pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 transition-opacity duration-500 ${
-            scrolled ? "opacity-100" : "opacity-0"
+            scrolled ? "opacity-0" : "opacity-100"
           }`}
         >
           <div className="flex flex-col items-center gap-1 text-muted-foreground">
             <span className="text-xs font-medium">Scrolla ner</span>
-            <ChevronDown className={`h-6 w-6 ${scrolled ? "animate-bounce" : ""}`} />
+            <ChevronDown className={`h-6 w-6 ${scrolled ? "" : "animate-bounce"}`} />
           </div>
         </div>
       </section>
