@@ -102,12 +102,38 @@ const stats = [
   { value: "0 kr", label: "Helt gratis" },
 ];
 
+function formatAntal(n: number): string {
+  const rounded = Math.floor(n / 100) * 100;
+  return rounded.toLocaleString("sv-SE").replace(/,/g, " ") + "+";
+}
+
 function Home() {
   const [scrolled, setScrolled] = useState(false);
+  const [antalAnnonser, setAntalAnnonser] = useState<string>("7 700+");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      const [scraped, approved] = await Promise.all([
+        supabase.from("scraped_annonser").select("*", { count: "exact", head: true }),
+        supabase.from("annonser").select("*", { count: "exact", head: true }).eq("status", "godkand"),
+      ]);
+      const total = (scraped.count ?? 0) + (approved.count ?? 0);
+      if (total > 0) setAntalAnnonser(formatAntal(total));
+    })();
+  }, []);
+
+  const stats = [
+    { value: antalAnnonser, label: "Aktiva annonser" },
+    { value: "5+", label: "Hyresvärdar & källor" },
+    { value: "24/7", label: "Automatisk uppdatering" },
+    { value: "0 kr", label: "Helt gratis" },
+  ];
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
