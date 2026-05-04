@@ -128,8 +128,6 @@ function Home() {
     { value: "24/7", label: "Automatisk uppdatering" },
     { value: "0 kr", label: "Helt gratis" },
   ];
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   return (
     <div className="min-h-screen bg-background">
