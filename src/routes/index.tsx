@@ -95,12 +95,6 @@ const benefits = [
   },
 ];
 
-const stats = [
-  { value: "7 720+", label: "Aktiva annonser" },
-  { value: "5+", label: "Hyresvärdar & källor" },
-  { value: "24/7", label: "Automatisk uppdatering" },
-  { value: "0 kr", label: "Helt gratis" },
-];
 
 function formatAntal(n: number): string {
   const rounded = Math.floor(n / 100) * 100;
