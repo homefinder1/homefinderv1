@@ -326,37 +326,39 @@ function Home() {
             </h2>
           </Reveal>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-2">
-            <Reveal delay={80}>
+          <div className="mt-14 grid items-start gap-6 md:grid-cols-2">
+            <Reveal delay={80} className="md:scale-[0.97] md:origin-top">
               <div
-                className="rounded-2xl border p-8"
+                className="rounded-2xl border p-7 text-left"
                 style={{ backgroundColor: "#FEF2F2", borderColor: "#FECACA", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}
               >
-                <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: "#B91C1C" }}>
+                <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "#B91C1C" }}>
                   <XCircle className="h-5 w-5" /> Utan HomeFinder
                 </div>
                 <ul className="mt-5 space-y-3 text-sm" style={{ color: "#4B5563" }}>
-                  <li>· Hoppa mellan 5–10 olika sajter varje dag</li>
-                  <li>· Olika konton, lösenord och köpoäng</li>
-                  <li>· Lätt att missa nya annonser</li>
-                  <li>· Ingen samlad bild av marknaden</li>
+                  {["Hoppa mellan 5–10 olika sajter varje dag","Olika konton, lösenord och köpoäng","Lätt att missa nya annonser","Ingen samlad bild av marknaden"].map((t) => (
+                    <li key={t} className="flex items-start gap-2">
+                      <XCircle className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "#B91C1C" }} />
+                      <span>{t}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </Reveal>
 
             <Reveal delay={160}>
               <div
-                className="rounded-2xl border p-8"
+                className="rounded-2xl border p-8 text-left"
                 style={{ backgroundColor: "#EFF6FF", borderColor: "#BFDBFE", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}
               >
                 <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: BRAND_BLUE }}>
                   <CheckCircle2 className="h-5 w-5" /> Med HomeFinder
                 </div>
                 <ul className="mt-5 space-y-3 text-sm" style={{ color: "#0a0a0a" }}>
-                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> Alla annonser samlade på ett ställe</li>
-                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> Sök, filtrera och jämför direkt</li>
-                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> Uppdateras dygnet runt</li>
-                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> Helt gratis – inget konto behövs</li>
+                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> <span>Alla annonser samlade på ett ställe</span></li>
+                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> <span>Sök, filtrera och jämför direkt</span></li>
+                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> <span>Uppdateras dygnet runt</span></li>
+                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> <span>Helt gratis – inget konto behövs</span></li>
                 </ul>
               </div>
             </Reveal>
