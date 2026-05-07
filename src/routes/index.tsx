@@ -391,14 +391,13 @@ function Home() {
                   </div>
 
                   {/* Listing cards */}
-                  <div className="mt-3 space-y-2">
-                    {[
-                      { titel: "2 rum · Södermalm", pris: "8 500 kr/mån", källa: "Boplats Syd" },
-                      { titel: "3 rum · Linnéstaden", pris: "7 200 kr/mån", källa: "HomeQ" },
-                      { titel: "1 rum · Haga", pris: "5 900 kr/mån", källa: "MKB" },
-                    ].map((c) => (
+                  <div
+                    className="mt-3 space-y-2 transition-opacity duration-300"
+                    style={{ opacity: cardVisible ? 1 : 0 }}
+                  >
+                    {visibleCards.map((c, i) => (
                       <div
-                        key={c.titel}
+                        key={`${cardOffset}-${i}`}
                         className="flex items-center gap-3 rounded-lg border p-2"
                         style={{ borderColor: "#F3F4F6" }}
                       >
