@@ -146,57 +146,144 @@ function Home() {
 
       {/* Hero */}
       <section className="relative flex min-h-screen flex-col" style={{ backgroundColor: "#ffffff" }}>
-        <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center px-4 py-20 text-center">
-          <Reveal>
-            <span
-              className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium"
-              style={{ borderColor: "#E5E7EB", backgroundColor: SOFT_BG, color: "#374151" }}
-            >
-              Helt gratis · Inget konto behövs
-            </span>
-          </Reveal>
+        <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center gap-12 px-4 py-20 md:flex-row md:gap-8">
+          {/* Left column 55% */}
+          <div className="w-full text-center md:w-[55%] md:text-left">
+            <Reveal>
+              <span
+                className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium"
+                style={{ borderColor: "#E5E7EB", backgroundColor: SOFT_BG, color: "#374151" }}
+              >
+                Helt gratis · Inget konto behövs
+              </span>
+            </Reveal>
 
-          <Reveal delay={80}>
-            <h1
-              className="mt-8 text-5xl font-extrabold tracking-tight md:text-7xl"
-              style={{ color: "#0a0a0a", lineHeight: 1.05, letterSpacing: "-0.02em" }}
-            >
-              Sveriges lediga hyresrätter.
-              <br />
-              Samlade. Sökbara.
-              <br />
-              <span style={{ color: BRAND_BLUE }}>Gratis.</span>
-            </h1>
-          </Reveal>
+            <Reveal delay={80}>
+              <h1
+                className="mt-8 text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
+                style={{ color: "#0a0a0a", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+              >
+                Sveriges lediga hyresrätter.
+                <br />
+                Samlade. Sökbara.
+                <br />
+                <span style={{ color: BRAND_BLUE }}>Gratis.</span>
+              </h1>
+            </Reveal>
 
-          <Reveal delay={160}>
-            <p className="mx-auto mt-8 max-w-2xl text-lg md:text-xl" style={{ color: "#6B7280" }}>
-              HomeFinder samlar hyresrätter från MKB, Boplats, HomeQ och fler – uppdaterat varje dag.
-            </p>
-          </Reveal>
+            <Reveal delay={160}>
+              <p className="mt-8 max-w-2xl text-lg md:text-xl mx-auto md:mx-0" style={{ color: "#6B7280" }}>
+                HomeFinder samlar hyresrätter från MKB, Boplats, HomeQ och fler – uppdaterat varje dag.
+              </p>
+            </Reveal>
 
-          <Reveal delay={240}>
-            <Link
-              to="/sok"
-              className="mt-10 inline-flex items-center gap-2 rounded-lg px-8 py-4 text-base font-semibold text-white shadow-sm transition-colors"
-              style={{ backgroundColor: BRAND_BLUE }}
-              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND_BLUE_HOVER)}
-              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BRAND_BLUE)}
-            >
-              Börja sök nu <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Reveal>
+            <Reveal delay={240}>
+              <Link
+                to="/sok"
+                className="mt-10 inline-flex items-center gap-2 rounded-lg px-8 py-4 text-base font-semibold text-white shadow-sm transition-colors"
+                style={{ backgroundColor: BRAND_BLUE }}
+                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND_BLUE_HOVER)}
+                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BRAND_BLUE)}
+              >
+                Börja sök nu <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Reveal>
 
-          <Reveal delay={320} className="w-full">
-            <div className="mx-auto mt-16 grid max-w-3xl grid-cols-2 gap-8 md:grid-cols-4">
-              {stats.map((s) => (
-                <div key={s.label} className="text-center">
-                  <div className="text-2xl font-bold md:text-3xl" style={{ color: "#0a0a0a" }}>{s.value}</div>
-                  <div className="mt-1 text-xs md:text-sm" style={{ color: "#6B7280" }}>{s.label}</div>
+            <Reveal delay={320} className="w-full">
+              <div className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4">
+                {stats.map((s) => (
+                  <div key={s.label} className="text-center md:text-left">
+                    <div className="text-2xl font-bold md:text-3xl" style={{ color: "#0a0a0a" }}>{s.value}</div>
+                    <div className="mt-1 text-xs md:text-sm" style={{ color: "#6B7280" }}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            </Reveal>
+          </div>
+
+          {/* Right column 45% — mockup */}
+          <div className="w-full md:w-[45%]">
+            <Reveal delay={200}>
+              <div
+                className="mx-auto w-full max-w-md rounded-2xl border bg-white"
+                style={{
+                  borderColor: "#E5E7EB",
+                  boxShadow: "0 20px 40px -15px rgba(0,0,0,0.15), 0 4px 12px -2px rgba(0,0,0,0.05)",
+                  transform: "rotate(2deg)",
+                }}
+              >
+                {/* Top bar */}
+                <div className="flex items-center gap-2 border-b px-3 py-2.5" style={{ borderColor: "#F3F4F6" }}>
+                  <div className="flex gap-1.5">
+                    <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: "#FF5F57" }} />
+                    <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: "#FFBD2E" }} />
+                    <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: "#28C840" }} />
+                  </div>
+                  <div
+                    className="mx-auto rounded-md px-3 py-1 text-[10px]"
+                    style={{ backgroundColor: "#F3F4F6", color: "#6B7280" }}
+                  >
+                    homefinder.se/sok
+                  </div>
                 </div>
-              ))}
-            </div>
-          </Reveal>
+
+                {/* Body */}
+                <div className="p-4">
+                  {/* Search bar */}
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="flex-1 rounded-md border px-3 py-2 text-xs"
+                      style={{ borderColor: "#E5E7EB", color: "#9CA3AF" }}
+                    >
+                      Sök stad, område...
+                    </div>
+                    <button
+                      type="button"
+                      className="rounded-md px-3 py-2 text-xs font-medium text-white"
+                      style={{ backgroundColor: BRAND_BLUE }}
+                    >
+                      Sök
+                    </button>
+                  </div>
+
+                  {/* Listing cards */}
+                  <div className="mt-3 space-y-2">
+                    {[
+                      { titel: "2 rum · Södermalm", pris: "8 500 kr/mån", källa: "Boplats Syd" },
+                      { titel: "3 rum · Linnéstaden", pris: "7 200 kr/mån", källa: "HomeQ" },
+                      { titel: "1 rum · Haga", pris: "5 900 kr/mån", källa: "MKB" },
+                    ].map((c) => (
+                      <div
+                        key={c.titel}
+                        className="flex items-center gap-3 rounded-lg border p-2"
+                        style={{ borderColor: "#F3F4F6" }}
+                      >
+                        <div
+                          className="h-12 w-12 shrink-0 rounded-md"
+                          style={{ backgroundColor: "#E5E7EB" }}
+                        />
+                        <div className="min-w-0 flex-1">
+                          <div className="truncate text-xs font-semibold" style={{ color: "#0a0a0a" }}>
+                            {c.titel}
+                          </div>
+                          <div className="text-[11px]" style={{ color: "#6B7280" }}>{c.pris}</div>
+                          <span
+                            className="mt-1 inline-block rounded px-1.5 py-0.5 text-[9px] font-medium"
+                            style={{ backgroundColor: "#EFF6FF", color: BRAND_BLUE }}
+                          >
+                            {c.källa}
+                          </span>
+                        </div>
+                        <div className="text-[11px] font-medium" style={{ color: BRAND_BLUE }}>
+                          Visa →
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
 
         <div
