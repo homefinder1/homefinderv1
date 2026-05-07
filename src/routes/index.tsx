@@ -379,7 +379,10 @@ function Home() {
             {STEPS.map((step, i) => (
               <Reveal key={step.n} delay={80 * (i + 1)}>
                 <div>
-                  <div className="text-6xl font-extrabold leading-none" style={{ color: BRAND_BLUE, letterSpacing: "-0.04em" }}>
+                  <div
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold"
+                    style={{ backgroundColor: "#F3F4F6", color: "#6B7280" }}
+                  >
                     {step.n}
                   </div>
                   <h3 className="mt-5 text-xl font-bold" style={{ color: "#0a0a0a" }}>{step.title}</h3>
