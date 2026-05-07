@@ -198,7 +198,7 @@ function Home() {
         setCardOffset((o) => (o + 3) % MOCK_LISTINGS.length);
         setCardVisible(true);
       }, 300);
-    }, 3000);
+    }, 5000);
     return () => clearInterval(id);
   }, []);
 
