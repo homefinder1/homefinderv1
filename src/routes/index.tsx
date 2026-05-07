@@ -92,7 +92,7 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
           }
         });
       },
-      { threshold: 0.12 },
+      { threshold: 0.15, rootMargin: "0px 0px -50px 0px" },
     );
     obs.observe(el);
     return () => obs.disconnect();
