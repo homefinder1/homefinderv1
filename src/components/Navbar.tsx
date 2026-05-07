@@ -46,9 +46,8 @@ export function Navbar() {
           >
             H
           </div>
-          <span className="text-xl tracking-tight md:text-[1.6rem]">
-            <span className="font-bold" style={{ color: "#2563EB" }}>Home</span>
-            <span className="font-normal" style={{ color: "#111827" }}>Finder</span>
+          <span className="text-xl md:text-[1.6rem]" style={{ letterSpacing: "0.02em" }}>
+            <span className="font-bold" style={{ color: "#2563EB" }}>Home</span><span className="font-normal" style={{ color: "#111827" }}>Finder</span>
           </span>
         </Link>
 
@@ -147,9 +146,8 @@ export function Navbar() {
                 >
                   H
                 </div>
-                <span className="text-lg tracking-tight">
-                  <span className="font-bold" style={{ color: "#2563EB" }}>Home</span>
-                  <span className="font-normal" style={{ color: "#111827" }}>Finder</span>
+                <span className="text-lg" style={{ letterSpacing: "0.02em" }}>
+                  <span className="font-bold" style={{ color: "#2563EB" }}>Home</span><span className="font-normal" style={{ color: "#111827" }}>Finder</span>
                 </span>
               </SheetTitle>
             </SheetHeader>
