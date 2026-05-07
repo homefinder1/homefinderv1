@@ -68,22 +68,19 @@ export function FilterBar({ filters, onChange }: Props) {
     filters.källa !== "alla" ||
     filters.ledig !== "alla";
 
-  const inputClass = "h-12 text-base md:h-10 md:text-sm";
-  const triggerClass = "h-12 text-base md:h-10 md:text-sm";
+  const inputClass = "h-10 rounded-lg text-sm";
+  const triggerClass = "h-10 rounded-lg text-sm";
 
   return (
-    <div className="rounded-2xl border border-border/60 bg-card p-4 shadow-[var(--shadow-soft)] md:rounded-3xl md:p-6">
-      <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm font-medium text-foreground">
-          <SlidersHorizontal className="h-4 w-4 text-primary" />
-          Filtrera bostäder
-        </div>
+    <div className="rounded-2xl border border-gray-200 bg-card p-3 shadow-[var(--shadow-soft)] md:p-4">
+      <div className="mb-3 flex items-center justify-between">
+        <SlidersHorizontal className="h-4 w-4 text-[#2563EB]" aria-label="Filtrera bostäder" />
         {harAktivaFilter && (
           <Button
             type="button"
             variant="ghost"
             size="sm"
-            className="h-9 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+            className="h-8 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
             onClick={() => onChange(TOMMA_FILTER)}
           >
             <X className="h-3.5 w-3.5" />
