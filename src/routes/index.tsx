@@ -146,23 +146,47 @@ function Home() {
 
       {/* Hero */}
       <section className="relative flex min-h-screen flex-col overflow-hidden" style={{ backgroundColor: "#ffffff" }}>
+        {/* Dot grid pattern */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage: "radial-gradient(#E2E8F0 1px, transparent 1px)",
+            backgroundSize: "22px 22px",
+            opacity: 0.55,
+            maskImage: "linear-gradient(to bottom, black, transparent 90%)",
+            WebkitMaskImage: "linear-gradient(to bottom, black, transparent 90%)",
+          }}
+        />
         {/* Soft background glow behind mockup */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -right-32 top-1/4 h-[600px] w-[600px] rounded-full"
+          className="pointer-events-none absolute -right-40 top-1/4 h-[760px] w-[760px] rounded-full"
           style={{
-            background: "radial-gradient(closest-side, #DBEAFE, #EFF6FF 60%, transparent 80%)",
-            filter: "blur(40px)",
-            opacity: 0.7,
+            background: "radial-gradient(closest-side, #DBEAFE, #EFF6FF 55%, transparent 80%)",
+            filter: "blur(50px)",
+            opacity: 0.9,
           }}
         />
-        <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center gap-12 px-4 py-20 md:flex-row md:gap-8">
-          {/* Left column 55% */}
-          <div className="w-full text-center md:w-[55%] md:text-left">
+        <style>{`
+          @keyframes hero-float {
+            0%, 100% { transform: translateY(0px) rotate(2deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
+          }
+          @keyframes hero-text-in {
+            0% { opacity: 0; transform: translateY(16px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+          .hero-float { animation: hero-float 4s ease-in-out infinite; }
+          .hero-text-in { animation: hero-text-in 700ms ease-out both; }
+        `}</style>
+        <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center gap-16 px-4 pb-20 pt-28 md:flex-row md:gap-20 md:pt-32">
+          {/* Left column */}
+          <div className="hero-text-in w-full text-center md:w-[52%] md:text-left">
             <Reveal>
               <span
                 className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium"
-                style={{ borderColor: "#E5E7EB", backgroundColor: SOFT_BG, color: "#374151" }}
+                style={{ borderColor: "#BFDBFE", backgroundColor: "#EFF6FF", color: BRAND_BLUE }}
               >
                 Helt gratis · Inget konto behövs
               </span>
@@ -211,18 +235,16 @@ function Home() {
             </Reveal>
           </div>
 
-          {/* Right column 45% — mockup */}
-          <div className="w-full md:w-[45%]">
+          {/* Right column — mockup */}
+          <div className="w-full md:w-[48%]">
             <Reveal delay={200}>
-              <div className="relative mx-auto w-full max-w-md">
-                {/* Depth backdrop */}
+              <div className="hero-float relative mx-auto w-full max-w-xl">
                 <div
                   aria-hidden="true"
                   className="absolute -inset-4 rounded-3xl"
                   style={{
                     backgroundColor: "#F1F5F9",
                     boxShadow: "0 20px 60px rgba(0,0,0,0.08)",
-                    transform: "rotate(2deg)",
                   }}
                 />
                 <div
@@ -230,7 +252,6 @@ function Home() {
                   style={{
                     borderColor: "#E5E7EB",
                     boxShadow: "0 20px 40px -15px rgba(0,0,0,0.15), 0 4px 12px -2px rgba(0,0,0,0.05)",
-                    transform: "rotate(2deg)",
                   }}
                 >
                 {/* Top bar */}
