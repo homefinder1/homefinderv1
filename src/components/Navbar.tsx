@@ -142,14 +142,14 @@ export function Navbar() {
               <SheetTitle className="flex items-center gap-2">
                 <div
                   className="flex h-9 w-9 items-center justify-center rounded-xl text-base font-bold text-white shadow-sm"
-                  style={{ backgroundColor: "#2563EB" }}
+                  style={{ backgroundImage: "linear-gradient(135deg, #2563EB, #1D4ED8)" }}
                   aria-hidden="true"
                 >
                   H
                 </div>
                 <span className="text-lg tracking-tight">
-                  <span className="font-bold" style={{ color: "#0F172A" }}>Home</span>
-                  <span className="font-normal" style={{ color: "#2563EB" }}>Finder</span>
+                  <span className="font-bold" style={{ color: "#2563EB" }}>Home</span>
+                  <span className="font-normal" style={{ color: "#111827" }}>Finder</span>
                 </span>
               </SheetTitle>
             </SheetHeader>
