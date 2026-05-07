@@ -140,12 +140,16 @@ export function Navbar() {
           <SheetContent side="right" className="w-[85vw] max-w-sm p-0">
             <SheetHeader className="border-b border-border px-5 py-4 text-left">
               <SheetTitle className="flex items-center gap-2">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[image:var(--gradient-hero)]">
-                  <img src={logo} alt="" className="h-7 w-7" />
+                <div
+                  className="flex h-9 w-9 items-center justify-center rounded-xl text-base font-bold text-white shadow-sm"
+                  style={{ backgroundColor: "#2563EB" }}
+                  aria-hidden="true"
+                >
+                  H
                 </div>
-                <span className="text-lg font-bold">
-                  <span style={{ color: "#000000" }}>Home</span>
-                  <span style={{ color: "#2c6bd6" }}>Finder</span>
+                <span className="text-lg tracking-tight">
+                  <span className="font-bold" style={{ color: "#0F172A" }}>Home</span>
+                  <span className="font-normal" style={{ color: "#2563EB" }}>Finder</span>
                 </span>
               </SheetTitle>
             </SheetHeader>
