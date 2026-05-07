@@ -145,8 +145,18 @@ function Home() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative flex min-h-screen flex-col" style={{ backgroundColor: "#ffffff" }}>
-        <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center gap-12 px-4 py-20 md:flex-row md:gap-8">
+      <section className="relative flex min-h-screen flex-col overflow-hidden" style={{ backgroundColor: "#ffffff" }}>
+        {/* Soft background glow behind mockup */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-32 top-1/4 h-[600px] w-[600px] rounded-full"
+          style={{
+            background: "radial-gradient(closest-side, #DBEAFE, #EFF6FF 60%, transparent 80%)",
+            filter: "blur(40px)",
+            opacity: 0.7,
+          }}
+        />
+        <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center gap-12 px-4 py-20 md:flex-row md:gap-8">
           {/* Left column 55% */}
           <div className="w-full text-center md:w-[55%] md:text-left">
             <Reveal>
