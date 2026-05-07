@@ -112,9 +112,63 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
   );
 }
 
+const MOCK_LISTINGS = [
+  { titel: "2 rum · Södermalm", pris: "8 500 kr/mån", källa: "Boplats Syd" },
+  { titel: "3 rum · Linnéstaden", pris: "7 200 kr/mån", källa: "HomeQ" },
+  { titel: "1 rum · Haga", pris: "5 900 kr/mån", källa: "MKB" },
+  { titel: "4 rum · Östermalm", pris: "12 400 kr/mån", källa: "Boplats" },
+  { titel: "2 rum · Majorna", pris: "6 800 kr/mån", källa: "Boplats Väst" },
+  { titel: "3 rum · Möllevången", pris: "7 900 kr/mån", källa: "MKB" },
+];
+
+function CountUp({ target, duration = 1500, start }: { target: number; duration?: number; start: boolean }) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (!start) return;
+    let raf = 0;
+    const t0 = performance.now();
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - t0) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setValue(Math.floor(eased * target));
+      if (p < 1) raf = requestAnimationFrame(tick);
+      else setValue(target);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [start, target, duration]);
+  return <>{value.toLocaleString("sv-SE").replace(/,/g, " ")}</>;
+}
+
+function useInView<T extends HTMLElement>(threshold = 0.2) {
+  const ref = useRef<T>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          setInView(true);
+          obs.disconnect();
+        }
+      });
+    }, { threshold });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return { ref, inView };
+}
+
 function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [antalAnnonser, setAntalAnnonser] = useState<string>("7 700+");
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [cardOffset, setCardOffset] = useState(0);
+  const [cardVisible, setCardVisible] = useState(true);
+  const [cityCounts, setCityCounts] = useState<Record<string, number> | null>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const [statsInView, setStatsInView] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -129,13 +183,57 @@ function Home() {
         supabase.from("annonser").select("*", { count: "exact", head: true }).eq("status", "godkand"),
       ]);
       const total = (scraped.count ?? 0) + (approved.count ?? 0);
-      if (total > 0) setAntalAnnonser(formatAntal(total));
+      if (total > 0) {
+        setAntalAnnonser(formatAntal(total));
+        setTotalCount(Math.floor(total / 100) * 100);
+      }
     })();
   }, []);
 
+  // Cycle mockup cards
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCardVisible(false);
+      setTimeout(() => {
+        setCardOffset((o) => (o + 3) % MOCK_LISTINGS.length);
+        setCardVisible(true);
+      }, 300);
+    }, 3000);
+    return () => clearInterval(id);
+  }, []);
+
+  // Per-city counts
+  useEffect(() => {
+    (async () => {
+      const entries = await Promise.all(
+        STADER.map(async (stad) => {
+          const [a, b] = await Promise.all([
+            supabase.from("scraped_annonser").select("*", { count: "exact", head: true }).ilike("omrade", `%${stad}%`),
+            supabase.from("annonser").select("*", { count: "exact", head: true }).eq("status", "godkand").ilike("omrade", `%${stad}%`),
+          ]);
+          return [stad, (a.count ?? 0) + (b.count ?? 0)] as const;
+        })
+      );
+      setCityCounts(Object.fromEntries(entries));
+    })();
+  }, []);
+
+  // Stats in view
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { setStatsInView(true); obs.disconnect(); } });
+    }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const visibleCards = Array.from({ length: 3 }, (_, i) => MOCK_LISTINGS[(cardOffset + i) % MOCK_LISTINGS.length]);
+
   const stats = [
-    { value: antalAnnonser, label: "Aktiva annonser" },
-    { value: "5+", label: "Hyresvärdar & källor" },
+    { value: antalAnnonser, label: "Aktiva annonser", animate: { target: totalCount, suffix: "+" } },
+    { value: "5+", label: "Hyresvärdar & källor", animate: { target: 5, suffix: "+" } },
     { value: "24/7", label: "Automatisk uppdatering" },
     { value: "0 kr", label: "Helt gratis" },
   ];
