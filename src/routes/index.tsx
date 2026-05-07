@@ -214,14 +214,25 @@ function Home() {
           {/* Right column 45% — mockup */}
           <div className="w-full md:w-[45%]">
             <Reveal delay={200}>
-              <div
-                className="mx-auto w-full max-w-md rounded-2xl border bg-white"
-                style={{
-                  borderColor: "#E5E7EB",
-                  boxShadow: "0 20px 40px -15px rgba(0,0,0,0.15), 0 4px 12px -2px rgba(0,0,0,0.05)",
-                  transform: "rotate(2deg)",
-                }}
-              >
+              <div className="relative mx-auto w-full max-w-md">
+                {/* Depth backdrop */}
+                <div
+                  aria-hidden="true"
+                  className="absolute -inset-4 rounded-3xl"
+                  style={{
+                    backgroundColor: "#F1F5F9",
+                    boxShadow: "0 20px 60px rgba(0,0,0,0.08)",
+                    transform: "rotate(2deg)",
+                  }}
+                />
+                <div
+                  className="relative rounded-2xl border bg-white"
+                  style={{
+                    borderColor: "#E5E7EB",
+                    boxShadow: "0 20px 40px -15px rgba(0,0,0,0.15), 0 4px 12px -2px rgba(0,0,0,0.05)",
+                    transform: "rotate(2deg)",
+                  }}
+                >
                 {/* Top bar */}
                 <div className="flex items-center gap-2 border-b px-3 py-2.5" style={{ borderColor: "#F3F4F6" }}>
                   <div className="flex gap-1.5">
