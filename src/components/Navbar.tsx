@@ -38,17 +38,17 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 md:h-20">
-        <Link to="/" className="flex items-center gap-2 md:gap-3" aria-label="HomeFinder hem">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[image:var(--gradient-hero)] shadow-[var(--shadow-soft)] md:h-14 md:w-14">
-            <img
-              src={logo}
-              alt="HomeFinder logotyp"
-              className="h-8 w-8 md:h-11 md:w-11"
-            />
+        <Link to="/" className="flex items-center gap-2 md:gap-2.5" aria-label="HomeFinder hem">
+          <div
+            className="flex h-9 w-9 items-center justify-center rounded-xl text-base font-bold text-white shadow-sm md:h-11 md:w-11 md:text-lg md:rounded-[14px]"
+            style={{ backgroundColor: "#2563EB" }}
+            aria-hidden="true"
+          >
+            H
           </div>
-          <span className="text-xl font-bold tracking-tight md:text-2xl">
-            <span style={{ color: "#000000" }}>Home</span>
-            <span style={{ color: "#2c6bd6" }}>Finder</span>
+          <span className="text-xl tracking-tight md:text-[1.6rem]">
+            <span className="font-bold" style={{ color: "#0F172A" }}>Home</span>
+            <span className="font-normal" style={{ color: "#2563EB" }}>Finder</span>
           </span>
         </Link>
 
@@ -140,12 +140,16 @@ export function Navbar() {
           <SheetContent side="right" className="w-[85vw] max-w-sm p-0">
             <SheetHeader className="border-b border-border px-5 py-4 text-left">
               <SheetTitle className="flex items-center gap-2">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[image:var(--gradient-hero)]">
-                  <img src={logo} alt="" className="h-7 w-7" />
+                <div
+                  className="flex h-9 w-9 items-center justify-center rounded-xl text-base font-bold text-white shadow-sm"
+                  style={{ backgroundColor: "#2563EB" }}
+                  aria-hidden="true"
+                >
+                  H
                 </div>
-                <span className="text-lg font-bold">
-                  <span style={{ color: "#000000" }}>Home</span>
-                  <span style={{ color: "#2c6bd6" }}>Finder</span>
+                <span className="text-lg tracking-tight">
+                  <span className="font-bold" style={{ color: "#0F172A" }}>Home</span>
+                  <span className="font-normal" style={{ color: "#2563EB" }}>Finder</span>
                 </span>
               </SheetTitle>
             </SheetHeader>
