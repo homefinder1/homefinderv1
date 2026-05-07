@@ -322,10 +322,14 @@ function Home() {
             </Reveal>
 
             <Reveal delay={320} className="w-full">
-              <div className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4">
+              <div ref={statsRef} className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4">
                 {stats.map((s) => (
                   <div key={s.label} className="text-center md:text-left">
-                    <div className="text-2xl font-bold md:text-3xl" style={{ color: "#0a0a0a" }}>{s.value}</div>
+                    <div className="text-2xl font-bold md:text-3xl" style={{ color: "#0a0a0a" }}>
+                      {s.animate ? (
+                        <><CountUp target={s.animate.target} start={statsInView} />{s.animate.suffix}</>
+                      ) : s.value}
+                    </div>
                     <div className="mt-1 text-xs md:text-sm" style={{ color: "#6B7280" }}>{s.label}</div>
                   </div>
                 ))}
