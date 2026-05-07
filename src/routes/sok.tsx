@@ -258,25 +258,24 @@ function SearchPage() {
                 <div className="flex w-full items-center gap-3 sm:w-auto">
                   <Button
                     variant="outline"
-                    size="lg"
-                    className="h-12 flex-1 gap-2 text-base sm:flex-none sm:px-6"
+                    size="sm"
+                    className="h-10 flex-1 gap-2 rounded-lg border-[#2563EB] text-sm font-medium text-[#2563EB] hover:bg-[#2563EB] hover:text-white sm:flex-none sm:px-5"
                     onClick={() => gåTillSida(aktuellSida - 1)}
                     disabled={aktuellSida <= 1}
                     aria-label="Föregående sida"
                   >
-                    <ChevronLeft className="h-5 w-5" />
+                    <ChevronLeft className="h-4 w-4" />
                     Föregående
                   </Button>
                   <Button
-                    variant="default"
-                    size="lg"
-                    className="h-12 flex-1 gap-2 text-base sm:flex-none sm:px-6"
+                    size="sm"
+                    className="h-10 flex-1 gap-2 rounded-lg bg-[#2563EB] text-sm font-medium text-white hover:bg-[#1D4ED8] sm:flex-none sm:px-5"
                     onClick={() => gåTillSida(aktuellSida + 1)}
                     disabled={aktuellSida >= totalSidor}
                     aria-label="Nästa sida"
                   >
                     Nästa
-                    <ChevronRight className="h-5 w-5" />
+                    <ChevronRight className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
