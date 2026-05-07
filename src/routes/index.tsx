@@ -527,25 +527,38 @@ function Home() {
 
           <Reveal delay={120}>
             <div className="mt-12 flex flex-wrap justify-center gap-3">
-              {STADER.map((stad) => (
-                <Link
-                  key={stad}
-                  to="/hyresratter/$stad"
-                  params={{ stad: slugify(stad) }}
-                  className="rounded-full border px-5 py-2 text-sm font-medium transition-colors"
-                  style={{ borderColor: BRAND_BLUE, color: BRAND_BLUE, backgroundColor: "#ffffff" }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = BRAND_BLUE;
-                    e.currentTarget.style.color = "#ffffff";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "#ffffff";
-                    e.currentTarget.style.color = BRAND_BLUE;
-                  }}
-                >
-                  {stad}
-                </Link>
-              ))}
+              {STADER.map((stad) => {
+                const count = cityCounts?.[stad];
+                const label = cityCounts == null
+                  ? "Laddar..."
+                  : `${count!.toLocaleString("sv-SE").replace(/,/g, " ")} annonser`;
+                return (
+                  <div key={stad} className="group relative">
+                    <Link
+                      to="/hyresratter/$stad"
+                      params={{ stad: slugify(stad) }}
+                      className="block rounded-full border px-5 py-2 text-sm font-medium transition-colors"
+                      style={{ borderColor: BRAND_BLUE, color: BRAND_BLUE, backgroundColor: "#ffffff" }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = BRAND_BLUE;
+                        e.currentTarget.style.color = "#ffffff";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = "#ffffff";
+                        e.currentTarget.style.color = BRAND_BLUE;
+                      }}
+                    >
+                      {stad}
+                    </Link>
+                    <span
+                      className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100"
+                      style={{ backgroundColor: "#0a0a0a", color: "#ffffff" }}
+                    >
+                      {label}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </Reveal>
         </div>
