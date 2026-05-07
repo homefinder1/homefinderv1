@@ -92,7 +92,7 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
           }
         });
       },
-      { threshold: 0.12 },
+      { threshold: 0.15, rootMargin: "0px 0px -50px 0px" },
     );
     obs.observe(el);
     return () => obs.disconnect();
@@ -198,7 +198,7 @@ function Home() {
         setCardOffset((o) => (o + 3) % MOCK_LISTINGS.length);
         setCardVisible(true);
       }, 300);
-    }, 3000);
+    }, 5000);
     return () => clearInterval(id);
   }, []);
 
@@ -219,11 +219,19 @@ function Home() {
   }, []);
 
   // Stats in view
+  const [statsRunKey, setStatsRunKey] = useState(0);
   useEffect(() => {
     const el = statsRef.current;
     if (!el) return;
     const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { if (e.isIntersecting) { setStatsInView(true); obs.disconnect(); } });
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          setStatsInView(true);
+          setStatsRunKey((k) => k + 1);
+        } else {
+          setStatsInView(false);
+        }
+      });
     }, { threshold: 0.3 });
     obs.observe(el);
     return () => obs.disconnect();
@@ -327,7 +335,7 @@ function Home() {
                   <div key={s.label} className="text-center md:text-left">
                     <div className="text-2xl font-bold md:text-3xl" style={{ color: "#0a0a0a" }}>
                       {s.animate ? (
-                        <><CountUp target={s.animate.target} start={statsInView} />{s.animate.suffix}</>
+                        <><CountUp key={statsRunKey} target={s.animate.target} start={statsInView} />{s.animate.suffix}</>
                       ) : s.value}
                     </div>
                     <div className="mt-1 text-xs md:text-sm" style={{ color: "#6B7280" }}>{s.label}</div>
