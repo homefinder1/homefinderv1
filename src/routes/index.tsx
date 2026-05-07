@@ -1,27 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
-import {
-  ArrowRight,
-  Building2,
-  CheckCircle2,
-  ChevronDown,
-  Clock,
-  Filter,
-  Layers,
-  RefreshCw,
-  Search,
-  Sparkles,
-  Wallet,
-} from "lucide-react";
+import { ArrowRight, ChevronDown, CheckCircle2, XCircle } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
-import { Button } from "@/components/ui/button";
 
 const SITE_URL = "https://homefinder.se";
-
 const META_TITLE = "Lediga hyreslägenheter i Sverige — HomeFinder";
 const META_DESCRIPTION =
   "Hitta din nästa hyresrätt på HomeFinder. Vi samlar lediga lägenheter från MKB, Boplats, HomeQ och fler källor på ett ställe.";
+
+const FONT_STACK = "'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif";
+const BRAND_BLUE = "#2563EB";
+const BRAND_BLUE_HOVER = "#1D4ED8";
+const SOFT_BG = "#F8F9FA";
 
 export const Route = createFileRoute("/")({
   head: () => {
@@ -36,7 +27,6 @@ export const Route = createFileRoute("/")({
         "query-input": "required name=search_term_string",
       },
     };
-
     const organization = {
       "@context": "https://schema.org",
       "@type": "Organization",
@@ -44,7 +34,6 @@ export const Route = createFileRoute("/")({
       url: SITE_URL,
       description: META_DESCRIPTION,
     };
-
     return {
       meta: [
         { title: META_TITLE },
@@ -58,47 +47,69 @@ export const Route = createFileRoute("/")({
       ],
       links: [{ rel: "canonical", href: SITE_URL }],
       scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify(website),
-        },
-        {
-          type: "application/ld+json",
-          children: JSON.stringify(organization),
-        },
+        { type: "application/ld+json", children: JSON.stringify(website) },
+        { type: "application/ld+json", children: JSON.stringify(organization) },
       ],
     };
   },
   component: Home,
 });
 
-const benefits = [
-  {
-    icon: Layers,
-    title: "7 720+ annonser från flera källor",
-    text: "Vi samlar lediga hyresrätter från MKB, Boplats, HomeQ och fler hyresvärdar — alla på ett ställe.",
-  },
-  {
-    icon: RefreshCw,
-    title: "Uppdateras automatiskt varje dag",
-    text: "Våra robotar hämtar nya annonser dygnet runt så du alltid ser det senaste utbudet.",
-  },
-  {
-    icon: Filter,
-    title: "Smart filtrering",
-    text: "Sök på ort, pris, storlek och antal rum — hitta exakt det du letar efter på sekunder.",
-  },
-  {
-    icon: Wallet,
-    title: "Helt gratis att använda",
-    text: "Inga konton som krävs, inga avgifter, inga dolda kostnader. Vi finns för att underlätta ditt bostadssökande.",
-  },
+const STADER = [
+  "Stockholm", "Göteborg", "Malmö", "Uppsala", "Västerås", "Örebro",
+  "Linköping", "Helsingborg", "Jönköping", "Norrköping", "Lund", "Umeå",
 ];
 
+const STEPS = [
+  { n: "1", title: "Vi samlar", text: "Vi hämtar nya annonser från alla stora hyresvärdar varje dag." },
+  { n: "2", title: "Du söker", text: "Filtrera på stad, hyra, storlek och antal rum." },
+  { n: "3", title: "Du hittar", text: "Klicka direkt till hyresvärden och ansök." },
+];
+
+function slugify(s: string): string {
+  return s.toLowerCase()
+    .replace(/å/g, "a").replace(/ä/g, "a").replace(/ö/g, "o")
+    .replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
 
 function formatAntal(n: number): string {
   const rounded = Math.floor(n / 100) * 100;
   return rounded.toLocaleString("sv-SE").replace(/,/g, " ") + "+";
+}
+
+function Reveal({ children, delay = 0, className = "" }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            setVisible(true);
+            obs.disconnect();
+          }
+        });
+      },
+      { threshold: 0.12 },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(20px)",
+        transition: `opacity 700ms ease-out ${delay}ms, transform 700ms ease-out ${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
 }
 
 function Home() {
@@ -130,202 +141,188 @@ function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div style={{ fontFamily: FONT_STACK, backgroundColor: "#ffffff", color: "#0a0a0a" }} className="min-h-screen">
       <Navbar />
 
       {/* Hero */}
-      <section className="relative flex min-h-[calc(100svh-4rem)] flex-col overflow-hidden md:min-h-[calc(100svh-5rem)]">
-        <div
-          className="absolute inset-0 -z-10"
-          style={{ background: "var(--gradient-soft)" }}
-        />
-        <div
-          className="absolute -top-40 left-1/2 -z-10 h-[500px] w-[800px] -translate-x-1/2 rounded-full opacity-30 blur-3xl"
-          style={{ background: "var(--gradient-hero)" }}
-        />
-
-        <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center px-4 pb-20 pt-8 md:pt-12">
-          <div className="mb-5 flex justify-center">
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium text-muted-foreground shadow-sm">
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
-              Sveriges hyresmarknad samlad på ett ställe
-            </div>
-          </div>
-          <h1 className="text-center text-4xl font-bold tracking-tight text-foreground md:text-6xl">
-            Sluta leta på{" "}
-            <span className="bg-[image:var(--gradient-hero)] bg-clip-text text-transparent">
-              tio olika sajter
+      <section className="relative flex min-h-screen flex-col" style={{ backgroundColor: "#ffffff" }}>
+        <div className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center justify-center px-4 py-20 text-center">
+          <Reveal>
+            <span
+              className="inline-flex items-center gap-2 rounded-full border px-4 py-1.5 text-xs font-medium"
+              style={{ borderColor: "#E5E7EB", backgroundColor: SOFT_BG, color: "#374151" }}
+            >
+              Helt gratis · Inget konto behövs
             </span>
-          </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-center text-base text-muted-foreground md:text-lg">
-            HomeFinder samlar lediga hyresrätter från MKB, Boplats, HomeQ och
-            fler hyresvärdar — så du hittar din nästa bostad på ett enda ställe.
-          </p>
+          </Reveal>
 
-          <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Button asChild size="lg" className="h-12 gap-2 px-7 text-base">
-              <Link to="/sok">
-                Börja sök nu
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-            <p className="text-sm text-muted-foreground">
-              Gratis · Inget konto behövs
+          <Reveal delay={80}>
+            <h1
+              className="mt-8 text-5xl font-extrabold tracking-tight md:text-7xl"
+              style={{ color: "#0a0a0a", lineHeight: 1.05, letterSpacing: "-0.02em" }}
+            >
+              Sveriges lediga hyresrätter.
+              <br />
+              Samlade. Sökbara.
+              <br />
+              <span style={{ color: BRAND_BLUE }}>Gratis.</span>
+            </h1>
+          </Reveal>
+
+          <Reveal delay={160}>
+            <p className="mx-auto mt-8 max-w-2xl text-lg md:text-xl" style={{ color: "#6B7280" }}>
+              HomeFinder samlar hyresrätter från MKB, Boplats, HomeQ och fler – uppdaterat varje dag.
             </p>
-          </div>
+          </Reveal>
 
-          {/* Stats */}
-          <div className="mx-auto mt-10 grid max-w-3xl grid-cols-2 gap-6 md:mt-12 md:grid-cols-4">
-            {stats.map((s) => (
-              <div key={s.label} className="text-center">
-                <div className="text-2xl font-bold text-foreground md:text-3xl">
-                  {s.value}
+          <Reveal delay={240}>
+            <Link
+              to="/sok"
+              className="mt-10 inline-flex items-center gap-2 rounded-lg px-8 py-4 text-base font-semibold text-white shadow-sm transition-colors"
+              style={{ backgroundColor: BRAND_BLUE }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND_BLUE_HOVER)}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = BRAND_BLUE)}
+            >
+              Börja sök nu <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Reveal>
+
+          <Reveal delay={320} className="w-full">
+            <div className="mx-auto mt-16 grid max-w-3xl grid-cols-2 gap-8 md:grid-cols-4">
+              {stats.map((s) => (
+                <div key={s.label} className="text-center">
+                  <div className="text-2xl font-bold md:text-3xl" style={{ color: "#0a0a0a" }}>{s.value}</div>
+                  <div className="mt-1 text-xs md:text-sm" style={{ color: "#6B7280" }}>{s.label}</div>
                 </div>
-                <div className="mt-1 text-xs text-muted-foreground md:text-sm">
-                  {s.label}
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </Reveal>
         </div>
 
-        {/* Scroll indicator */}
         <div
           aria-hidden="true"
-          className={`pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 transition-opacity duration-500 ${
-            scrolled ? "opacity-0" : "opacity-100"
-          }`}
+          className="pointer-events-none absolute bottom-6 left-1/2 -translate-x-1/2 transition-opacity duration-500"
+          style={{ opacity: scrolled ? 0 : 1 }}
         >
-          <div className="flex flex-col items-center gap-1 text-muted-foreground">
-            <span className="text-xs font-medium">Scrolla ner</span>
-            <ChevronDown className={`h-6 w-6 ${scrolled ? "" : "animate-bounce"}`} />
-          </div>
+          <ChevronDown className="h-7 w-7 animate-bounce" style={{ color: "#9CA3AF" }} />
         </div>
       </section>
 
-      {/* Varför HomeFinder */}
-      <section className="mx-auto max-w-5xl px-4 py-20">
-        <div className="grid items-center gap-12 md:grid-cols-2">
-          <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-medium text-muted-foreground">
-              <Clock className="h-3.5 w-3.5 text-primary" />
-              Varför HomeFinder?
-            </div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-              Bostadssökande borde inte vara ett heltidsjobb
+      {/* Compare section */}
+      <section className="px-4 py-24" style={{ backgroundColor: SOFT_BG }}>
+        <div className="mx-auto max-w-5xl">
+          <Reveal>
+            <h2 className="text-center text-3xl font-bold tracking-tight md:text-5xl" style={{ color: "#0a0a0a", letterSpacing: "-0.02em" }}>
+              Du borde inte behöva kolla<br />tio sajter varje dag
             </h2>
-            <p className="mt-5 text-base text-muted-foreground md:text-lg">
-              Den svenska hyresmarknaden är utspridd över dussintals olika
-              webbplatser. Du måste registrera dig på MKB, ha koll på Boplats,
-              kolla HomeQ — och ändå riskerar du att missa den perfekta
-              lägenheten.
-            </p>
-            <p className="mt-4 text-base text-muted-foreground md:text-lg">
-              Vi byggde HomeFinder för att lösa det. En sökmotor. Alla
-              hyresvärdar. Inga prenumerationer.
-            </p>
-          </div>
+          </Reveal>
 
-          <div className="space-y-4">
-            <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-5">
-              <div className="text-sm font-semibold text-destructive">
-                Utan HomeFinder
-              </div>
-              <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-                <li>· Hoppa mellan 5–10 olika sajter varje dag</li>
-                <li>· Olika konton, lösenord och köpoäng</li>
-                <li>· Lätt att missa nya annonser</li>
-              </ul>
-            </div>
-            <div className="rounded-2xl border border-primary/30 bg-primary/5 p-5">
-              <div className="text-sm font-semibold text-primary">
-                Med HomeFinder
-              </div>
-              <ul className="mt-3 space-y-2 text-sm text-foreground">
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                  Alla annonser samlade på ett ställe
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                  Sök, filtrera och jämför direkt
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                  Uppdateras dygnet runt — gratis
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="border-t border-border bg-card/30">
-        <div className="mx-auto max-w-6xl px-4 py-20">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-              Allt du behöver för att hitta hem
-            </h2>
-            <p className="mt-4 text-base text-muted-foreground md:text-lg">
-              Vi tar hand om det tråkiga så du kan fokusera på det viktiga —
-              att hitta din nästa bostad.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {benefits.map((b) => (
+          <div className="mt-14 grid gap-6 md:grid-cols-2">
+            <Reveal delay={80}>
               <div
-                key={b.title}
-                className="rounded-2xl border border-border bg-card p-6 shadow-[var(--shadow-soft)] transition-shadow hover:shadow-md"
+                className="rounded-2xl border p-8"
+                style={{ backgroundColor: "#FEF2F2", borderColor: "#FECACA", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}
               >
-                <div className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  <b.icon className="h-5 w-5" />
+                <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: "#B91C1C" }}>
+                  <XCircle className="h-5 w-5" /> Utan HomeFinder
                 </div>
-                <h3 className="mt-4 text-base font-semibold text-foreground">
-                  {b.title}
-                </h3>
-                <p className="mt-2 text-sm text-muted-foreground">{b.text}</p>
+                <ul className="mt-5 space-y-3 text-sm" style={{ color: "#4B5563" }}>
+                  <li>· Hoppa mellan 5–10 olika sajter varje dag</li>
+                  <li>· Olika konton, lösenord och köpoäng</li>
+                  <li>· Lätt att missa nya annonser</li>
+                  <li>· Ingen samlad bild av marknaden</li>
+                </ul>
               </div>
+            </Reveal>
+
+            <Reveal delay={160}>
+              <div
+                className="rounded-2xl border p-8"
+                style={{ backgroundColor: "#EFF6FF", borderColor: "#BFDBFE", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}
+              >
+                <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: BRAND_BLUE }}>
+                  <CheckCircle2 className="h-5 w-5" /> Med HomeFinder
+                </div>
+                <ul className="mt-5 space-y-3 text-sm" style={{ color: "#0a0a0a" }}>
+                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> Alla annonser samlade på ett ställe</li>
+                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> Sök, filtrera och jämför direkt</li>
+                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> Uppdateras dygnet runt</li>
+                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> Helt gratis – inget konto behövs</li>
+                </ul>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* Så fungerar det */}
+      <section className="px-4 py-24" style={{ backgroundColor: "#ffffff" }}>
+        <div className="mx-auto max-w-5xl">
+          <Reveal>
+            <h2 className="text-center text-3xl font-bold tracking-tight md:text-5xl" style={{ color: "#0a0a0a", letterSpacing: "-0.02em" }}>
+              Så fungerar det
+            </h2>
+          </Reveal>
+
+          <div className="mt-14 grid gap-10 md:grid-cols-3">
+            {STEPS.map((step, i) => (
+              <Reveal key={step.n} delay={80 * (i + 1)}>
+                <div>
+                  <div className="text-6xl font-extrabold leading-none" style={{ color: BRAND_BLUE, letterSpacing: "-0.04em" }}>
+                    {step.n}
+                  </div>
+                  <h3 className="mt-5 text-xl font-bold" style={{ color: "#0a0a0a" }}>{step.title}</h3>
+                  <p className="mt-2 text-base" style={{ color: "#6B7280" }}>{step.text}</p>
+                </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="mx-auto max-w-4xl px-4 py-20">
-        <div
-          className="relative overflow-hidden rounded-3xl border border-border p-10 text-center md:p-14"
-          style={{ background: "var(--gradient-soft)" }}
-        >
-          <div
-            className="absolute -bottom-24 left-1/2 -z-10 h-[300px] w-[600px] -translate-x-1/2 rounded-full opacity-40 blur-3xl"
-            style={{ background: "var(--gradient-hero)" }}
-          />
-          <div className="mx-auto mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-            <Building2 className="h-6 w-6" />
-          </div>
-          <h2 className="text-3xl font-bold tracking-tight text-foreground md:text-4xl">
-            Redo att hitta din nästa bostad?
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-base text-muted-foreground md:text-lg">
-            Tusentals lediga hyresrätter väntar. Sök bland alla källor på
-            sekunder.
-          </p>
-          <div className="mt-8 flex justify-center">
-            <Button asChild size="lg" className="h-12 gap-2 px-7 text-base">
-              <Link to="/sok">
-                <Search className="h-4 w-4" />
-                Börja sök nu
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
+      {/* Sök efter stad */}
+      <section className="px-4 py-24" style={{ backgroundColor: SOFT_BG }}>
+        <div className="mx-auto max-w-5xl">
+          <Reveal>
+            <h2 className="text-center text-3xl font-bold tracking-tight md:text-5xl" style={{ color: "#0a0a0a", letterSpacing: "-0.02em" }}>
+              Sök efter stad
+            </h2>
+          </Reveal>
+
+          <Reveal delay={120}>
+            <div className="mt-12 flex flex-wrap justify-center gap-3">
+              {STADER.map((stad) => (
+                <Link
+                  key={stad}
+                  to="/hyresratter/$stad"
+                  params={{ stad: slugify(stad) }}
+                  className="rounded-full border px-5 py-2 text-sm font-medium transition-colors"
+                  style={{ borderColor: BRAND_BLUE, color: BRAND_BLUE, backgroundColor: "#ffffff" }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = BRAND_BLUE;
+                    e.currentTarget.style.color = "#ffffff";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "#ffffff";
+                    e.currentTarget.style.color = BRAND_BLUE;
+                  }}
+                >
+                  {stad}
+                </Link>
+              ))}
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      <footer className="border-t border-border py-8 text-center text-sm text-muted-foreground">
-        © {new Date().getFullYear()} HomeFinder — Sveriges hyresmarknad samlad
+      <footer className="border-t px-4 py-10" style={{ borderColor: "#E5E7EB", backgroundColor: "#ffffff" }}>
+        <div className="mx-auto flex max-w-5xl flex-col items-center justify-between gap-4 text-sm md:flex-row" style={{ color: "#6B7280" }}>
+          <div>© {new Date().getFullYear()} HomeFinder</div>
+          <div className="flex gap-6">
+            <Link to="/sok" className="hover:underline">Sök bostäder</Link>
+            <Link to="/lagg-upp" className="hover:underline">Lägg upp annons</Link>
+          </div>
+        </div>
       </footer>
     </div>
   );
