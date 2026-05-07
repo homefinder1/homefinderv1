@@ -112,9 +112,63 @@ function Reveal({ children, delay = 0, className = "" }: { children: React.React
   );
 }
 
+const MOCK_LISTINGS = [
+  { titel: "2 rum · Södermalm", pris: "8 500 kr/mån", källa: "Boplats Syd" },
+  { titel: "3 rum · Linnéstaden", pris: "7 200 kr/mån", källa: "HomeQ" },
+  { titel: "1 rum · Haga", pris: "5 900 kr/mån", källa: "MKB" },
+  { titel: "4 rum · Östermalm", pris: "12 400 kr/mån", källa: "Boplats" },
+  { titel: "2 rum · Majorna", pris: "6 800 kr/mån", källa: "Boplats Väst" },
+  { titel: "3 rum · Möllevången", pris: "7 900 kr/mån", källa: "MKB" },
+];
+
+function CountUp({ target, duration = 1500, start }: { target: number; duration?: number; start: boolean }) {
+  const [value, setValue] = useState(0);
+  useEffect(() => {
+    if (!start) return;
+    let raf = 0;
+    const t0 = performance.now();
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - t0) / duration);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setValue(Math.floor(eased * target));
+      if (p < 1) raf = requestAnimationFrame(tick);
+      else setValue(target);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [start, target, duration]);
+  return <>{value.toLocaleString("sv-SE").replace(/,/g, " ")}</>;
+}
+
+function useInView<T extends HTMLElement>(threshold = 0.2) {
+  const ref = useRef<T>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          setInView(true);
+          obs.disconnect();
+        }
+      });
+    }, { threshold });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return { ref, inView };
+}
+
 function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [antalAnnonser, setAntalAnnonser] = useState<string>("7 700+");
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [cardOffset, setCardOffset] = useState(0);
+  const [cardVisible, setCardVisible] = useState(true);
+  const [cityCounts, setCityCounts] = useState<Record<string, number> | null>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const [statsInView, setStatsInView] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -129,13 +183,57 @@ function Home() {
         supabase.from("annonser").select("*", { count: "exact", head: true }).eq("status", "godkand"),
       ]);
       const total = (scraped.count ?? 0) + (approved.count ?? 0);
-      if (total > 0) setAntalAnnonser(formatAntal(total));
+      if (total > 0) {
+        setAntalAnnonser(formatAntal(total));
+        setTotalCount(Math.floor(total / 100) * 100);
+      }
     })();
   }, []);
 
+  // Cycle mockup cards
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCardVisible(false);
+      setTimeout(() => {
+        setCardOffset((o) => (o + 3) % MOCK_LISTINGS.length);
+        setCardVisible(true);
+      }, 300);
+    }, 3000);
+    return () => clearInterval(id);
+  }, []);
+
+  // Per-city counts
+  useEffect(() => {
+    (async () => {
+      const entries = await Promise.all(
+        STADER.map(async (stad) => {
+          const [a, b] = await Promise.all([
+            supabase.from("scraped_annonser").select("*", { count: "exact", head: true }).ilike("omrade", `%${stad}%`),
+            supabase.from("annonser").select("*", { count: "exact", head: true }).eq("status", "godkand").ilike("omrade", `%${stad}%`),
+          ]);
+          return [stad, (a.count ?? 0) + (b.count ?? 0)] as const;
+        })
+      );
+      setCityCounts(Object.fromEntries(entries));
+    })();
+  }, []);
+
+  // Stats in view
+  useEffect(() => {
+    const el = statsRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { setStatsInView(true); obs.disconnect(); } });
+    }, { threshold: 0.3 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
+
+  const visibleCards = Array.from({ length: 3 }, (_, i) => MOCK_LISTINGS[(cardOffset + i) % MOCK_LISTINGS.length]);
+
   const stats = [
-    { value: antalAnnonser, label: "Aktiva annonser" },
-    { value: "5+", label: "Hyresvärdar & källor" },
+    { value: antalAnnonser, label: "Aktiva annonser", animate: { target: totalCount, suffix: "+" } },
+    { value: "5+", label: "Hyresvärdar & källor", animate: { target: 5, suffix: "+" } },
     { value: "24/7", label: "Automatisk uppdatering" },
     { value: "0 kr", label: "Helt gratis" },
   ];
@@ -224,10 +322,14 @@ function Home() {
             </Reveal>
 
             <Reveal delay={320} className="w-full">
-              <div className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4">
+              <div ref={statsRef} className="mt-16 grid grid-cols-2 gap-8 md:grid-cols-4">
                 {stats.map((s) => (
                   <div key={s.label} className="text-center md:text-left">
-                    <div className="text-2xl font-bold md:text-3xl" style={{ color: "#0a0a0a" }}>{s.value}</div>
+                    <div className="text-2xl font-bold md:text-3xl" style={{ color: "#0a0a0a" }}>
+                      {s.animate ? (
+                        <><CountUp target={s.animate.target} start={statsInView} />{s.animate.suffix}</>
+                      ) : s.value}
+                    </div>
                     <div className="mt-1 text-xs md:text-sm" style={{ color: "#6B7280" }}>{s.label}</div>
                   </div>
                 ))}
@@ -289,14 +391,13 @@ function Home() {
                   </div>
 
                   {/* Listing cards */}
-                  <div className="mt-3 space-y-2">
-                    {[
-                      { titel: "2 rum · Södermalm", pris: "8 500 kr/mån", källa: "Boplats Syd" },
-                      { titel: "3 rum · Linnéstaden", pris: "7 200 kr/mån", källa: "HomeQ" },
-                      { titel: "1 rum · Haga", pris: "5 900 kr/mån", källa: "MKB" },
-                    ].map((c) => (
+                  <div
+                    className="mt-3 space-y-2 transition-opacity duration-300"
+                    style={{ opacity: cardVisible ? 1 : 0 }}
+                  >
+                    {visibleCards.map((c, i) => (
                       <div
-                        key={c.titel}
+                        key={`${cardOffset}-${i}`}
                         className="flex items-center gap-3 rounded-lg border p-2"
                         style={{ borderColor: "#F3F4F6" }}
                       >
@@ -426,25 +527,38 @@ function Home() {
 
           <Reveal delay={120}>
             <div className="mt-12 flex flex-wrap justify-center gap-3">
-              {STADER.map((stad) => (
-                <Link
-                  key={stad}
-                  to="/hyresratter/$stad"
-                  params={{ stad: slugify(stad) }}
-                  className="rounded-full border px-5 py-2 text-sm font-medium transition-colors"
-                  style={{ borderColor: BRAND_BLUE, color: BRAND_BLUE, backgroundColor: "#ffffff" }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = BRAND_BLUE;
-                    e.currentTarget.style.color = "#ffffff";
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = "#ffffff";
-                    e.currentTarget.style.color = BRAND_BLUE;
-                  }}
-                >
-                  {stad}
-                </Link>
-              ))}
+              {STADER.map((stad) => {
+                const count = cityCounts?.[stad];
+                const label = cityCounts == null
+                  ? "Laddar..."
+                  : `${count!.toLocaleString("sv-SE").replace(/,/g, " ")} annonser`;
+                return (
+                  <div key={stad} className="group relative">
+                    <Link
+                      to="/hyresratter/$stad"
+                      params={{ stad: slugify(stad) }}
+                      className="block rounded-full border px-5 py-2 text-sm font-medium transition-colors"
+                      style={{ borderColor: BRAND_BLUE, color: BRAND_BLUE, backgroundColor: "#ffffff" }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = BRAND_BLUE;
+                        e.currentTarget.style.color = "#ffffff";
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = "#ffffff";
+                        e.currentTarget.style.color = BRAND_BLUE;
+                      }}
+                    >
+                      {stad}
+                    </Link>
+                    <span
+                      className="pointer-events-none absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 whitespace-nowrap rounded-md px-2 py-1 text-xs font-medium opacity-0 shadow-sm transition-opacity duration-200 group-hover:opacity-100"
+                      style={{ backgroundColor: "#0a0a0a", color: "#ffffff" }}
+                    >
+                      {label}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </Reveal>
         </div>
