@@ -219,11 +219,19 @@ function Home() {
   }, []);
 
   // Stats in view
+  const [statsRunKey, setStatsRunKey] = useState(0);
   useEffect(() => {
     const el = statsRef.current;
     if (!el) return;
     const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e) => { if (e.isIntersecting) { setStatsInView(true); obs.disconnect(); } });
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          setStatsInView(true);
+          setStatsRunKey((k) => k + 1);
+        } else {
+          setStatsInView(false);
+        }
+      });
     }, { threshold: 0.3 });
     obs.observe(el);
     return () => obs.disconnect();
