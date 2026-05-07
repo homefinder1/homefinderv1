@@ -177,7 +177,7 @@ function Home() {
                 <br />
                 Samlade. Sökbara.
                 <br />
-                <span style={{ color: BRAND_BLUE }}>Gratis.</span>
+                Gratis.
               </h1>
             </Reveal>
 
