@@ -18,17 +18,8 @@ import { Facebook, MessageCircle, Mail, Link as LinkIcon, Check } from "lucide-r
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-// Färgkodade källbadges enligt stilguiden
-const sourceColors: Record<string, string> = {
-  MKB: "bg-blue-100 text-blue-900",
-  HomeQ: "bg-emerald-100 text-emerald-900",
-  "Boplats Väst": "bg-orange-100 text-orange-900",
-  "Boplats Syd": "bg-purple-100 text-purple-900",
-  Privat: "bg-pink-100 text-pink-900",
-  Blocket: "bg-yellow-100 text-yellow-900",
-  Qasa: "bg-teal-100 text-teal-900",
-  Bostadsdirekt: "bg-amber-100 text-amber-900",
-};
+// Källbadge — enhetlig stil i ljust blått som matchar varumärket
+const sourceBadgeClass = "bg-[#EFF6FF] text-[#2563EB]";
 
 type DatumStatus =
   | { typ: "dölj" }
@@ -112,10 +103,10 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
   const mailUrl = `mailto:?subject=${encodeURIComponent(annons.titel)}&body=${encodeURIComponent(delaText + "\n\n" + detaljUrl)}`;
 
   return (
-    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition-all duration-300 ease-out hover:-translate-y-1 hover:border-primary/30 hover:shadow-[var(--shadow-elegant)]">
+    <article className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-card)] transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-primary/30 hover:shadow-[var(--shadow-elegant)]">
       {ny && (
         <div className="absolute left-3 top-3 z-10">
-          <Badge className="gap-1 border-0 bg-emerald-500 text-white shadow-md">
+          <Badge className="gap-1 border-0 bg-[#2563EB] text-white shadow-md hover:bg-[#1D4ED8]">
             <Sparkles className="h-3 w-3" />
             NY
           </Badge>
@@ -143,7 +134,7 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
               type="button"
               onClick={(e) => e.stopPropagation()}
               aria-label="Dela annons"
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-background/90 text-blue-600 shadow-sm backdrop-blur transition-colors hover:bg-background hover:text-blue-700"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-background/90 text-[#2563EB] shadow-sm backdrop-blur transition-colors hover:bg-background hover:text-[#1D4ED8]"
             >
               <Share2 className="h-4 w-4" />
             </button>
@@ -204,9 +195,7 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
               </div>
             )}
           </div>
-          <Badge
-            className={`shrink-0 border-0 text-xs ${sourceColors[annons.källa] ?? "bg-secondary text-secondary-foreground"}`}
-          >
+          <Badge className={`shrink-0 border-0 text-xs font-medium ${sourceBadgeClass}`}>
             {annons.källa}
           </Badge>
         </div>
@@ -222,8 +211,7 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
               <span className="text-foreground">{annons.storlek}</span>
             </div>
           )}
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-muted-foreground">Hyra</span>
+          <div className="flex items-center justify-end gap-2">
             <span className="font-semibold text-foreground text-right">{annons.hyra}</span>
           </div>
           {datumStatus.typ !== "dölj" && (
@@ -237,21 +225,28 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
         </div>
       </div>
 
-      <div className="border-t border-border p-3 sm:p-4">
+      <div className="border-t border-border p-3 sm:p-4 flex justify-end">
         {isPrivat ? (
-          <Button asChild size="lg" className="h-12 w-full gap-2 text-base sm:h-10 sm:text-sm">
-            <Link
-              to="/annons/$id"
-              params={{ id: annons.id.replace(/^privat-/, "") }}
-            >
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="h-9 gap-1.5 rounded-lg border-[#2563EB] px-4 text-sm font-medium text-[#2563EB] hover:bg-[#2563EB] hover:text-white"
+          >
+            <Link to="/annons/$id" params={{ id: annons.id.replace(/^privat-/, "") }}>
               Visa annons
             </Link>
           </Button>
         ) : (
-          <Button asChild size="lg" className="h-12 w-full gap-2 text-base sm:h-10 sm:text-sm">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="h-9 gap-1.5 rounded-lg border-[#2563EB] px-4 text-sm font-medium text-[#2563EB] hover:bg-[#2563EB] hover:text-white"
+          >
             <a href={annons.url} target="_blank" rel="noopener noreferrer">
               Visa annons
-              <ExternalLink className="h-4 w-4" />
+              <ExternalLink className="h-3.5 w-3.5" />
             </a>
           </Button>
         )}
