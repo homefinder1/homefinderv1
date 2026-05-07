@@ -145,8 +145,18 @@ function Home() {
       <Navbar />
 
       {/* Hero */}
-      <section className="relative flex min-h-screen flex-col" style={{ backgroundColor: "#ffffff" }}>
-        <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center gap-12 px-4 py-20 md:flex-row md:gap-8">
+      <section className="relative flex min-h-screen flex-col overflow-hidden" style={{ backgroundColor: "#ffffff" }}>
+        {/* Soft background glow behind mockup */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-32 top-1/4 h-[600px] w-[600px] rounded-full"
+          style={{
+            background: "radial-gradient(closest-side, #DBEAFE, #EFF6FF 60%, transparent 80%)",
+            filter: "blur(40px)",
+            opacity: 0.7,
+          }}
+        />
+        <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col items-center justify-center gap-12 px-4 py-20 md:flex-row md:gap-8">
           {/* Left column 55% */}
           <div className="w-full text-center md:w-[55%] md:text-left">
             <Reveal>
@@ -167,7 +177,7 @@ function Home() {
                 <br />
                 Samlade. Sökbara.
                 <br />
-                <span style={{ color: BRAND_BLUE }}>Gratis.</span>
+                Gratis.
               </h1>
             </Reveal>
 
@@ -204,14 +214,25 @@ function Home() {
           {/* Right column 45% — mockup */}
           <div className="w-full md:w-[45%]">
             <Reveal delay={200}>
-              <div
-                className="mx-auto w-full max-w-md rounded-2xl border bg-white"
-                style={{
-                  borderColor: "#E5E7EB",
-                  boxShadow: "0 20px 40px -15px rgba(0,0,0,0.15), 0 4px 12px -2px rgba(0,0,0,0.05)",
-                  transform: "rotate(2deg)",
-                }}
-              >
+              <div className="relative mx-auto w-full max-w-md">
+                {/* Depth backdrop */}
+                <div
+                  aria-hidden="true"
+                  className="absolute -inset-4 rounded-3xl"
+                  style={{
+                    backgroundColor: "#F1F5F9",
+                    boxShadow: "0 20px 60px rgba(0,0,0,0.08)",
+                    transform: "rotate(2deg)",
+                  }}
+                />
+                <div
+                  className="relative rounded-2xl border bg-white"
+                  style={{
+                    borderColor: "#E5E7EB",
+                    boxShadow: "0 20px 40px -15px rgba(0,0,0,0.15), 0 4px 12px -2px rgba(0,0,0,0.05)",
+                    transform: "rotate(2deg)",
+                  }}
+                >
                 {/* Top bar */}
                 <div className="flex items-center gap-2 border-b px-3 py-2.5" style={{ borderColor: "#F3F4F6" }}>
                   <div className="flex gap-1.5">
@@ -281,6 +302,7 @@ function Home() {
                     ))}
                   </div>
                 </div>
+                </div>
               </div>
             </Reveal>
           </div>
@@ -304,37 +326,39 @@ function Home() {
             </h2>
           </Reveal>
 
-          <div className="mt-14 grid gap-6 md:grid-cols-2">
-            <Reveal delay={80}>
+          <div className="mt-14 grid items-start gap-6 md:grid-cols-2">
+            <Reveal delay={80} className="md:scale-[0.97] md:origin-top">
               <div
-                className="rounded-2xl border p-8"
+                className="rounded-2xl border p-7 text-left"
                 style={{ backgroundColor: "#FEF2F2", borderColor: "#FECACA", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}
               >
-                <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: "#B91C1C" }}>
+                <div className="flex items-center gap-2 text-sm font-medium" style={{ color: "#B91C1C" }}>
                   <XCircle className="h-5 w-5" /> Utan HomeFinder
                 </div>
                 <ul className="mt-5 space-y-3 text-sm" style={{ color: "#4B5563" }}>
-                  <li>· Hoppa mellan 5–10 olika sajter varje dag</li>
-                  <li>· Olika konton, lösenord och köpoäng</li>
-                  <li>· Lätt att missa nya annonser</li>
-                  <li>· Ingen samlad bild av marknaden</li>
+                  {["Hoppa mellan 5–10 olika sajter varje dag","Olika konton, lösenord och köpoäng","Lätt att missa nya annonser","Ingen samlad bild av marknaden"].map((t) => (
+                    <li key={t} className="flex items-start gap-2">
+                      <XCircle className="mt-0.5 h-4 w-4 shrink-0" style={{ color: "#B91C1C" }} />
+                      <span>{t}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </Reveal>
 
             <Reveal delay={160}>
               <div
-                className="rounded-2xl border p-8"
+                className="rounded-2xl border p-8 text-left"
                 style={{ backgroundColor: "#EFF6FF", borderColor: "#BFDBFE", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}
               >
                 <div className="flex items-center gap-2 text-sm font-semibold" style={{ color: BRAND_BLUE }}>
                   <CheckCircle2 className="h-5 w-5" /> Med HomeFinder
                 </div>
                 <ul className="mt-5 space-y-3 text-sm" style={{ color: "#0a0a0a" }}>
-                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> Alla annonser samlade på ett ställe</li>
-                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> Sök, filtrera och jämför direkt</li>
-                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> Uppdateras dygnet runt</li>
-                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> Helt gratis – inget konto behövs</li>
+                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> <span>Alla annonser samlade på ett ställe</span></li>
+                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> <span>Sök, filtrera och jämför direkt</span></li>
+                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> <span>Uppdateras dygnet runt</span></li>
+                  <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" style={{ color: BRAND_BLUE }} /> <span>Helt gratis – inget konto behövs</span></li>
                 </ul>
               </div>
             </Reveal>
@@ -355,7 +379,10 @@ function Home() {
             {STEPS.map((step, i) => (
               <Reveal key={step.n} delay={80 * (i + 1)}>
                 <div>
-                  <div className="text-6xl font-extrabold leading-none" style={{ color: BRAND_BLUE, letterSpacing: "-0.04em" }}>
+                  <div
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-semibold"
+                    style={{ backgroundColor: "#F3F4F6", color: "#6B7280" }}
+                  >
                     {step.n}
                   </div>
                   <h3 className="mt-5 text-xl font-bold" style={{ color: "#0a0a0a" }}>{step.title}</h3>
