@@ -18,17 +18,8 @@ import { Facebook, MessageCircle, Mail, Link as LinkIcon, Check } from "lucide-r
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
-// Färgkodade källbadges enligt stilguiden
-const sourceColors: Record<string, string> = {
-  MKB: "bg-blue-100 text-blue-900",
-  HomeQ: "bg-emerald-100 text-emerald-900",
-  "Boplats Väst": "bg-orange-100 text-orange-900",
-  "Boplats Syd": "bg-purple-100 text-purple-900",
-  Privat: "bg-pink-100 text-pink-900",
-  Blocket: "bg-yellow-100 text-yellow-900",
-  Qasa: "bg-teal-100 text-teal-900",
-  Bostadsdirekt: "bg-amber-100 text-amber-900",
-};
+// Källbadge — enhetlig stil i ljust blått som matchar varumärket
+const sourceBadgeClass = "bg-[#EFF6FF] text-[#2563EB]";
 
 type DatumStatus =
   | { typ: "dölj" }
