@@ -231,7 +231,7 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
             asChild
             variant="outline"
             size="sm"
-            className="h-9 gap-1.5 rounded-lg border-[#2563EB] px-4 text-sm font-medium text-[#2563EB] hover:bg-[#2563EB] hover:text-white"
+            className="h-auto gap-1.5 rounded-lg border-[#2563EB] px-5 py-2.5 text-sm font-medium text-[#2563EB] hover:bg-[#2563EB] hover:text-white"
           >
             <Link to="/annons/$id" params={{ id: annons.id.replace(/^privat-/, "") }}>
               Visa annons
@@ -242,7 +242,7 @@ export function AnnonsCard({ annons }: { annons: Annons }) {
             asChild
             variant="outline"
             size="sm"
-            className="h-9 gap-1.5 rounded-lg border-[#2563EB] px-4 text-sm font-medium text-[#2563EB] hover:bg-[#2563EB] hover:text-white"
+            className="h-auto gap-1.5 rounded-lg border-[#2563EB] px-5 py-2.5 text-sm font-medium text-[#2563EB] hover:bg-[#2563EB] hover:text-white"
           >
             <a href={annons.url} target="_blank" rel="noopener noreferrer">
               Visa annons
