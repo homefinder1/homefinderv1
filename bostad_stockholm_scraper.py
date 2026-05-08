@@ -20,7 +20,7 @@ def scrape_bostad_stockholm():
             page.click("#onetrust-accept-btn-handler")
             page.wait_for_timeout(3000)
         except:
-            print("Ingen cookie-banner hittades")
+            pass
 
         try:
             page.click("button.filter-btn")
@@ -28,19 +28,12 @@ def scrape_bostad_stockholm():
         except:
             pass
 
-        # DEBUG
-        antal_li = page.query_selector_all("li.ad-list__item")
-        print(f"DEBUG: Hittade {len(antal_li)} li.ad-list__item")
-        alla_li = page.query_selector_all("li")
-        print(f"DEBUG: Hittade {len(alla_li)} li-element totalt")
-        print(f"DEBUG: Sidtitel = {page.title()}")
-
-        # Vänta specifikt på att annonser ska laddas
         try:
             page.wait_for_selector("li.ad-list__item", timeout=15000)
-            print("DEBUG: ad-list__item hittades efter väntan!")
         except:
-            print("DEBUG: Timeout - ad-list__item hittades aldrig")
+            print("Timeout - inga annonser hittades")
+            browser.close()
+            return annonser
 
         sida = 1
         while True:
@@ -95,7 +88,7 @@ def scrape_bostad_stockholm():
                             "url": full_url,
                             "källa": "Bostadsförmedlingen Stockholm"
                         })
-                except Exception as e:
+                except:
                     pass
 
             print(f"Totalt hittills: {len(annonser)} annonser")
