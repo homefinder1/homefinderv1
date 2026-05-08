@@ -15,18 +15,16 @@ def scrape_bostad_stockholm():
 
         print("Laddar Bostadsförmedlingen Stockholm...")
         page.goto(bas_url)
-        page.wait_for_timeout(4000)
+        page.wait_for_timeout(6000)
 
-        # Stäng cookie-banner om den finns
         try:
-            page.click("button:has-text('Acceptera')")
-            page.wait_for_timeout(1000)
+            page.click("#onetrust-accept-btn-handler")
+            page.wait_for_timeout(2000)
         except:
             pass
 
-        # Klicka på "Visa lista" för att få listvy
         try:
-            page.click("text=Visa lista")
+            page.click("button.filter-btn")
             page.wait_for_timeout(2000)
         except:
             pass
@@ -36,74 +34,61 @@ def scrape_bostad_stockholm():
             print(f"Hämtar sida {sida}...")
             page.wait_for_timeout(2000)
 
-            kort = page.query_selector_all("li.object-item, article.listing, div.apartment-item")
+            kort = page.query_selector_all("li.ad-list__item")
+            print(f"  Hittade {len(kort)} annonskortt")
 
             if not kort:
-                # Prova alternativa selektorer
-                kort = page.query_selector_all("[class*='apartment'], [class*='listing'], [class*='bostad']")
-
-            if not kort:
-                print(f"Inga annonser hittade på sida {sida}, avslutar.")
+                print("Inga annonser hittades, avslutar.")
                 break
 
             for kort_item in kort:
                 try:
-                    text = kort_item.inner_text()
-                    rader = [r.strip() for r in text.split("\n") if r.strip()]
-
-                    # Hämta länk
-                    lank = kort_item.query_selector("a")
+                    lank = kort_item.query_selector("a.ad-list__link")
                     href = lank.get_attribute("href") if lank else ""
-                    full_url = "https://bostad.stockholm.se" + href if href and href.startswith("/") else href
+                    full_url = "https://bostad.stockholm.se" + href if href else ""
 
-                    # Titel = adress (första raden)
-                    titel = rader[0] if rader else "Okänd"
+                    omrade_el = kort_item.query_selector("small.apartment-listing__item__area")
+                    omrade = omrade_el.inner_text().strip() if omrade_el else "Stockholm"
+                    stad = omrade.split(",")[0].strip() if "," in omrade else omrade
 
-                    # Hitta rum
-                    antal_rum = next((r for r in rader if "rum" in r.lower()), "Okänd")
+                    titel_el = kort_item.query_selector("span.ad-list__title strong")
+                    titel = titel_el.inner_text().strip() if titel_el else "Okänd"
 
-                    # Hitta yta
-                    storlek = next((r for r in rader if "m²" in r or "kvm" in r.lower()), "Okänd")
+                    data_spans = kort_item.query_selector_all("div.ad-list__data span")
+                    hyra = "Okänd"
+                    antal_rum = "Okänd"
+                    storlek = "Okänd"
 
-                    # Hitta hyra
-                    hyra = next((r for r in rader if "kr" in r.lower() and "mån" in r.lower()), "Okänd")
+                    for span in data_spans:
+                        text = span.inner_text().strip()
+                        if "kr/mån" in text or "kr/m" in text.lower():
+                            hyra = text
+                        elif "rum" in text.lower():
+                            antal_rum = text
+                        elif "kvm" in text.lower():
+                            storlek = text
 
-                    # Hitta område/stad
-                    omrade = next((r for r in rader if any(s in r for s in ["Stockholm", "Solna", "Sundbyberg", "Lidingö", "Nacka", "Huddinge"])), "Stockholm")
-
-                    # Hitta ledig från
-                    ledig = next((r for r in rader if "202" in r), "Okänd")
-
-                    # Hitta hyresvärd
-                    kalla = "Bostadsförmedlingen Stockholm"
-                    for rad in rader:
-                        if "Stockholmshem" in rad:
-                            kalla = "Stockholmshem"
-                        elif "Svenska Bostäder" in rad:
-                            kalla = "Svenska Bostäder"
-                        elif "Familjebostäder" in rad:
-                            kalla = "Familjebostäder"
+                    footer_el = kort_item.query_selector("footer.ad-list__footer span")
+                    ledig = footer_el.inner_text().strip() if footer_el else "Okänd"
 
                     if full_url:
-                        annons = {
+                        annonser.append({
                             "titel": titel,
-                            "område": omrade,
+                            "område": stad,
                             "antal_rum": antal_rum,
                             "storlek": storlek,
                             "hyra": hyra,
                             "ledig": ledig,
                             "url": full_url,
-                            "källa": kalla
-                        }
-                        annonser.append(annons)
+                            "källa": "Bostadsförmedlingen Stockholm"
+                        })
                 except Exception as e:
                     pass
 
             print(f"Totalt hittills: {len(annonser)} annonser")
 
-            # Nästa sida
             try:
-                nasta = page.query_selector("a:has-text('Nästa'), button:has-text('Nästa'), [aria-label='Nästa']")
+                nasta = page.query_selector("a:has-text('Nästa')")
                 if nasta:
                     nasta.click()
                     sida += 1
@@ -114,7 +99,7 @@ def scrape_bostad_stockholm():
             except:
                 break
 
-            if sida > 50:  # Säkerhetsgräns
+            if sida > 30:
                 break
 
         browser.close()
