@@ -1,6 +1,5 @@
 from playwright.sync_api import sync_playwright
 import json
-import re
 
 def scrape_bostad_stockholm():
     annonser = []
@@ -15,19 +14,33 @@ def scrape_bostad_stockholm():
 
         print("Laddar Bostadsförmedlingen Stockholm...")
         page.goto(bas_url)
-        page.wait_for_timeout(6000)
+        page.wait_for_timeout(8000)
 
         try:
             page.click("#onetrust-accept-btn-handler")
-            page.wait_for_timeout(2000)
+            page.wait_for_timeout(3000)
         except:
-            pass
+            print("Ingen cookie-banner hittades")
 
         try:
             page.click("button.filter-btn")
-            page.wait_for_timeout(2000)
+            page.wait_for_timeout(3000)
         except:
             pass
+
+        # DEBUG
+        antal_li = page.query_selector_all("li.ad-list__item")
+        print(f"DEBUG: Hittade {len(antal_li)} li.ad-list__item")
+        alla_li = page.query_selector_all("li")
+        print(f"DEBUG: Hittade {len(alla_li)} li-element totalt")
+        print(f"DEBUG: Sidtitel = {page.title()}")
+
+        # Vänta specifikt på att annonser ska laddas
+        try:
+            page.wait_for_selector("li.ad-list__item", timeout=15000)
+            print("DEBUG: ad-list__item hittades efter väntan!")
+        except:
+            print("DEBUG: Timeout - ad-list__item hittades aldrig")
 
         sida = 1
         while True:
@@ -35,7 +48,7 @@ def scrape_bostad_stockholm():
             page.wait_for_timeout(2000)
 
             kort = page.query_selector_all("li.ad-list__item")
-            print(f"  Hittade {len(kort)} annonskortt")
+            print(f"  Hittade {len(kort)} annonser")
 
             if not kort:
                 print("Inga annonser hittades, avslutar.")
