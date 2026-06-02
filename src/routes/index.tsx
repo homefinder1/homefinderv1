@@ -582,6 +582,7 @@ function Home() {
           </div>
         </div>
       </footer>
+      <SupportChatWidget />
     </div>
   );
 }
