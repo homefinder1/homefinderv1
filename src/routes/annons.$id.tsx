@@ -341,51 +341,74 @@ function AnnonsDetalj() {
 
             <div className="rounded-xl border border-border bg-background p-5">
               <h2 className="text-lg font-semibold text-foreground">Kontakta hyresvärden</h2>
-              <div className="mt-4 space-y-2 text-sm">
-                {annons.kontakt_namn && (
-                  <div className="flex items-center gap-2 text-foreground">
-                    <User className="h-4 w-4 text-primary" />
-                    <span>{annons.kontakt_namn}</span>
+              {kontakt ? (
+                <>
+                  <div className="mt-4 space-y-2 text-sm">
+                    {kontakt.kontakt_namn && (
+                      <div className="flex items-center gap-2 text-foreground">
+                        <User className="h-4 w-4 text-primary" />
+                        <span>{kontakt.kontakt_namn}</span>
+                      </div>
+                    )}
+                    <div className="flex items-center gap-2 text-foreground">
+                      <Mail className="h-4 w-4 text-primary" />
+                      <a
+                        href={`mailto:${kontakt.kontakt_email}?subject=${encodeURIComponent("Intresseanmälan: " + annons.titel)}`}
+                        className="text-primary hover:underline break-all"
+                      >
+                        {kontakt.kontakt_email}
+                      </a>
+                    </div>
+                    {kontakt.kontakt_telefon && (
+                      <div className="flex items-center gap-2 text-foreground">
+                        <Phone className="h-4 w-4 text-primary" />
+                        <a href={`tel:${kontakt.kontakt_telefon}`} className="text-primary hover:underline">
+                          {kontakt.kontakt_telefon}
+                        </a>
+                      </div>
+                    )}
                   </div>
-                )}
-                <div className="flex items-center gap-2 text-foreground">
-                  <Mail className="h-4 w-4 text-primary" />
-                  <a
-                    href={`mailto:${annons.kontakt_email}?subject=${encodeURIComponent("Intresseanmälan: " + annons.titel)}`}
-                    className="text-primary hover:underline break-all"
-                  >
-                    {annons.kontakt_email}
-                  </a>
-                </div>
-                {annons.kontakt_telefon && (
-                  <div className="flex items-center gap-2 text-foreground">
-                    <Phone className="h-4 w-4 text-primary" />
-                    <a href={`tel:${annons.kontakt_telefon}`} className="text-primary hover:underline">
-                      {annons.kontakt_telefon}
-                    </a>
-                  </div>
-                )}
-              </div>
 
-              <div className="mt-5 flex flex-col gap-2 sm:flex-row">
-                <Button asChild size="lg" className="h-12 flex-1 gap-2 text-base">
-                  <a
-                    href={`mailto:${annons.kontakt_email}?subject=${encodeURIComponent("Intresseanmälan: " + annons.titel)}`}
-                  >
-                    <Mail className="h-4 w-4" />
-                    Skicka mail
-                  </a>
-                </Button>
-                {annons.kontakt_telefon && (
-                  <Button asChild variant="outline" size="lg" className="h-12 flex-1 gap-2 text-base">
-                    <a href={`tel:${annons.kontakt_telefon}`}>
-                      <Phone className="h-4 w-4" />
-                      Ring
-                    </a>
+                  <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+                    <Button asChild size="lg" className="h-12 flex-1 gap-2 text-base">
+                      <a
+                        href={`mailto:${kontakt.kontakt_email}?subject=${encodeURIComponent("Intresseanmälan: " + annons.titel)}`}
+                      >
+                        <Mail className="h-4 w-4" />
+                        Skicka mail
+                      </a>
+                    </Button>
+                    {kontakt.kontakt_telefon && (
+                      <Button asChild variant="outline" size="lg" className="h-12 flex-1 gap-2 text-base">
+                        <a href={`tel:${kontakt.kontakt_telefon}`}>
+                          <Phone className="h-4 w-4" />
+                          Ring
+                        </a>
+                      </Button>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="mt-4 rounded-lg border border-dashed border-border bg-muted/40 p-4 text-sm">
+                  <p className="text-foreground">
+                    Logga in för att se kontaktuppgifterna till hyresvärden.
+                  </p>
+                  <p className="mt-1 text-muted-foreground">
+                    Vi skyddar våra annonsörers mejl och telefon från botar och skräppost.
+                  </p>
+                  <Button asChild size="lg" className="mt-4 h-11 gap-2">
+                    <Link to="/auth" search={{ redirect: `/annons/${annons.id}` }}>
+                      <Mail className="h-4 w-4" />
+                      Logga in för att kontakta
+                    </Link>
                   </Button>
-                )}
-              </div>
+                  {!kontaktLaddad && (
+                    <p className="mt-3 text-xs text-muted-foreground">Laddar…</p>
+                  )}
+                </div>
+              )}
             </div>
+
 
             {liknande.length > 0 && (
               <section className="border-t border-border pt-6">
