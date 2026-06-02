@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { ArrowRight, ChevronDown, CheckCircle2, XCircle } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
+import { SupportChatWidget } from "@/components/SupportChatWidget";
 
 const SITE_URL = "https://homefinder.se";
 const META_TITLE = "Lediga hyreslägenheter i Sverige — HomeFinder";
@@ -581,6 +582,7 @@ function Home() {
           </div>
         </div>
       </footer>
+      <SupportChatWidget />
     </div>
   );
 }
