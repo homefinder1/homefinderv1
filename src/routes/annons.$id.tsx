@@ -26,12 +26,15 @@ interface PrivatAnnons {
   storlek_num: number | null;
   hyra: string | null;
   beskrivning: string | null;
-  kontakt_namn: string | null;
-  kontakt_email: string;
-  kontakt_telefon: string | null;
   skapad_datum: string;
   ledig_datum: string | null;
   bilder: string[] | null;
+}
+
+interface KontaktInfo {
+  kontakt_namn: string | null;
+  kontakt_email: string;
+  kontakt_telefon: string | null;
 }
 
 interface SimilarRow {
@@ -48,16 +51,30 @@ interface SimilarRow {
 }
 
 async function laddaAnnons(id: string): Promise<PrivatAnnons | null> {
+  // Non-sensitive columns only — readable by anon under column-level GRANT.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data, error } = await (supabase as any)
     .from("annonser")
     .select(
-      "id, titel, omrade, antal_rum, storlek_num, hyra, beskrivning, kontakt_namn, kontakt_email, kontakt_telefon, skapad_datum, ledig_datum, bilder",
+      "id, titel, omrade, antal_rum, storlek_num, hyra, beskrivning, skapad_datum, ledig_datum, bilder",
     )
     .eq("id", id)
     .eq("status", "godkand")
     .maybeSingle();
   if (error) throw error;
+  return data;
+}
+
+async function laddaKontakt(id: string): Promise<KontaktInfo | null> {
+  // Contact columns — only granted to authenticated role; will fail for anon.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data, error } = await (supabase as any)
+    .from("annonser")
+    .select("kontakt_namn, kontakt_email, kontakt_telefon")
+    .eq("id", id)
+    .eq("status", "godkand")
+    .maybeSingle();
+  if (error) return null;
   return data;
 }
 
