@@ -155,9 +155,31 @@ function AnnonsDetalj() {
   const { annons } = Route.useLoaderData();
   const router = useRouter();
   const [liknande, setLiknande] = useState<SimilarRow[]>([]);
+  const [kontakt, setKontakt] = useState<KontaktInfo | null>(null);
+  const [kontaktLaddad, setKontaktLaddad] = useState(false);
 
   const mapQuery = [annons.omrade, annons.titel].filter(Boolean).join(", ") || annons.titel;
   const hyraNum = parsaHyra(annons.hyra);
+
+  useEffect(() => {
+    let aktiv = true;
+    (async () => {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) {
+        if (aktiv) setKontaktLaddad(true);
+        return;
+      }
+      const k = await laddaKontakt(annons.id);
+      if (aktiv) {
+        setKontakt(k);
+        setKontaktLaddad(true);
+      }
+    })();
+    return () => {
+      aktiv = false;
+    };
+  }, [annons.id]);
+
 
   useEffect(() => {
     let aktiv = true;
