@@ -28,13 +28,12 @@ def dedup_pa_url(annonser):
         unika.append(a)
     return unika
 
-def skicka_till_edge_function(annonser, api_key):
-    url = "https://njirepchwetcqhyxikha.supabase.co/functions/v1/upsert-annonser"
+def skicka_till_endpoint(annonser):
+    url = "https://allakvadrat-canvas-magic.lovable.app/api/public/hooks/import-listings"
     body = json.dumps(annonser).encode("utf-8")
     req = request.Request(
         url, data=body, method="POST",
         headers={
-            "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
         },
     )
@@ -67,13 +66,8 @@ def main():
     unika = dedup_pa_url(alla)
     print(f"  → {len(unika)} unika annonser (av {len(alla)} totalt)")
 
-    api_key = os.environ.get("SCRAPER_API_KEY")
-    if not api_key:
-        print("VARNING: SCRAPER_API_KEY saknas – hoppar över uppladdning.", file=sys.stderr)
-        return
-
     print(f"Skickar {len(unika)} annonser till databasen...")
-    resultat = skicka_till_edge_function(unika, api_key)
+    resultat = skicka_till_endpoint(unika)
     print(f"Klart! {resultat}")
 
 if __name__ == "__main__":
