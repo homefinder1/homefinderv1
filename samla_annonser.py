@@ -35,6 +35,7 @@ def skicka_till_endpoint(annonser):
         url, data=body, method="POST",
         headers={
             "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (compatible; HomefinderBot/1.0)",
         },
     )
     resp = request.urlopen(req, timeout=300)
