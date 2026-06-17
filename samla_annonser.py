@@ -2,6 +2,7 @@ import json
 import os
 import sys
 from urllib import request, error
+from datetime import datetime, date
 from mkb_scraper import scrape_mkb
 from boplatsvast_scraper import scrape_boplats
 from boplatssyd_scraper import scrape_boplatssyd
@@ -27,6 +28,19 @@ def dedup_pa_url(annonser):
         sett.add(url)
         unika.append(a)
     return unika
+
+def filtrera_utgangna(annonser):
+    idag = date.today()
+    aktiva = []
+    for a in annonser:
+        ledig = a.get("ledig", "")
+        try:
+            datum = datetime.strptime(ledig[:10], "%Y-%m-%d").date()
+            if datum >= idag:
+                aktiva.append(a)
+        except:
+            aktiva.append(a)
+    return aktiva
 
 def skicka_till_endpoint(annonser):
     url = "https://allakvadrat-canvas-magic.lovable.app/api/public/hooks/import-listings"
@@ -66,6 +80,10 @@ def main():
     alla = mkb + boplats + boplatssyd + homeq + bostad_sthlm
     unika = dedup_pa_url(alla)
     print(f"  → {len(unika)} unika annonser (av {len(alla)} totalt)")
+
+    print("Filtrerar bort utgångna annonser...")
+    unika = filtrera_utgangna(unika)
+    print(f"  → {len(unika)} aktiva annonser efter filtrering")
 
     print(f"Skickar {len(unika)} annonser till databasen...")
     resultat = skicka_till_endpoint(unika)
