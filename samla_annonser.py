@@ -9,6 +9,7 @@ from boplatssyd_scraper import scrape_boplatssyd
 from homeq_scraper import scrape_homeq
 from bostad_stockholm_scraper import scrape_bostad_stockholm
 from heimstaden_scraper import scrape_heimstaden
+from rikshem_scraper import scrape_rikshem
 
 def normalisera_kalla(k):
     if not k:
