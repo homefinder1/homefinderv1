@@ -1,82 +1,98 @@
-import requests
-from bs4 import BeautifulSoup
+from playwright.sync_api import sync_playwright
 import json
 import re
 
 def scrape_rikshem():
     annonser = []
     sedda_urls = set()
-    
-    session = requests.Session()
-    session.headers.update({
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language": "sv-SE,sv;q=0.9,en;q=0.8",
-    })
 
-    print("Hämtar annonser från Rikshem...")
-    
-    sidnummer = 1
-    while True:
-        print(f"Hämtar sida {sidnummer}...")
-        url = f"https://minasidor.rikshem.se/ledigt/lagenhet?page={sidnummer}"
-        
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        context = browser.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        )
+        page = context.new_page()
+
+        print("Hämtar annonser från Rikshem...")
+        page.goto("https://minasidor.rikshem.se/ledigt/lagenhet", wait_until="domcontentloaded")
+        page.wait_for_timeout(5000)
+
         try:
-            resp = session.get(url, timeout=30)
-            soup = BeautifulSoup(resp.text, "html.parser")
-        except Exception as e:
-            print(f"Fel vid hämtning av sida {sidnummer}: {e}")
-            break
+            page.click("#CybotCookiebotDialogBodyButtonDecline")
+            page.wait_for_timeout(1000)
+            print("Cookie-banner stängd!")
+        except:
+            pass
 
-        # Debug första sidan
-        if sidnummer == 1:
-            print(f"HTTP-status: {resp.status_code}")
-            print(f"HTML (första 2000 tecken): {resp.text[:2000]}")
+        sidnummer = 1
+        while sidnummer <= 30:
+            print(f"Hämtar sida {sidnummer}...")
 
-        # Hitta annonskort
-        kort = soup.find_all(class_=re.compile("object"))
-        har_annonser = False
+            kort = page.query_selector_all("[class*='object']")
+            har_annonser = False
 
-        for kort_el in kort:
-            text = kort_el.get_text(separator="\n").strip()
-            if "Antal rum" not in text or "Hyra" not in text:
-                continue
+            for kort_el in kort:
+                try:
+                    text = kort_el.inner_text().strip()
+                    if "Antal rum" not in text or "Hyra" not in text:
+                        continue
 
-            har_annonser = True
+                    har_annonser = True
 
-            lank = kort_el.find("a", href=True)
-            href = lank["href"] if lank else ""
-            full_url = "https://minasidor.rikshem.se" + href if href.startswith("/") else href
+                    lank = kort_el.query_selector("a")
+                    href = lank.get_attribute("href") if lank else ""
+                    full_url = "https://minasidor.rikshem.se" + href if href and href.startswith("/") else href or ""
 
-            if not full_url or full_url in sedda_urls:
-                continue
-            sedda_urls.add(full_url)
+                    if not full_url or full_url in sedda_urls:
+                        continue
+                    sedda_urls.add(full_url)
 
-            rader = [r.strip() for r in text.split("\n") if r.strip()]
+                    rum_match = re.search(r'Antal rum(\d+)', text)
+                    rum = rum_match.group(1) + " rum" if rum_match else "Okänd"
 
-            titel = rader[0] if rader else "Okänd"
-            omrade = next((r for r in rader if any(s in r for s in ["Helsingborg", "Malmö", "Stockholm", "Uppsala", "Lund", "Umeå", "Luleå", "Östersund", "Västerås", "Norrköping", "Kalmar", "Halmstad", "Södertälje"])), "Okänd")
-            rum = next((r for r in rader if "rum" in r.lower()), "Okänd")
-            storlek = next((r for r in rader if "kvm" in r.lower() or "m²" in r), "Okänd")
-            hyra = next((r for r in rader if "kr" in r.lower()), "Okänd")
-            ledig = next((r for r in rader if re.search(r"\d{4}-\d{2}-\d{2}", r)), "Okänd")
+                    storlek_match = re.search(r'Storlek(\d+)', text)
+                    storlek = storlek_match.group(1) + " kvm" if storlek_match else "Okänd"
 
-            annonser.append({
-                "titel": titel,
-                "område": omrade,
-                "antal_rum": rum,
-                "storlek": storlek,
-                "hyra": hyra,
-                "ledig": ledig,
-                "url": full_url,
-                "källa": "Rikshem"
-            })
+                    hyra_match = re.search(r'Hyra([\d\s\xa0]+)Tillträde', text)
+                    hyra = hyra_match.group(1).replace('\xa0', '').strip() + " kr/mån" if hyra_match else "Okänd"
 
-        if not har_annonser:
-            print(f"Inga fler annonser på sida {sidnummer}, avslutar!")
-            break
+                    ledig_match = re.search(r'Tillträde(\d{4}-\d{2}-\d{2}|Flexibelt)', text)
+                    ledig = ledig_match.group(1) if ledig_match else "Okänd"
 
-        sidnummer += 1
+                    titel_match = re.match(r'^(.+?)(?:Helsingborg|Malmö|Stockholm|Uppsala|Lund|Umeå|Luleå|Östersund|Västerås|Norrköping|Kalmar|Halmstad|Södertälje|Ale)', text)
+                    titel = titel_match.group(1).strip() if titel_match else text[:30]
+
+                    omrade_match = re.search(r'((?:Helsingborg|Malmö|Stockholm|Uppsala|Lund|Umeå|Luleå|Östersund|Västerås|Norrköping|Kalmar|Halmstad|Södertälje|Ale)[^A-ZÅÄÖ]*)Antal rum', text)
+                    omrade = omrade_match.group(1).strip() if omrade_match else "Okänd"
+
+                    stad = "Okänd"
+                    for s in ["Helsingborg", "Malmö", "Stockholm", "Uppsala", "Lund", "Umeå", "Luleå", "Östersund", "Västerås", "Norrköping", "Kalmar", "Halmstad", "Södertälje"]:
+                        if s in text:
+                            stad = s
+                            break
+
+                    annonser.append({
+                        "titel": titel,
+                        "område": omrade,
+                        "antal_rum": rum,
+                        "storlek": storlek,
+                        "hyra": hyra,
+                        "ledig": ledig,
+                        "url": full_url,
+                        "källa": "Rikshem"
+                    })
+                except Exception as e:
+                    print(f"Fel: {e}")
+
+            if not har_annonser:
+                print(f"Inga fler annonser på sida {sidnummer}, avslutar!")
+                break
+
+            sidnummer += 1
+            page.goto(f"https://minasidor.rikshem.se/ledigt/lagenhet?page={sidnummer}", wait_until="domcontentloaded")
+            page.wait_for_timeout(2000)
+
+        browser.close()
 
     print(f"Hittade {len(annonser)} annonser")
     return annonser
