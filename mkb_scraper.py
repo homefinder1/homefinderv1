@@ -4,6 +4,7 @@ import re
 
 def scrape_mkb():
     annonser = []
+    sedda_urls = set()
     bas_url = "https://www.mkbfastighet.se/vill-hyra/lediga-lagenheter/?minarea=10&maxarea=200&minroom=1&maxroom=5&maxrentalpermonth=25000&shownewproduction=show&page="
     
     with sync_playwright() as p:
@@ -23,10 +24,8 @@ def scrape_mkb():
             print("Cookie-banner stängd!")
         except:
             pass
-
-        forra_antal = -1
         
-        for sidnummer in range(1, 50):
+        for sidnummer in range(1, 100):
             print(f"Hämtar sida {sidnummer}...")
             page.goto(bas_url + str(sidnummer))
             page.wait_for_timeout(2000)
@@ -43,9 +42,16 @@ def scrape_mkb():
                 try:
                     foralder = h3.evaluate_handle("el => el.closest('div.flex.w-full')")
                     foralder = foralder.as_element()
-                    
                     if not foralder:
                         continue
+                    
+                    lank = foralder.query_selector("a[href*='/lediga-lagenheter/']")
+                    href = lank.get_attribute("href") if lank else ""
+                    full_url = "https://www.mkbfastighet.se" + href if href else ""
+                    
+                    if full_url in sedda_urls:
+                        continue
+                    sedda_urls.add(full_url)
                     
                     all_text = foralder.inner_text()
                     rader = [r.strip() for r in all_text.split("\n") if r.strip()]
@@ -71,9 +77,6 @@ def scrape_mkb():
                     if "202" in hyra:
                         hyra = "Okänd"
                     
-                    lank = foralder.query_selector("a[href*='/lediga-lagenheter/']")
-                    href = lank.get_attribute("href") if lank else ""
-                    
                     annonser.append({
                         "titel": titel,
                         "område": omrade,
@@ -81,15 +84,14 @@ def scrape_mkb():
                         "storlek": storlek,
                         "hyra": hyra,
                         "ledig": ledig,
-                        "url": "https://www.mkbfastighet.se" + href if href else "",
+                        "url": full_url,
                         "källa": "MKB"
                     })
                 except:
                     pass
             
-            # Stoppa om ingen ny annons hittades på denna sida
             if len(annonser) == antal_fore:
-                print(f"Inga nya annonser på sida {sidnummer}, avslutar!")
+                print(f"Inga nya unika annonser på sida {sidnummer}, avslutar!")
                 break
 
             print(f"Totalt hittills: {len(annonser)} annonser")
