@@ -1,0 +1,28 @@
+name: Testa enskild scraper
+on:
+  workflow_dispatch:
+    inputs:
+      scraper:
+        description: 'Vilken scraper ska testas? (t.ex. rikshem_scraper.py)'
+        required: true
+        default: 'rikshem_scraper.py'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout kod
+        uses: actions/checkout@v4
+
+      - name: Sätt upp Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Installera beroenden
+        run: |
+          pip install playwright requests beautifulsoup4
+          playwright install chromium
+
+      - name: Kör scrapern
+        run: python ${{ github.event.inputs.scraper }}
