@@ -82,8 +82,12 @@ def main():
     heimstaden = scrape_heimstaden()
     print(f"  → {len(heimstaden)} annonser från Heimstaden")
 
+    print("Kör Rikshem-scrapern...")
+    rikshem = scrape_rikshem()
+    print(f"  → {len(rikshem)} annonser från Rikshem")
+
     print("Slår ihop och deduperar på URL...")
-    alla = mkb + boplats + boplatssyd + homeq + bostad_sthlm + heimstaden
+    alla = mkb + boplats + boplatssyd + homeq + bostad_sthlm + heimstaden + rikshem
     unika = dedup_pa_url(alla)
     print(f"  → {len(unika)} unika annonser (av {len(alla)} totalt)")
 
