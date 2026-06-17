@@ -3,7 +3,6 @@ import json
 
 def scrape_rikshem():
     annonser = []
-    sedda_urls = set()
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -14,65 +13,29 @@ def scrape_rikshem():
 
         print("Hämtar annonser från Rikshem...")
         page.goto("https://minasidor.rikshem.se/ledigt/lagenhet")
-        page.wait_for_timeout(5000)
+        page.wait_for_timeout(10000)
 
         try:
             page.click("button:has-text('Acceptera'), button:has-text('Godkänn'), button:has-text('Acceptera alla')")
-            page.wait_for_timeout(2000)
+            page.wait_for_timeout(3000)
             print("Cookie-banner stängd!")
         except:
-            pass
+            print("Ingen cookie-banner")
 
-        page.wait_for_timeout(3000)
+        page.wait_for_timeout(5000)
 
-        kort = page.query_selector_all("a[href*='/ledigt/lagenhet/']")
-        print(f"Hittade {len(kort)} annonslänkar")
+        # Printa URL efter eventuell redirect
+        print(f"Aktuell URL: {page.url}")
 
-        for lank in kort:
-            try:
-                href = lank.get_attribute("href") or ""
-                if not href:
-                    continue
+        # Printa sidtitel
+        print(f"Sidtitel: {page.title()}")
 
-                full_url = "https://minasidor.rikshem.se" + href if href.startswith("/") else href
+        # Debug HTML
+        html = page.inner_html("body")
+        print("DEBUG HTML (första 3000 tecken):")
+        print(html[:3000])
 
-                if full_url in sedda_urls:
-                    continue
-                sedda_urls.add(full_url)
-
-                all_text = lank.inner_text().strip()
-                rader = [r.strip() for r in all_text.split("\n") if r.strip()]
-
-                if not rader:
-                    continue
-
-                titel = rader[0] if rader else "Okänd"
-                omrade = rader[1] if len(rader) > 1 else "Okänd"
-                rum = next((r for r in rader if "rum" in r.lower()), "Okänd")
-                storlek = next((r for r in rader if "m²" in r or "kvm" in r.lower()), "Okänd")
-                hyra = next((r for r in rader if "kr" in r.lower()), "Okänd")
-                ledig = next((r for r in rader if "202" in r), "Okänd")
-
-                annonser.append({
-                    "titel": titel,
-                    "område": omrade,
-                    "antal_rum": rum,
-                    "storlek": storlek,
-                    "hyra": hyra,
-                    "ledig": ledig,
-                    "url": full_url,
-                    "källa": "Rikshem"
-                })
-            except Exception as e:
-                print(f"Fel: {e}")
-
-        browser.close()
-
-    print(f"Hittade {len(annonser)} annonser")
     return annonser
 
 if __name__ == "__main__":
-    annonser = scrape_rikshem()
-    with open("rikshem_annonser.json", "w", encoding="utf-8") as f:
-        json.dump(annonser, f, ensure_ascii=False, indent=2)
-    print("Sparat!")
+    scrape_rikshem()
