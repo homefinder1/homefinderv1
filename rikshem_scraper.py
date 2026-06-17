@@ -3,6 +3,7 @@ import json
 
 def scrape_rikshem():
     annonser = []
+    sedda_urls = set()
 
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -13,27 +14,33 @@ def scrape_rikshem():
 
         print("Hämtar annonser från Rikshem...")
         page.goto("https://minasidor.rikshem.se/ledigt/lagenhet")
-        page.wait_for_timeout(10000)
+        page.wait_for_timeout(8000)
 
+        # Stäng CybotCookiebot
         try:
-            page.click("button:has-text('Acceptera'), button:has-text('Godkänn'), button:has-text('Acceptera alla')")
-            page.wait_for_timeout(3000)
+            page.click("#CybotCookiebotDialogBodyButtonDecline")
+            page.wait_for_timeout(2000)
             print("Cookie-banner stängd!")
         except:
-            print("Ingen cookie-banner")
+            try:
+                page.click("#CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll")
+                page.wait_for_timeout(2000)
+                print("Cookie-banner accepterad!")
+            except:
+                print("Ingen cookie-banner")
 
         page.wait_for_timeout(5000)
 
-        # Printa URL efter eventuell redirect
         print(f"Aktuell URL: {page.url}")
 
-        # Printa sidtitel
-        print(f"Sidtitel: {page.title()}")
+        # Prova olika selektorer
+        for selector in ["a[href*='lagenhet']", "[class*='listing']", "[class*='apartment']", "[class*='object']", "article", ".card", "li a"]:
+            kort = page.query_selector_all(selector)
+            print(f"Selector '{selector}': {len(kort)} element")
 
-        # Debug HTML
         html = page.inner_html("body")
-        print("DEBUG HTML (första 3000 tecken):")
-        print(html[:3000])
+        print("DEBUG HTML (3000-6000 tecken):")
+        print(html[3000:6000])
 
     return annonser
 
