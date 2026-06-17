@@ -1,6 +1,5 @@
 from playwright.sync_api import sync_playwright
 import json
-import re
 
 def scrape_boplatssyd():
     annonser = []
@@ -24,55 +23,41 @@ def scrape_boplatssyd():
             pass
         
         page.wait_for_timeout(5000)
-        
-        kort = page.query_selector_all(".rental-object__item-title-link")
-        print(f"Hittade {len(kort)} annonslänkar")
-        
-        alla_kort = page.query_selector_all(".rental-object_item, .g-0.mb-3, [class*='rental-object']")
-        print(f"Hittade {len(alla_kort)} annonskort")
-        
-        kort = page.query_selector_all("h2.rental-object__item--address")
-        print(f"Hittade {len(kort)} adresser")
-        
-        for h2 in kort:
+
+        # Försök hitta alla annonslänkar direkt
+        lankar = page.query_selector_all("a.rental-object__item-title-link")
+        print(f"Hittade {len(lankar)} annonslänkar")
+
+        # Om inga länkbaserade kort — printa HTML för debug
+        if len(lankar) == 0:
+            html_snippet = page.inner_html("body")[:3000]
+            print("DEBUG HTML:", html_snippet)
+            browser.close()
+            return []
+
+        for lank in lankar:
             try:
-                foralder = h2.evaluate_handle("el => el.closest('.row')")
-                foralder = foralder.as_element()
-                
-                if not foralder:
-                    continue
-                
-                all_text = foralder.inner_text()
+                href = lank.get_attribute("href") or ""
+                titel = lank.inner_text().strip()
+
+                # Gå upp till föräldrakortet
+                kort = lank.evaluate_handle("el => el.closest('.row') || el.closest('[class*=rental]') || el.parentElement.parentElement")
+                kort = kort.as_element()
+
+                all_text = kort.inner_text() if kort else ""
                 rader = [r.strip() for r in all_text.split("\n") if r.strip()]
-                
-                titel = h2.inner_text().strip()
-                
-                omrade_el = foralder.query_selector("span.h5.fw-normal")
+
+                rum = next((r for r in rader if "rum" in r.lower()), "Okänd")
+                storlek = next((r for r in rader if "m²" in r or "kvm" in r.lower()), "Okänd")
+                hyra = next((r for r in rader if "kr" in r.lower() and "rum" not in r.lower()), "Okänd")
+                ledig = next((r for r in rader if "2026" in r or "2027" in r), "Okänd")
+                if "Inflyttning:" in ledig:
+                    ledig = ledig.replace("Inflyttning:", "").strip()
+
+                omrade_el = kort.query_selector("span.h5, span.fw-normal, [class*='area'], [class*='district']") if kort else None
                 omrade = omrade_el.inner_text().strip() if omrade_el else "Okänd"
-                
-                lank = foralder.query_selector("a.rental-object__item-title-link")
-                href = lank.get_attribute("href") if lank else ""
-                
-                spans = foralder.query_selector_all("span:not(.badge):not(.icon)")
-                rum = "Okänd"
-                hyra = "Okänd"
-                storlek = "Okänd"
-                ledig = "Okänd"
-                
-                for span in spans:
-                    text = span.inner_text().strip()
-                    if "rum" in text.lower():
-                        rum = text
-                    if "kr" in text.lower() and "•" not in text:
-                        hyra = text
-                    if "m²" in text:
-                        storlek = text
-                
-                ledig_raw = next((r for r in rader if "2026" in r or "2027" in r), "Okänd")
-                if "Inflyttning:" in ledig_raw:
-                    ledig = ledig_raw.replace("Inflyttning:", "").strip()
-                
-                annons = {
+
+                annonser.append({
                     "titel": titel,
                     "område": omrade,
                     "antal_rum": rum,
@@ -81,12 +66,10 @@ def scrape_boplatssyd():
                     "ledig": ledig,
                     "url": "https://www.boplatssyd.se" + href if href else "",
                     "källa": "Boplats Syd"
-                }
-                annonser.append(annons)
+                })
             except Exception as e:
                 print(f"Fel: {e}")
-                pass
-        
+
         browser.close()
     
     print(f"Hittade {len(annonser)} annonser")
