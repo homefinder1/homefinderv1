@@ -23,8 +23,10 @@ def scrape_mkb():
             print("Cookie-banner stängd!")
         except:
             pass
+
+        forra_antal = -1
         
-        for sidnummer in range(1, 20):
+        for sidnummer in range(1, 50):
             print(f"Hämtar sida {sidnummer}...")
             page.goto(bas_url + str(sidnummer))
             page.wait_for_timeout(2000)
@@ -32,8 +34,10 @@ def scrape_mkb():
             kort = page.query_selector_all("h3.text-h3")
             
             if len(kort) == 0:
-                print(f"Inga fler annonser på sida {sidnummer}, avslutar!")
+                print(f"Inga annonser på sida {sidnummer}, avslutar!")
                 break
+
+            antal_fore = len(annonser)
             
             for h3 in kort:
                 try:
@@ -70,7 +74,7 @@ def scrape_mkb():
                     lank = foralder.query_selector("a[href*='/lediga-lagenheter/']")
                     href = lank.get_attribute("href") if lank else ""
                     
-                    annons = {
+                    annonser.append({
                         "titel": titel,
                         "område": omrade,
                         "antal_rum": antal_rum,
@@ -79,11 +83,15 @@ def scrape_mkb():
                         "ledig": ledig,
                         "url": "https://www.mkbfastighet.se" + href if href else "",
                         "källa": "MKB"
-                    }
-                    annonser.append(annons)
+                    })
                 except:
                     pass
             
+            # Stoppa om ingen ny annons hittades på denna sida
+            if len(annonser) == antal_fore:
+                print(f"Inga nya annonser på sida {sidnummer}, avslutar!")
+                break
+
             print(f"Totalt hittills: {len(annonser)} annonser")
         
         browser.close()
