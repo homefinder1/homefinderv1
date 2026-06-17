@@ -29,18 +29,19 @@ def scrape_rikshem():
         sidnummer = 1
         while True:
             print(f"Hämtar sida {sidnummer}...")
-            
+
             kort = page.query_selector_all("[class*='object']")
-            
+
+            har_annonser = False
             for kort_el in kort:
                 try:
                     text = kort_el.inner_text().strip()
-                    
-                    # Identifiera annonskort — de innehåller "Antal rum" och "Hyra"
+
                     if "Antal rum" not in text or "Hyra" not in text:
                         continue
 
-                    # Hitta länk
+                    har_annonser = True
+
                     lank = kort_el.query_selector("a")
                     href = lank.get_attribute("href") if lank else ""
                     full_url = "https://minasidor.rikshem.se" + href if href and href.startswith("/") else href or ""
@@ -49,11 +50,10 @@ def scrape_rikshem():
                         continue
                     sedda_urls.add(full_url)
 
-                    # Parsa med regex
                     titel_match = re.match(r'^(.+?)(?:Helsingborg|Malmö|Stockholm|Göteborg|Uppsala|Lund|Umeå|Luleå|Östersund|Västerås|Norrköping|Kalmar|Halmstad|Södertälje|Ale)', text)
                     titel = titel_match.group(1).strip() if titel_match else text[:30]
 
-                    omrade_match = re.search(r'(Helsingborg[^A-Z]*|Malmö[^A-Z]*|Stockholm[^A-Z]*|Uppsala[^A-Z]*|Lund[^A-Z]*|Umeå[^A-Z]*|Luleå[^A-Z]*|Östersund[^A-Z]*|Västerås[^A-Z]*|Norrköping[^A-Z]*|Kalmar[^A-Z]*|Halmstad[^A-Z]*|Södertälje[^A-Z]*|Ale[^A-Z]*)Antal rum', text)
+                    omrade_match = re.search(r'((?:Helsingborg|Malmö|Stockholm|Uppsala|Lund|Umeå|Luleå|Östersund|Västerås|Norrköping|Kalmar|Halmstad|Södertälje|Ale)[^A-ZÅÄÖ]*)Antal rum', text)
                     omrade = omrade_match.group(1).strip() if omrade_match else "Okänd"
 
                     rum_match = re.search(r'Antal rum(\d+)', text)
@@ -68,7 +68,6 @@ def scrape_rikshem():
                     ledig_match = re.search(r'Tillträde(\d{4}-\d{2}-\d{2}|Flexibelt)', text)
                     ledig = ledig_match.group(1) if ledig_match else "Okänd"
 
-                    # Försök hitta stad
                     stad = "Okänd"
                     for s in ["Helsingborg", "Malmö", "Stockholm", "Uppsala", "Lund", "Umeå", "Luleå", "Östersund", "Västerås", "Norrköping", "Kalmar", "Halmstad", "Södertälje"]:
                         if s in text:
@@ -88,23 +87,13 @@ def scrape_rikshem():
                 except Exception as e:
                     print(f"Fel: {e}")
 
-            # Gå till nästa sida
-            try:
-                nasta = page.query_selector("a[aria-label='Nästa sida'], a:has-text('Nästa'), .pagination-next a, a[rel='next']")
-                if not nasta:
-                    # Försök klicka på nästa sidnummer
-                    nasta = page.query_selector(f"a:has-text('{sidnummer + 1}')")
-                
-                if not nasta:
-                    print("Ingen nästa sida, avslutar!")
-                    break
-
-                nasta.click()
-                page.wait_for_timeout(3000)
-                sidnummer += 1
-            except Exception as e:
-                print(f"Paginering fel: {e}")
+            if not har_annonser:
+                print(f"Inga fler annonser på sida {sidnummer}, avslutar!")
                 break
+
+            sidnummer += 1
+            page.goto(f"https://minasidor.rikshem.se/ledigt/lagenhet?page={sidnummer}")
+            page.wait_for_timeout(3000)
 
         browser.close()
 
