@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright
 import json
+import re
 
 def scrape_rikshem():
     annonser = []
@@ -25,46 +26,85 @@ def scrape_rikshem():
 
         page.wait_for_timeout(5000)
 
-        kort = page.query_selector_all("[class*='object']")
-        print(f"Hittade {len(kort)} annonskort")
+        sidnummer = 1
+        while True:
+            print(f"Hämtar sida {sidnummer}...")
+            
+            kort = page.query_selector_all("[class*='object']")
+            
+            for kort_el in kort:
+                try:
+                    text = kort_el.inner_text().strip()
+                    
+                    # Identifiera annonskort — de innehåller "Antal rum" och "Hyra"
+                    if "Antal rum" not in text or "Hyra" not in text:
+                        continue
 
-        for kort_el in kort:
+                    # Hitta länk
+                    lank = kort_el.query_selector("a")
+                    href = lank.get_attribute("href") if lank else ""
+                    full_url = "https://minasidor.rikshem.se" + href if href and href.startswith("/") else href or ""
+
+                    if not full_url or full_url in sedda_urls:
+                        continue
+                    sedda_urls.add(full_url)
+
+                    # Parsa med regex
+                    titel_match = re.match(r'^(.+?)(?:Helsingborg|Malmö|Stockholm|Göteborg|Uppsala|Lund|Umeå|Luleå|Östersund|Västerås|Norrköping|Kalmar|Halmstad|Södertälje|Ale)', text)
+                    titel = titel_match.group(1).strip() if titel_match else text[:30]
+
+                    omrade_match = re.search(r'(Helsingborg[^A-Z]*|Malmö[^A-Z]*|Stockholm[^A-Z]*|Uppsala[^A-Z]*|Lund[^A-Z]*|Umeå[^A-Z]*|Luleå[^A-Z]*|Östersund[^A-Z]*|Västerås[^A-Z]*|Norrköping[^A-Z]*|Kalmar[^A-Z]*|Halmstad[^A-Z]*|Södertälje[^A-Z]*|Ale[^A-Z]*)Antal rum', text)
+                    omrade = omrade_match.group(1).strip() if omrade_match else "Okänd"
+
+                    rum_match = re.search(r'Antal rum(\d+)', text)
+                    rum = rum_match.group(1) + " rum" if rum_match else "Okänd"
+
+                    storlek_match = re.search(r'Storlek(\d+)', text)
+                    storlek = storlek_match.group(1) + " kvm" if storlek_match else "Okänd"
+
+                    hyra_match = re.search(r'Hyra([\d\s\xa0]+)Tillträde', text)
+                    hyra = hyra_match.group(1).replace('\xa0', '').strip() + " kr/mån" if hyra_match else "Okänd"
+
+                    ledig_match = re.search(r'Tillträde(\d{4}-\d{2}-\d{2}|Flexibelt)', text)
+                    ledig = ledig_match.group(1) if ledig_match else "Okänd"
+
+                    # Försök hitta stad
+                    stad = "Okänd"
+                    for s in ["Helsingborg", "Malmö", "Stockholm", "Uppsala", "Lund", "Umeå", "Luleå", "Östersund", "Västerås", "Norrköping", "Kalmar", "Halmstad", "Södertälje"]:
+                        if s in text:
+                            stad = s
+                            break
+
+                    annonser.append({
+                        "titel": titel,
+                        "område": omrade,
+                        "antal_rum": rum,
+                        "storlek": storlek,
+                        "hyra": hyra,
+                        "ledig": ledig,
+                        "url": full_url,
+                        "källa": "Rikshem"
+                    })
+                except Exception as e:
+                    print(f"Fel: {e}")
+
+            # Gå till nästa sida
             try:
-                all_text = kort_el.inner_text().strip()
-                rader = [r.strip() for r in all_text.split("\n") if r.strip()]
+                nasta = page.query_selector("a[aria-label='Nästa sida'], a:has-text('Nästa'), .pagination-next a, a[rel='next']")
+                if not nasta:
+                    # Försök klicka på nästa sidnummer
+                    nasta = page.query_selector(f"a:has-text('{sidnummer + 1}')")
+                
+                if not nasta:
+                    print("Ingen nästa sida, avslutar!")
+                    break
 
-                if not rader:
-                    continue
-
-                print(f"DEBUG kort: {rader}")
-
-                lank = kort_el.query_selector("a")
-                href = lank.get_attribute("href") if lank else ""
-                full_url = "https://minasidor.rikshem.se" + href if href and href.startswith("/") else href or ""
-
-                if not full_url or full_url in sedda_urls:
-                    continue
-                sedda_urls.add(full_url)
-
-                titel = rader[0] if rader else "Okänd"
-                omrade = rader[1] if len(rader) > 1 else "Okänd"
-                rum = next((r for r in rader if "rum" in r.lower()), "Okänd")
-                storlek = next((r for r in rader if "m²" in r or "kvm" in r.lower()), "Okänd")
-                hyra = next((r for r in rader if "kr" in r.lower()), "Okänd")
-                ledig = next((r for r in rader if "202" in r), "Okänd")
-
-                annonser.append({
-                    "titel": titel,
-                    "område": omrade,
-                    "antal_rum": rum,
-                    "storlek": storlek,
-                    "hyra": hyra,
-                    "ledig": ledig,
-                    "url": full_url,
-                    "källa": "Rikshem"
-                })
+                nasta.click()
+                page.wait_for_timeout(3000)
+                sidnummer += 1
             except Exception as e:
-                print(f"Fel: {e}")
+                print(f"Paginering fel: {e}")
+                break
 
         browser.close()
 
